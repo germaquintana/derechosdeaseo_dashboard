@@ -2,11 +2,11 @@
 
 Visualizador estático, sin servicios externos ni costo de alojamiento previsto, para consultar **12 semestres de indicadores agregados**.
 
-**Estado de publicación:** versión **exploratoria / no oficial**. La presencia de resultados en este repositorio no constituye certificación de padrón, beneficio tributario, pago recibido ni deuda exigible. Cualquier uso administrativo debe basarse en actos y antecedentes oficiales de las unidades competentes.
+**Estado de publicación:** GitHub Pages desplegado correctamente según [GitHub Actions #42102463302](https://github.com/germaquintana/derechosdeaseo_dashboard/actions/runs/42102463302); versión **exploratoria / no oficial**. La presencia de resultados en este repositorio no constituye certificación de padrón, beneficio tributario, pago recibido ni deuda exigible. Cualquier uso administrativo debe basarse en actos y antecedentes oficiales de las unidades competentes.
 
 ## Abrir el dashboard
 
-- Sitio GitHub Pages: `https://germaquintana.github.io/derechosdeaseo_dashboard/` (**URL prevista, validar que GitHub Pages esté habilitado antes de darla por operativa**).
+- Sitio GitHub Pages: `https://germaquintana.github.io/derechosdeaseo_dashboard/` (**despliegue de GitHub Pages confirmado por Actions #42102463302 el 05-11-2026 17:20 Chile; revisión de acceso externo independiente pendiente**).
 - Código: [`index.html`](index.html); archivo **autónomo**, también funciona descargado y abierto mediante `file://`.
 - [`data/periodos.json`](data/periodos.json): conjunto de indicadores **filtrados para publicación**.
 
