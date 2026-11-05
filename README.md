@@ -4,6 +4,14 @@ Visualizador estático, sin servicios externos ni costo de alojamiento previsto,
 
 **Estado de publicación:** GitHub Pages desplegado correctamente según [GitHub Actions #42102463302](https://github.com/germaquintana/derechosdeaseo_dashboard/actions/runs/42102463302); versión **exploratoria / no oficial**. La presencia de resultados en este repositorio no constituye certificación de padrón, beneficio tributario, pago recibido ni deuda exigible. Cualquier uso administrativo debe basarse en actos y antecedentes oficiales de las unidades competentes.
 
+## Cambio metodológico · cinco segmentos y canal TGR (05-11-2026)
+
+El canal de cobro de contribuciones **TGR** no determina por sí solo si se paga o se está exento de **derechos de aseo**. Por eso el dashboard separa siempre **BD4N_RSH (TGR, exención RSH candidata)** de **BD4N_RESTO (TGR sin marca RSH)** y los presenta como dos segmentos exclusivos en los KPI, tabla, gráficos históricos, filtros y CSV.
+
+`BD1 = BD5N + BD9N + BD8N + BD4N_RSH + BD4N_RESTO + residuo`. El `BD4N` total es **solo subtotal** de los dos últimos. En 2025-S1: 3.849 + 8.256 = 12.105 ROL TGR; 55.648 ROL en total, sin contar dos veces. La condición jurídica de **pago de derechos de aseo efectivo** y **exención aprobada** permanece **sin datos**, a falta de actos, acuses de carga y movimientos de TGR. Esta clasificación técnica no prueba ninguno de los dos.
+
+Los cinco segmentos son agregados de tamaño suficiente para el padrón publicable; **no se publica la cartera morosa separada por esas categorías pequeñas**, ni información nominativa. Las series referenciales de 2021-S2 y 2022-S2 no prueban continuidad de beneficios. La partición original 2026-S2 no incorpora todavía la corrección RSH posterior.
+
 ## Abrir el dashboard
 
 - Sitio GitHub Pages: `https://germaquintana.github.io/derechosdeaseo_dashboard/` (**despliegue de GitHub Pages confirmado por Actions #42102463302 el 05-11-2026 17:20 Chile; revisión de acceso externo independiente pendiente**).
@@ -25,7 +33,7 @@ Visualizador estático, sin servicios externos ni costo de alojamiento previsto,
 | BD5N | Filtro técnico por avalúo; **no** exención aprobada |
 | BD9N | Coincidencia técnica RSH candidata; **no** exención vigente acreditada |
 | BD8N | Potencial canal de cobro municipal; **no** pagos recibidos |
-| BD4N | Potencial canal TGR; **no** pagos recibidos |
+| BD4N_RSH | Canal TGR con **candidatura técnica a exención RSH**; no equivale a exención legal aprobada |\n| BD4N_RESTO | Canal TGR **sin esa marca RSH**; no equivale a derechos de aseo pagados ni descarta otros beneficios |\n| BD4N total (subtotal) | BD4N_RSH + BD4N_RESTO; **no** sumar de nuevo a BD1 |
 | Morosidad | Total de **folios listados** y ROL únicos solo cuando están acreditados sin duplicar vencimientos |
 | Saldos | **Redondeados a millones de CLP**; no se publican saldos por folio o contribuyente |
 | Alertas | Solo estado de revisión por semestre; se omiten recuentos de cohortes pequeñas y subgrupos que permitirían inferencias |
