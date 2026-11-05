@@ -1,0 +1,30 @@
+name: Verificar dashboard público
+on:
+  push:
+    branches: [main]
+    paths:
+      - "index.html"
+      - "data/**"
+      - "tests/**"
+      - ".github/workflows/verify.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  verificar:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout público
+        uses: actions/checkout@v4
+      - name: Python 3
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: Chromium para prueba real
+        run: |
+          python3 -m pip install playwright
+          python3 -m playwright install chromium
+      - name: Probar cifras agregadas, privacidad y navegación
+        run: python3 -m unittest discover -s tests -p "test_*.py" -v
