@@ -1,0 +1,230 @@
+{
+  "esquema": "dashboard_publico_agregado_v1",
+  "fecha_corte": "2026-11-05",
+  "naturaleza": "Serie técnica exploratoria; no declaración oficial ni estados de deuda exigible",
+  "alcance": "Agregados por semestre, sin ROL ni folios individuales; saldos redondeados a millones CLP; alertas restringidas",
+  "leyenda": {
+    "filtro_avaluo_225utm": "Filtro técnico de avalúo: no equivale a exención formal",
+    "rsh_candidato": "Coincidencia RSH candidata: no equivale a exención aprobada",
+    "municipal_potencial": "Grupo potencial de cobro municipal: no prueba pago",
+    "canal_tgr": "Canal TGR/contribuciones: no prueba pago"
+  },
+  "periodos": [
+    {
+      "periodo": "2021-S1",
+      "rol_total": 52219,
+      "grupos": {
+        "filtro_avaluo_225utm": 14157,
+        "rsh_candidato": 15123,
+        "municipal_potencial": 15348,
+        "canal_tgr": 7590
+      },
+      "cartera": {
+        "folios_listados": 13145,
+        "rol_distintos_verificados": null,
+        "saldo_listado_millones_clp": 151
+      },
+      "alertas": "Sin clasificación semestral publicable",
+      "calidad": "Diferencia técnica pendiente",
+      "calidad_codigo": "EXCEPCION_CUADRATURA"
+    },
+    {
+      "periodo": "2021-S2",
+      "rol_total": 52219,
+      "grupos": {
+        "filtro_avaluo_225utm": 14157,
+        "rsh_candidato": 15123,
+        "municipal_potencial": 15348,
+        "canal_tgr": 7590
+      },
+      "cartera": {
+        "folios_listados": 13272,
+        "rol_distintos_verificados": null,
+        "saldo_listado_millones_clp": 152
+      },
+      "alertas": "Sin clasificación semestral publicable",
+      "calidad": "Padrón de referencia",
+      "calidad_codigo": "PADRON_REFERENCIAL_OTRO_SEMESTRE"
+    },
+    {
+      "periodo": "2022-S1",
+      "rol_total": 53678,
+      "grupos": {
+        "filtro_avaluo_225utm": 10526,
+        "rsh_candidato": 16225,
+        "municipal_potencial": 15268,
+        "canal_tgr": 11659
+      },
+      "cartera": {
+        "folios_listados": 21135,
+        "rol_distintos_verificados": null,
+        "saldo_listado_millones_clp": 259
+      },
+      "alertas": "Sin clasificación semestral publicable",
+      "calidad": "Serie histórica sin cierre legal",
+      "calidad_codigo": "HISTORICO_REPRODUCIDO_NO_APROBADO"
+    },
+    {
+      "periodo": "2022-S2",
+      "rol_total": 53678,
+      "grupos": {
+        "filtro_avaluo_225utm": 10526,
+        "rsh_candidato": 16225,
+        "municipal_potencial": 15268,
+        "canal_tgr": 11659
+      },
+      "cartera": {
+        "folios_listados": 18480,
+        "rol_distintos_verificados": null,
+        "saldo_listado_millones_clp": 242
+      },
+      "alertas": "Sin clasificación semestral publicable",
+      "calidad": "Padrón de referencia",
+      "calidad_codigo": "PADRON_REFERENCIAL_OTRO_SEMESTRE"
+    },
+    {
+      "periodo": "2023-S1",
+      "rol_total": 54309,
+      "grupos": {
+        "filtro_avaluo_225utm": 10909,
+        "rsh_candidato": 17323,
+        "municipal_potencial": 14274,
+        "canal_tgr": 11803
+      },
+      "cartera": {
+        "folios_listados": 12938,
+        "rol_distintos_verificados": null,
+        "saldo_listado_millones_clp": 180
+      },
+      "alertas": "Sin clasificación semestral publicable",
+      "calidad": "Serie histórica sin cierre legal",
+      "calidad_codigo": "HISTORICO_REPRODUCIDO_NO_APROBADO"
+    },
+    {
+      "periodo": "2023-S2",
+      "rol_total": 54905,
+      "grupos": {
+        "filtro_avaluo_225utm": 11146,
+        "rsh_candidato": 17327,
+        "municipal_potencial": 14434,
+        "canal_tgr": 11998
+      },
+      "cartera": {
+        "folios_listados": 13055,
+        "rol_distintos_verificados": null,
+        "saldo_listado_millones_clp": 181
+      },
+      "alertas": "Sin clasificación semestral publicable",
+      "calidad": "Serie histórica sin cierre legal",
+      "calidad_codigo": "HISTORICO_REPRODUCIDO_NO_APROBADO"
+    },
+    {
+      "periodo": "2024-S1",
+      "rol_total": 54905,
+      "grupos": {
+        "filtro_avaluo_225utm": 11151,
+        "rsh_candidato": 17327,
+        "municipal_potencial": 14426,
+        "canal_tgr": 12001
+      },
+      "cartera": {
+        "folios_listados": 13743,
+        "rol_distintos_verificados": null,
+        "saldo_listado_millones_clp": 220
+      },
+      "alertas": "Sin clasificación semestral publicable",
+      "calidad": "Serie histórica sin cierre legal",
+      "calidad_codigo": "HISTORICO_REPRODUCIDO_NO_APROBADO"
+    },
+    {
+      "periodo": "2024-S2",
+      "rol_total": 55522,
+      "grupos": {
+        "filtro_avaluo_225utm": 11289,
+        "rsh_candidato": 17408,
+        "municipal_potencial": 14724,
+        "canal_tgr": 12101
+      },
+      "cartera": {
+        "folios_listados": 14072,
+        "rol_distintos_verificados": null,
+        "saldo_listado_millones_clp": 230
+      },
+      "alertas": "Sin clasificación semestral publicable",
+      "calidad": "Serie histórica sin cierre legal",
+      "calidad_codigo": "HISTORICO_REPRODUCIDO_NO_APROBADO"
+    },
+    {
+      "periodo": "2025-S1",
+      "rol_total": 55648,
+      "grupos": {
+        "filtro_avaluo_225utm": 11312,
+        "rsh_candidato": 18199,
+        "municipal_potencial": 14032,
+        "canal_tgr": 12105
+      },
+      "cartera": {
+        "folios_listados": 16891,
+        "rol_distintos_verificados": 8465,
+        "saldo_listado_millones_clp": 282
+      },
+      "alertas": "Casos bajo revisión; detalle reservado",
+      "calidad": "Reproceso técnico provisional",
+      "calidad_codigo": "REPROCESO_TECNICO_PROVISIONAL"
+    },
+    {
+      "periodo": "2025-S2",
+      "rol_total": 55648,
+      "grupos": {
+        "filtro_avaluo_225utm": 11359,
+        "rsh_candidato": 18179,
+        "municipal_potencial": 14005,
+        "canal_tgr": 12105
+      },
+      "cartera": {
+        "folios_listados": 16261,
+        "rol_distintos_verificados": null,
+        "saldo_listado_millones_clp": 277
+      },
+      "alertas": "Sin clasificación semestral publicable",
+      "calidad": "Manifiesto referencial",
+      "calidad_codigo": "MANIFIESTO_SIN_ROL_INDIVIDUAL"
+    },
+    {
+      "periodo": "2026-S1",
+      "rol_total": 55850,
+      "grupos": {
+        "filtro_avaluo_225utm": 11334,
+        "rsh_candidato": 18119,
+        "municipal_potencial": 14287,
+        "canal_tgr": 12110
+      },
+      "cartera": {
+        "folios_listados": 26131,
+        "rol_distintos_verificados": null,
+        "saldo_listado_millones_clp": 451
+      },
+      "alertas": "Sin clasificación semestral publicable",
+      "calidad": "Serie histórica sin cierre legal",
+      "calidad_codigo": "HISTORICO_REPRODUCIDO_NO_APROBADO"
+    },
+    {
+      "periodo": "2026-S2",
+      "rol_total": 55850,
+      "grupos": {
+        "filtro_avaluo_225utm": 11398,
+        "rsh_candidato": 18708,
+        "municipal_potencial": 14261,
+        "canal_tgr": 11483
+      },
+      "cartera": {
+        "folios_listados": 11715,
+        "rol_distintos_verificados": null,
+        "saldo_listado_millones_clp": 208
+      },
+      "alertas": "Sin clasificación semestral publicable",
+      "calidad": "Corrección RSH pendiente",
+      "calidad_codigo": "ORIGINAL_PENDIENTE_CORRECCION_RSH"
+    }
+  ]
+}
