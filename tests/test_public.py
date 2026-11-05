@@ -95,6 +95,12 @@ class NavegadorPublico(unittest.TestCase):
         self.assertEqual(self.page.locator("#k-tgr-rsh").inner_text(), "3.849")
         self.assertEqual(self.page.locator("#k-tgr-rest").inner_text(), "8.256")
         self.assertEqual(self.page.locator("#k-tgr-total").inner_text(), "12.105")
+        self.assertEqual(self.page.locator("#k-legal").inner_text(), "11.312")
+        self.assertEqual(self.page.locator("#k-municipal").inner_text(), "14.032")
+        self.assertIn("Posible exención legal", self.page.locator(".kpis").inner_text())
+        self.assertIn("política municipal", self.page.locator(".kpis").inner_text())
+        self.assertIn("Morosidad", self.page.locator(".kpis").inner_text())
+        self.assertIn("Posible exención", self.page.locator("#bars").inner_text())
         self.assertEqual(self.page.locator("#trend button").count(), 12)
 
     def test_filtro_y_detalle(self):
