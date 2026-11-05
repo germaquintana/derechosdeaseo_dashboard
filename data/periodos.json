@@ -1,13 +1,17 @@
 {
-  "esquema": "dashboard_publico_agregado_v1",
+  "esquema": "dashboard_publico_agregado_v2_canal_tgr_separado",
   "fecha_corte": "2026-11-05",
   "naturaleza": "Serie técnica exploratoria; no declaración oficial ni estados de deuda exigible",
-  "alcance": "Agregados por semestre, sin ROL ni folios individuales; saldos redondeados a millones CLP; alertas restringidas",
+  "alcance": "Cinco grupos excluyentes (BD5N, BD9N, BD8N, BD4N_RSH y BD4N_RESTO), con BD4N como subtotal no aditivo. Saldos redondeados MM CLP; sin identidades ni alertas nominativas.",
   "leyenda": {
     "filtro_avaluo_225utm": "Filtro técnico de avalúo: no equivale a exención formal",
     "rsh_candidato": "Coincidencia RSH candidata: no equivale a exención aprobada",
     "municipal_potencial": "Grupo potencial de cobro municipal: no prueba pago",
-    "canal_tgr": "Canal TGR/contribuciones: no prueba pago"
+    "canal_tgr": "Canal TGR/contribuciones: no prueba pago",
+    "tgr_rsh_candidato_exencion": "ROL del canal TGR con marca técnica RSH para eventual exención. No equivale a exención legalmente aprobada ni comprobante de carga TGR.",
+    "tgr_resto_sin_marca_rsh": "ROL del canal TGR sin marca RSH de esta clasificación. No acredita pago de derechos de aseo ni descarta otros beneficios.",
+    "tgr_subtotal": "BD4N = suma TGR RSH candidato + TGR resto; subtotal no se cuenta otra vez.",
+    "separacion": "Canal de recaudación TGR y derecho de aseo pagado/exento son dimensiones distintas; pagos y exenciones jurídicamente acreditados no disponibles sin actos, cargas y cuenta corriente."
   },
   "periodos": [
     {
@@ -17,7 +21,8 @@
         "filtro_avaluo_225utm": 14157,
         "rsh_candidato": 15123,
         "municipal_potencial": 15348,
-        "canal_tgr": 7590
+        "tgr_rsh_candidato_exencion": 1973,
+        "tgr_resto_sin_marca_rsh": 5617
       },
       "cartera": {
         "folios_listados": 13145,
@@ -26,7 +31,12 @@
       },
       "alertas": "Sin clasificación semestral publicable",
       "calidad": "Diferencia técnica pendiente",
-      "calidad_codigo": "EXCEPCION_CUADRATURA"
+      "calidad_codigo": "EXCEPCION_CUADRATURA",
+      "tgr_subtotal": {
+        "roles": 7590,
+        "pago_derechos_aseo_acreditado": null,
+        "exencion_juridica_acreditada": null
+      }
     },
     {
       "periodo": "2021-S2",
@@ -35,7 +45,8 @@
         "filtro_avaluo_225utm": 14157,
         "rsh_candidato": 15123,
         "municipal_potencial": 15348,
-        "canal_tgr": 7590
+        "tgr_rsh_candidato_exencion": 1973,
+        "tgr_resto_sin_marca_rsh": 5617
       },
       "cartera": {
         "folios_listados": 13272,
@@ -44,7 +55,12 @@
       },
       "alertas": "Sin clasificación semestral publicable",
       "calidad": "Padrón de referencia",
-      "calidad_codigo": "PADRON_REFERENCIAL_OTRO_SEMESTRE"
+      "calidad_codigo": "PADRON_REFERENCIAL_OTRO_SEMESTRE",
+      "tgr_subtotal": {
+        "roles": 7590,
+        "pago_derechos_aseo_acreditado": null,
+        "exencion_juridica_acreditada": null
+      }
     },
     {
       "periodo": "2022-S1",
@@ -53,7 +69,8 @@
         "filtro_avaluo_225utm": 10526,
         "rsh_candidato": 16225,
         "municipal_potencial": 15268,
-        "canal_tgr": 11659
+        "tgr_rsh_candidato_exencion": 3572,
+        "tgr_resto_sin_marca_rsh": 8087
       },
       "cartera": {
         "folios_listados": 21135,
@@ -62,7 +79,12 @@
       },
       "alertas": "Sin clasificación semestral publicable",
       "calidad": "Serie histórica sin cierre legal",
-      "calidad_codigo": "HISTORICO_REPRODUCIDO_NO_APROBADO"
+      "calidad_codigo": "HISTORICO_REPRODUCIDO_NO_APROBADO",
+      "tgr_subtotal": {
+        "roles": 11659,
+        "pago_derechos_aseo_acreditado": null,
+        "exencion_juridica_acreditada": null
+      }
     },
     {
       "periodo": "2022-S2",
@@ -71,7 +93,8 @@
         "filtro_avaluo_225utm": 10526,
         "rsh_candidato": 16225,
         "municipal_potencial": 15268,
-        "canal_tgr": 11659
+        "tgr_rsh_candidato_exencion": 3572,
+        "tgr_resto_sin_marca_rsh": 8087
       },
       "cartera": {
         "folios_listados": 18480,
@@ -80,7 +103,12 @@
       },
       "alertas": "Sin clasificación semestral publicable",
       "calidad": "Padrón de referencia",
-      "calidad_codigo": "PADRON_REFERENCIAL_OTRO_SEMESTRE"
+      "calidad_codigo": "PADRON_REFERENCIAL_OTRO_SEMESTRE",
+      "tgr_subtotal": {
+        "roles": 11659,
+        "pago_derechos_aseo_acreditado": null,
+        "exencion_juridica_acreditada": null
+      }
     },
     {
       "periodo": "2023-S1",
@@ -89,7 +117,8 @@
         "filtro_avaluo_225utm": 10909,
         "rsh_candidato": 17323,
         "municipal_potencial": 14274,
-        "canal_tgr": 11803
+        "tgr_rsh_candidato_exencion": 3649,
+        "tgr_resto_sin_marca_rsh": 8154
       },
       "cartera": {
         "folios_listados": 12938,
@@ -98,7 +127,12 @@
       },
       "alertas": "Sin clasificación semestral publicable",
       "calidad": "Serie histórica sin cierre legal",
-      "calidad_codigo": "HISTORICO_REPRODUCIDO_NO_APROBADO"
+      "calidad_codigo": "HISTORICO_REPRODUCIDO_NO_APROBADO",
+      "tgr_subtotal": {
+        "roles": 11803,
+        "pago_derechos_aseo_acreditado": null,
+        "exencion_juridica_acreditada": null
+      }
     },
     {
       "periodo": "2023-S2",
@@ -107,7 +141,8 @@
         "filtro_avaluo_225utm": 11146,
         "rsh_candidato": 17327,
         "municipal_potencial": 14434,
-        "canal_tgr": 11998
+        "tgr_rsh_candidato_exencion": 3654,
+        "tgr_resto_sin_marca_rsh": 8344
       },
       "cartera": {
         "folios_listados": 13055,
@@ -116,7 +151,12 @@
       },
       "alertas": "Sin clasificación semestral publicable",
       "calidad": "Serie histórica sin cierre legal",
-      "calidad_codigo": "HISTORICO_REPRODUCIDO_NO_APROBADO"
+      "calidad_codigo": "HISTORICO_REPRODUCIDO_NO_APROBADO",
+      "tgr_subtotal": {
+        "roles": 11998,
+        "pago_derechos_aseo_acreditado": null,
+        "exencion_juridica_acreditada": null
+      }
     },
     {
       "periodo": "2024-S1",
@@ -125,7 +165,8 @@
         "filtro_avaluo_225utm": 11151,
         "rsh_candidato": 17327,
         "municipal_potencial": 14426,
-        "canal_tgr": 12001
+        "tgr_rsh_candidato_exencion": 3649,
+        "tgr_resto_sin_marca_rsh": 8352
       },
       "cartera": {
         "folios_listados": 13743,
@@ -134,7 +175,12 @@
       },
       "alertas": "Sin clasificación semestral publicable",
       "calidad": "Serie histórica sin cierre legal",
-      "calidad_codigo": "HISTORICO_REPRODUCIDO_NO_APROBADO"
+      "calidad_codigo": "HISTORICO_REPRODUCIDO_NO_APROBADO",
+      "tgr_subtotal": {
+        "roles": 12001,
+        "pago_derechos_aseo_acreditado": null,
+        "exencion_juridica_acreditada": null
+      }
     },
     {
       "periodo": "2024-S2",
@@ -143,7 +189,8 @@
         "filtro_avaluo_225utm": 11289,
         "rsh_candidato": 17408,
         "municipal_potencial": 14724,
-        "canal_tgr": 12101
+        "tgr_rsh_candidato_exencion": 3657,
+        "tgr_resto_sin_marca_rsh": 8444
       },
       "cartera": {
         "folios_listados": 14072,
@@ -152,7 +199,12 @@
       },
       "alertas": "Sin clasificación semestral publicable",
       "calidad": "Serie histórica sin cierre legal",
-      "calidad_codigo": "HISTORICO_REPRODUCIDO_NO_APROBADO"
+      "calidad_codigo": "HISTORICO_REPRODUCIDO_NO_APROBADO",
+      "tgr_subtotal": {
+        "roles": 12101,
+        "pago_derechos_aseo_acreditado": null,
+        "exencion_juridica_acreditada": null
+      }
     },
     {
       "periodo": "2025-S1",
@@ -161,7 +213,8 @@
         "filtro_avaluo_225utm": 11312,
         "rsh_candidato": 18199,
         "municipal_potencial": 14032,
-        "canal_tgr": 12105
+        "tgr_rsh_candidato_exencion": 3849,
+        "tgr_resto_sin_marca_rsh": 8256
       },
       "cartera": {
         "folios_listados": 16891,
@@ -170,7 +223,12 @@
       },
       "alertas": "Casos bajo revisión; detalle reservado",
       "calidad": "Reproceso técnico provisional",
-      "calidad_codigo": "REPROCESO_TECNICO_PROVISIONAL"
+      "calidad_codigo": "REPROCESO_TECNICO_PROVISIONAL",
+      "tgr_subtotal": {
+        "roles": 12105,
+        "pago_derechos_aseo_acreditado": null,
+        "exencion_juridica_acreditada": null
+      }
     },
     {
       "periodo": "2025-S2",
@@ -179,7 +237,8 @@
         "filtro_avaluo_225utm": 11359,
         "rsh_candidato": 18179,
         "municipal_potencial": 14005,
-        "canal_tgr": 12105
+        "tgr_rsh_candidato_exencion": 3849,
+        "tgr_resto_sin_marca_rsh": 8256
       },
       "cartera": {
         "folios_listados": 16261,
@@ -188,7 +247,12 @@
       },
       "alertas": "Sin clasificación semestral publicable",
       "calidad": "Manifiesto referencial",
-      "calidad_codigo": "MANIFIESTO_SIN_ROL_INDIVIDUAL"
+      "calidad_codigo": "MANIFIESTO_SIN_ROL_INDIVIDUAL",
+      "tgr_subtotal": {
+        "roles": 12105,
+        "pago_derechos_aseo_acreditado": null,
+        "exencion_juridica_acreditada": null
+      }
     },
     {
       "periodo": "2026-S1",
@@ -197,7 +261,8 @@
         "filtro_avaluo_225utm": 11334,
         "rsh_candidato": 18119,
         "municipal_potencial": 14287,
-        "canal_tgr": 12110
+        "tgr_rsh_candidato_exencion": 3872,
+        "tgr_resto_sin_marca_rsh": 8238
       },
       "cartera": {
         "folios_listados": 26131,
@@ -206,7 +271,12 @@
       },
       "alertas": "Sin clasificación semestral publicable",
       "calidad": "Serie histórica sin cierre legal",
-      "calidad_codigo": "HISTORICO_REPRODUCIDO_NO_APROBADO"
+      "calidad_codigo": "HISTORICO_REPRODUCIDO_NO_APROBADO",
+      "tgr_subtotal": {
+        "roles": 12110,
+        "pago_derechos_aseo_acreditado": null,
+        "exencion_juridica_acreditada": null
+      }
     },
     {
       "periodo": "2026-S2",
@@ -215,7 +285,8 @@
         "filtro_avaluo_225utm": 11398,
         "rsh_candidato": 18708,
         "municipal_potencial": 14261,
-        "canal_tgr": 11483
+        "tgr_rsh_candidato_exencion": 3736,
+        "tgr_resto_sin_marca_rsh": 7747
       },
       "cartera": {
         "folios_listados": 11715,
@@ -224,7 +295,12 @@
       },
       "alertas": "Sin clasificación semestral publicable",
       "calidad": "Corrección RSH pendiente",
-      "calidad_codigo": "ORIGINAL_PENDIENTE_CORRECCION_RSH"
+      "calidad_codigo": "ORIGINAL_PENDIENTE_CORRECCION_RSH",
+      "tgr_subtotal": {
+        "roles": 11483,
+        "pago_derechos_aseo_acreditado": null,
+        "exencion_juridica_acreditada": null
+      }
     }
   ]
 }
