@@ -12,9 +12,23 @@ El canal de cobro de contribuciones **TGR** no determina por sí solo si se paga
 
 Los cinco segmentos son agregados de tamaño suficiente para el padrón publicable; **no se publica la cartera morosa separada por esas categorías pequeñas**, ni información nominativa. Las series referenciales de 2021-S2 y 2022-S2 no prueban continuidad de beneficios. La partición original 2026-S2 no incorpora todavía la corrección RSH posterior.
 
+## Etiquetas para lectura ciudadana · 05-11-2026
+
+El panel muestra el **significado para el vecino antes del código BD**. Las etiquetas no cambian las cifras ni equivalen a declaraciones jurídicas:
+
+| Código | Nombre visible | Qué está acreditado |
+| --- | --- | --- |
+| BD5N | Posible exención legal por avalúo fiscal ≤225 UTM | Filtro de avalúo; para exención legal habitacional se debe comprobar destino, norma y período |
+| BD9N | Posible exención por política municipal (RSH) | Coincidencia técnica RSH; falta constatar aplicación del beneficio |
+| BD8N | Derechos de aseo · cobro municipal | Padrón asignado al canal municipal; pago efectivo no verificado |
+| BD4N_RSH | Contribuciones en TGR · posible exención municipal de aseo | Canal TGR con marca RSH; beneficio vigente y carga efectiva no comprobados |
+| BD4N_RESTO | Contribuciones en TGR · aseo sin exención RSH identificada | Canal TGR sin esa marca; no prueba pago de derechos de aseo ni excluye otras exenciones |
+
+**Morosidad:** los folios con saldo y los ROL distintos morosos son unidades diferentes. El portal público ofrece indicadores de cartera agregados por semestre, pero **no publica microcohortes de morosidad por clasificación**. En el análisis privado, las barras de morosidad usan estas mismas denominaciones, únicamente cuando existe cruce verificable. Los saldos no son deuda exigible certificada.
+
 ## Abrir el dashboard
 
-- Sitio GitHub Pages: `https://germaquintana.github.io/derechosdeaseo_dashboard/` (**despliegue de GitHub Pages confirmado por Actions #42102463302 el 05-11-2026 17:20 Chile; revisión de acceso externo independiente pendiente**).
+- Sitio GitHub Pages: `https://germaquintana.github.io/derechosdeaseo_dashboard/` (**despliegue confirmado y dashboard abierto por el usuario en su navegador; versión visual revisada el 05-11-2026**).
 - Código: [`index.html`](index.html); archivo **autónomo**, también funciona descargado y abierto mediante `file://`.
 - [`data/periodos.json`](data/periodos.json): conjunto de indicadores **filtrados para publicación**.
 
@@ -33,7 +47,9 @@ Los cinco segmentos son agregados de tamaño suficiente para el padrón publicab
 | BD5N | Filtro técnico por avalúo; **no** exención aprobada |
 | BD9N | Coincidencia técnica RSH candidata; **no** exención vigente acreditada |
 | BD8N | Potencial canal de cobro municipal; **no** pagos recibidos |
-| BD4N_RSH | Canal TGR con **candidatura técnica a exención RSH**; no equivale a exención legal aprobada |\n| BD4N_RESTO | Canal TGR **sin esa marca RSH**; no equivale a derechos de aseo pagados ni descarta otros beneficios |\n| BD4N total (subtotal) | BD4N_RSH + BD4N_RESTO; **no** sumar de nuevo a BD1 |
+| BD4N_RSH | Canal TGR con **candidatura técnica a exención RSH**; no equivale a exención legal aprobada |
+| BD4N_RESTO | Canal TGR **sin esa marca RSH**; no equivale a derechos de aseo pagados ni descarta otros beneficios |
+| BD4N total (subtotal) | BD4N_RSH + BD4N_RESTO; **no** sumar de nuevo a BD1 |
 | Morosidad | Total de **folios listados** y ROL únicos solo cuando están acreditados sin duplicar vencimientos |
 | Saldos | **Redondeados a millones de CLP**; no se publican saldos por folio o contribuyente |
 | Alertas | Solo estado de revisión por semestre; se omiten recuentos de cohortes pequeñas y subgrupos que permitirían inferencias |
