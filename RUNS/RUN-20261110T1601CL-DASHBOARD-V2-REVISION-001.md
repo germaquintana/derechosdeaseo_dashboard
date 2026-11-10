@@ -45,3 +45,10 @@
 **Resultado:** implementación del observatorio V2 en rama de revisión, sin modificar el sitio actual. Documentación y evidencia de capturas disponibles en la conversación de trabajo.
 
 **Siguiente acción exacta:** revisar interfaz y nomenclatura con responsable, validar versión de datos y riesgos contextuales, comprobar CI e inspección visual conectada a entorno de despliegue, reconciliar GA-T-2026-0017 cuando el lock esté libre y obtener aprobación expresa antes de merge/publicación.
+
+## Verificación complementaria de entrega local
+
+- Se generó también una **vista HTML autónoma** con CSS/JS incrustados y los doce agregados de prueba, útil para revisión del diseño sin servidor; el archivo se entrega como adjunto de conversación, **no** se incorpora al repositorio público ni sustituye `data/periodos.json`.
+- Chromium/Playwright ejecutó la vista autónoma: carga de los doce semestres, sin errores JS.
+- Exportación CSV verificada: 13 líneas (cabecera + doce períodos), 13 columnas; tras filtrar 2025, 3 líneas (cabecera + dos períodos).
+- La variante publicada en la rama sigue leyendo el JSON original intacto. No se desplegó esta rama.
