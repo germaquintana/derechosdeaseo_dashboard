@@ -36,7 +36,6 @@ class CE03Contracts(unittest.TestCase):
         self.assertIn("assets/deuda_depurada.css",HTML)
         self.assertIn("r.conciliacion_juridico_contable_completa === true",JS)
         self.assertIn("rows.some(r=>r.candidato !== null)",JS)
-        self.assertIn('candidate === null',JS) if False else None
         self.assertEqual(HTML.count('data-view="'),6)
         self.assertIn("No equivale a «sin señal de exención»",HTML)
         self.assertIn("No se han acreditado por cuota",JS)
@@ -72,7 +71,7 @@ class CE03Browser(unittest.TestCase):
         self.assertEqual(page.locator("#da-net-candidates").inner_text(),"S/I")
         self.assertIn("$451.083.131",page.locator("#da-net-table").inner_text())
         self.assertIn("$207.707.569",page.locator("#da-net-table").inner_text())
-        self.assertIn("2/2",page.locator("#da-net-scope").inner_text().replace("0/2","2/2")) if False else None
+        self.assertIn("0/2 semestres",page.locator("#da-net-scope").inner_text())
         page.locator("#da-net-unit").select_option("folios")
         self.assertEqual(page.locator("#da-net-bars .da-net-bar-row").count(),2)
         with page.expect_download() as d:page.locator("#da-net-export").click()
