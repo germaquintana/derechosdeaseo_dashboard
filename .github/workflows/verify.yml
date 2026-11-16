@@ -5,6 +5,12 @@ on:
     paths:
       - "index.html"
       - "data/**"
+      - "v2/**"
+      - "tests/**"
+      - ".github/workflows/verify.yml"
+  pull_request:
+    paths:
+      - "v2/**"
       - "tests/**"
       - ".github/workflows/verify.yml"
   workflow_dispatch:
