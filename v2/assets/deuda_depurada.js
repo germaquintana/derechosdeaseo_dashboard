@@ -82,7 +82,7 @@
     const s=sums(rows);
     el("da-net-gross").textContent=rows.length ? clp(s.total) : "—";
     el("da-net-folios").textContent=rows.length ? number(s.brutoFolios)+" folios-período" : "Sin selección";
-    el("da-net-candidates").textContent=rows.length ? clp(s.candidatos) : "—";
+    el("da-net-candidates").textContent=rows.length ? (rows.some(r=>r.candidato !== null) ? clp(s.candidatos) : "S/I") : "—";
     el("da-net-candidates-detail").textContent=rows.length ?
       "Candidatos identificados en "+number(rows.filter(r=>r.candidato !== null).length)+"/"+number(rows.length)+" semestres; NO descontables aún." : "Sin selección";
     el("da-net-correct").textContent=s.correcto == null ? "S/I" : clp(s.correcto);
