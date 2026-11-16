@@ -270,7 +270,7 @@
       td(tr,clp(r.bruto));
       td(tr,clp(r.candidato));
       td(tr,clp(r.sinSenal));
-      td(tr,r.candidato===null?clp(r.sinCruce):"—");
+      td(tr,r.sinCruceFolios>0?clp(r.sinCruce):"—");
       td(tr,clp(r.correcto));
       td(tr,clp(r.ajuste));
       td(tr,clp(r.corregido));
