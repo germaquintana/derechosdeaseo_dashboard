@@ -26,7 +26,14 @@
   }
   function classification(r) {
     const bruto = r.cartera.saldo_listado_clp, folios = r.cartera.folios_listados;
-    const rolesMorosos=Number.isInteger(r.cartera.roles_unicos_morosos) ? r.cartera.roles_unicos_morosos : null;
+    const ev=r.cobertura;
+    if(!ev)throw Error("Falta cobertura de "+r.periodo);
+    const rolesMorosos=ev.cartera.roles_prediales_identificados;
+    const rolNoIdent=ev.cartera.claves_sin_rol;
+    const missing=ev.revision.folios_sin_cruce_residual;
+    const missingSaldo=ev.revision.saldo_sin_cruce_residual_clp;
+    if(r.cartera.folios_listados!==ev.cartera.folios || r.cartera.saldo_listado_clp!==ev.cartera.saldo_listado_clp)
+      throw Error("Cuadratura de fuente DA11 distinta en "+r.periodo);
     const tech = r.subconjunto_tecnico_smc;
     const candidato = tech === null ? null : tech.saldo_listado_clp;
     const candidatoFolios = tech === null ? null : tech.folios_suma_sin_solapamiento_grupos;
@@ -43,13 +50,14 @@
       Number.isFinite(r.cobro_procedente_acreditado.saldo_listado_clp) ?
       r.cobro_procedente_acreditado.saldo_listado_clp : null;
     return {
-      periodo:r.periodo, bruto, folios, rolesMorosos, candidato, candidatoFolios,
+      periodo:r.periodo, bruto, folios, rolesMorosos, rolNoIdent, candidato, candidatoFolios,
+      cobertura:ev,
       evidencia2026:r.evidencia_2026 ?? null,
       focal2026:(r.alertas_focales_independientes ?? []).find(a=>a.tipo === "nomina_a_eximir_2026_s1_focal") ?? null,
-      sinSenal:candidato === null ? null : bruto-candidato,
-      sinSenalFolios:candidatoFolios === null ? null : folios-candidatoFolios,
-      sinCruce:candidato === null ? bruto : 0,
-      sinCruceFolios:candidatoFolios === null ? folios : 0,
+      sinSenal:candidato === null ? null : bruto-candidato-missingSaldo,
+      sinSenalFolios:candidatoFolios === null ? null : folios-candidatoFolios-missing,
+      sinCruce:candidato === null ? bruto : missingSaldo,
+      sinCruceFolios:candidatoFolios === null ? folios : missing,
       ajuste:conciliado ? adjustment.monto_clp : null,
       corregido:corrected, correcto:correct,
       fuente:r.fuente_clasificacion,
@@ -82,12 +90,57 @@
     if(text !== undefined)e.textContent=text;
     return e;
   }
+  const cruceState = r => r.fuente==="SIN_CRUCE_ROL_SEMESTRE"?"Sin cruce por ROL":
+    r.fuente==="CLASIFICACION_S1_REFERENCIAL"?"Referencial S1→S2":
+    r.fuente==="RECRUCE_CORREGIDO_2025S1"?"Recruce corregido":"Cruce técnico del semestre";
+  function drawCoverage(rows) {
+    const n=rows.length,roleFull=rows.filter(r=>!r.rolNoIdent).length,
+      technically=rows.filter(r=>r.candidato!==null).length,
+      referential=rows.filter(r=>r.fuente==="CLASIFICACION_S1_REFERENCIAL").length;
+    el("da-net-cov-cartera").textContent=number(n)+"/"+number(n);
+    el("da-net-cov-roles").textContent=number(roleFull)+"/"+number(n);
+    el("da-net-cov-roles-note").textContent=n-roleFull?
+      number(n-roleFull)+" semestre(s) con ROL faltante: 2025-S2 contiene una clave vacía":"Conteos prediales por semestre disponibles";
+    el("da-net-cov-cross").textContent=number(technically)+"/"+number(n);
+    el("da-net-cov-cross-note").textContent=number(referential)+" de esos cruces son referenciales; "+number(n-technically)+" sin cruce técnico";
+    el("da-net-cov-legal").textContent="0/"+number(n);
+    el("da-net-cov-legal-note").textContent="Ningún semestre con cierre jurídico y contable acreditado";
+    const table=el("da-net-gaps");
+    table.replaceChildren();
+    for(const r of rows){
+      const tr=table.insertRow();
+      td(tr,r.periodo);
+      td(tr,number(r.rolesMorosos)+(r.rolNoIdent?" identificados + clave sin ROL":" ROL"));
+      td(tr,cruceState(r));
+      td(tr,r.candidato===null ? "Cruce masivo pendiente":
+        r.sinCruceFolios ? number(r.sinCruceFolios)+" folio(s) sin grupo técnico" :
+        "Cartera con clasificación técnica");
+      td(tr,"Acto, causal y vigencia por cuota");
+      td(tr,"SMC/DAF: pagos, abonos, ajustes y reversas");
+      const action=r.rolNoIdent?"Resolver clave sin ROL; luego clasificar y conciliar":
+        r.fuente==="SIN_CRUCE_ROL_SEMESTRE"?"Cruzar ROL + folio + cuota real con padrón del semestre":
+        r.fuente==="CLASIFICACION_S1_REFERENCIAL"?"Reemplazar referencia S1 por clasificación S2 y conciliar":
+        r.sinCruceFolios?"Resolver excepciones sin clasificación y revisar actos":
+        r.periodo==="2022-S1"?"Examinar 262 claves ROL+vencimiento repetidas; no afirmar doble cobro":
+        "Validar acto y movimientos individualmente";
+      td(tr,action);
+    }
+    if(!n){const tr=table.insertRow();const c=td(tr,"Sin semestres para filtros.");c.colSpan=7;}
+    const notes=el("da-net-gaps-note");
+    notes.textContent=n?
+      "Períodos seleccionados: "+number(n)+". El conteo de ROL corresponde a predios/roles del extracto, no a contribuyentes únicos; no se suma entre semestres. 2025-S2 tiene una clave sin ROL (cantidad de folios asociados a ella por verificar). Cruces técnico, legal y contable son etapas distintas.":
+      "No hay semestres para los filtros seleccionados.";
+  }
   function drawTotals(rows) {
     const s=sums(rows);
     el("da-net-gross").textContent=rows.length ? clp(s.total) : "—";
     el("da-net-folios").textContent=rows.length ? number(s.brutoFolios)+(rows.length===1?" folios del corte":" folios-período; suma no deduplicada") : "Sin selección";
-    el("da-net-roles").textContent=s.rolesMorosos == null ? "S/I" : number(s.rolesMorosos);
-    el("da-net-roles-note").textContent=rows.length > 1 ? "Suma de ROL por semestre no identifica personas únicas." : "No hay conteo de ROL únicos morosos validado.";
+    el("da-net-roles").textContent=rows.length>1?"Ver por semestre":s.rolesMorosos == null?"S/I":number(s.rolesMorosos)+(rows[0].rolNoIdent?" + pendiente":"");
+    el("da-net-roles-note").textContent=rows.length>1?
+      number(rows.length)+"/"+number(rows.length)+" semestres con conteo de ROL; no se pueden sumar entre períodos. "+number(rows.filter(r=>r.rolNoIdent>0).length)+" semestre parcial." :
+      rows.length===0?"Sin períodos": rows[0].rolNoIdent?
+        "Solo ROL identificados. Una clave vacía/sin ROL: falta reconstruirla." :
+        "ROL prediales distintos del extracto; NO personas deudoras únicas.";
     el("da-net-candidates").textContent=rows.length ? (rows.some(r=>r.candidato !== null) ? clp(s.candidatos) : "S/I") : "—";
     el("da-net-candidates-detail").textContent=rows.length ?
       "Candidatos identificados en "+number(rows.filter(r=>r.candidato !== null).length)+"/"+number(rows.length)+" semestres; NO descontables aún." : "Sin selección";
@@ -213,11 +266,11 @@
       const tr=body.insertRow();
       td(tr,r.periodo+(r.fuente==="CLASIFICACION_S1_REFERENCIAL"?" *":""));
       td(tr,number(r.folios));
-      td(tr,number(r.rolesMorosos));
+      td(tr,number(r.rolesMorosos)+(r.rolNoIdent?" + clave sin ROL":""));
       td(tr,clp(r.bruto));
       td(tr,clp(r.candidato));
       td(tr,clp(r.sinSenal));
-      td(tr,r.candidato===null?clp(r.sinCruce):"—");
+      td(tr,r.sinCruceFolios>0?clp(r.sinCruce):"—");
       td(tr,clp(r.correcto));
       td(tr,clp(r.ajuste));
       td(tr,clp(r.corregido));
@@ -225,35 +278,45 @@
     if(!rows.length){const tr=body.insertRow();const c=td(tr,"No hay resultados.");c.colSpan=10;}
   }
   function exportCsv() {
-    const fields=["periodo","folios_periodo_listados","rol_morosos_unicos","saldo_moroso_registrado_clp",
+    const fields=["periodo","folios_periodo_listados","rol_prediales_identificados","claves_sin_rol","saldo_moroso_registrado_clp",
       "coincidencias_tecnicas_clp","sin_coincidencia_tecnica_clp",
       "sin_cruce_clp","cobro_correcto_acreditado_clp","correccion_conciliada_clp",
-      "saldo_corregido_verificado_clp","fuente_clasificacion","corte"];
+      "saldo_corregido_verificado_clp","fuente_clasificacion","corte","calidad_rol","folios_sin_cruce_tecnico"];
     const esc=v=>'"'+String(v==null?"":v).replaceAll('"','""')+'"';
     const lines=[fields];
-    for(const r of selected)lines.push([r.periodo,r.folios,r.rolesMorosos,r.bruto,r.candidato,r.sinSenal,
-      r.candidato===null?r.sinCruce:null,r.correcto,r.ajuste,r.corregido,r.fuente,r.corte]);
+    for(const r of selected)lines.push([r.periodo,r.folios,r.rolesMorosos,r.rolNoIdent,r.bruto,r.candidato,r.sinSenal,
+      r.sinCruce,r.correcto,r.ajuste,r.corregido,r.fuente,r.corte,r.cobertura.cartera.calidad_roles,r.sinCruceFolios]);
     const csv="\uFEFF"+lines.map(r=>r.map(esc).join(";")).join("\r\n");
     const url=URL.createObjectURL(new Blob([csv],{type:"text/csv;charset=utf-8"}));
-    const a=document.createElement("a");a.href=url;a.download="derechos_aseo_deuda_registrada_vs_depurada_ce03.csv";
+    const a=document.createElement("a");a.href=url;a.download="derechos_aseo_morosidad_consolidada_12_periodos_ce05.csv";
     a.click();setTimeout(()=>URL.revokeObjectURL(url),1000);
   }
   function render() {
     try{
       selected=filtered().map(classification);
-      drawTotals(selected);drawFocus2026(selected);drawBars(selected);drawTable(selected);
+      drawCoverage(selected);drawTotals(selected);drawFocus2026(selected);drawBars(selected);drawTable(selected);
       el("da-net-error").hidden=true;
     }catch(e){el("da-net-error").hidden=false;el("da-net-error").textContent=e.message;}
   }
   async function init(){
     try{
-      const response=await fetch("../data/cartera_exenciones_auditoria_v1.json",{cache:"no-store"});
-      if(!response.ok)throw new Error("Fuente de cartera no disponible");
-      const data=await response.json();
+      const [response,respCoverage]=await Promise.all([
+        fetch("../data/cartera_exenciones_auditoria_v1.json",{cache:"no-store"}),
+        fetch("../data/morosidad_cobertura_12_periodos_v1.json",{cache:"no-store"})
+      ]);
+      if(!response.ok || !respCoverage.ok)throw new Error("Fuentes de cartera y cobertura no disponibles");
+      const [data,coverage]=await Promise.all([response.json(),respCoverage.json()]);
+      if(coverage.periodos.length!==12 || coverage.resumen.semestres_con_cartera!==12
+        || coverage.resumen.folios_periodo_suma_sin_deduplicar!==190838
+        || coverage.resumen.saldo_clp_suma_sin_deduplicar!==2832929422)
+        throw new Error("Fuente DA11 de cobertura inconsistente");
+      const coverageMap=new Map(coverage.periodos.map(p=>[p.periodo,p]));
+      if(coverageMap.size!==12 || data.periodos.some(p=>!coverageMap.has(p.periodo)))
+        throw new Error("No hay correspondencia de los doce períodos");
       if(data.periodos.length!==12 ||
         data.periodos.reduce((s,r)=>s+r.cartera.saldo_listado_clp,0)!==2832929422)
         throw new Error("La fuente no coincide con el consolidado aprobado");
-      periods=data.periodos;
+      periods=data.periodos.map(p=>({...p,cobertura:coverageMap.get(p.periodo)}));
       const q=new URLSearchParams(window.location.search);
       if(q.get("anio")==="2026") {
         el("da-audit-year").value="2026";

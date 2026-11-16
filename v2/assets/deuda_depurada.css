@@ -64,3 +64,26 @@
 .da-net-history-head h3{font-size:18px;margin:6px 0;color:#264c5e}
 .da-net-history-head p{font-size:12px;line-height:1.5;color:#6a7c8b}
 @media(max-width:700px){.da-net-focal-facts{grid-template-columns:repeat(2,minmax(0,1fr))}.da-net-focal-fact strong{font-size:17px}.da-net-focus{padding:12px}}
+
+/* CE05 · trazabilidad de cobertura y brechas por semestre */
+.da-net-coverage{margin:18px 0 25px;padding:15px 16px;border:1px solid #dae5e8;border-radius:10px;background:#f8fbfc}
+.da-net-coverage-head h4,.da-net-gaps-heading h4{margin:5px 0 7px;font-size:17px;color:#27495b}
+.da-net-coverage-head p,.da-net-gaps-heading p{font-size:12px;line-height:1.55;color:#526b7a;max-width:980px}
+.da-net-coverage-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:10px;margin-top:14px}
+.da-net-coverage-item{border:1px solid #e1eaed;border-radius:9px;padding:12px;background:white;min-width:0}
+.da-net-coverage-item small{display:block;min-height:35px;font-size:11px;font-weight:700;color:#486174}
+.da-net-coverage-item strong{display:block;margin:5px 0;font-size:25px;line-height:1.15;color:#2d5870}
+.da-net-coverage-item span{display:block;font-size:10px;line-height:1.4;color:#657b8a}
+.da-net-coverage-note{margin:12px 0 0;font-size:11px;color:#516a79;line-height:1.5}
+.da-net-gaps-panel{margin-top:25px;padding:18px;border:1px solid #d6e3e7;border-radius:10px;background:#fff}
+.da-net-gaps-scroll{max-width:100%;overflow-x:auto;margin:15px 0}
+.da-net-gaps-table{width:100%;min-width:1040px;border-collapse:collapse;text-align:left;font-size:11px;line-height:1.45}
+.da-net-gaps-table th{padding:11px;color:#2e5265;background:#edf5f6;border-bottom:1px solid #cedcdf;min-width:105px}
+.da-net-gaps-table th:last-child{min-width:175px}
+.da-net-gaps-table td{padding:10px 9px;border-bottom:1px solid #e3ebee;vertical-align:top;color:#405b6d}
+.da-net-gaps-table td:first-child{font-weight:750;color:#2f5264}
+.da-net-gaps-table tr:nth-child(even) td{background:#fafcfc}
+.da-net-gaps-table td:nth-child(5),.da-net-gaps-table td:nth-child(6){color:#8c6424}
+.da-net-coverage a,.da-net-gaps-panel a{color:#1a677e;text-underline-offset:2px}
+@media(max-width:1080px){.da-net-coverage-grid{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media(max-width:560px){.da-net-coverage{padding:11px}.da-net-gaps-panel{padding:12px}.da-net-coverage-grid{gap:7px}.da-net-coverage-item{padding:9px}.da-net-coverage-item strong{font-size:20px}.da-net-coverage-item small{min-height:43px}}
