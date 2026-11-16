@@ -70,7 +70,10 @@ async function init(){
  try{const resp=await fetch('../data/periodos.json',{cache:'no-store'});if(!resp.ok)throw new Error('No se pudo leer el conjunto agregado');dataset=await resp.json();records=dataset.periodos;if(records.length!==12)throw new Error('Se esperaban doce semestres');if(records.some(r=>!Number.isInteger(r.rol_total)||r.rol_total<1||!groups.every(g=>Number.isInteger(r.grupos[g.key])&&r.grupos[g.key]>=0)||residual(r)<0||r.tgr_subtotal.roles!==r.grupos.tgr_rsh_candidato_exencion+r.grupos.tgr_resto_sin_marca_rsh))throw new Error('Error de cuadratura o esquema en datos');
  active=records.at(-1).periodo;setText('dataDate',dataset.fecha_corte);$('period').innerHTML=records.map(r=>`<option value="${esc(r.periodo)}">${esc(r.periodo)}</option>`).join('');$('period').value=active;$('year').innerHTML='<option value="todos">Todos los períodos</option>'+[...new Set(records.map(r=>r.periodo.slice(0,4)))].map(y=>`<option value="${y}">${y}</option>`).join('');
  $('compareA').innerHTML=records.map(r=>`<option value="${esc(r.periodo)}">${esc(r.periodo)}</option>`).join('');$('compareB').innerHTML=$('compareA').innerHTML;$('compareA').value='2023-S1';$('compareB').value='2024-S2';$('period').addEventListener('change',e=>choosePeriod(e.target.value));$('year').addEventListener('change',e=>{year=e.target.value;render()});$('compareA').addEventListener('change',compare);$('compareB').addEventListener('change',compare);$('sortBy').addEventListener('change',e=>{sortBy=e.target.value;qualityView()});$('downloadCsv').onclick=exportCsv;document.querySelectorAll('[data-view]').forEach(b=>b.onclick=()=>chooseView(b.dataset.view));document.querySelectorAll('[data-go]').forEach(b=>b.onclick=()=>chooseView(b.dataset.go));
- render();window.__dashboardReady=true;
+ render();
+ const initialView=new URLSearchParams(window.location.search).get("vista");
+ if(initialView==="morosidad"||initialView==="cartera")chooseView("cartera");
+ window.__dashboardReady=true;
  }catch(err){$('loadError').hidden=false;$('loadError').textContent='No fue posible cargar el observatorio: '+err.message;window.__dashboardReady=false;console.error(err)}
 }
 init();
