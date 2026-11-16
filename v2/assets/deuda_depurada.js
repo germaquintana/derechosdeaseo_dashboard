@@ -44,6 +44,8 @@
       r.cobro_procedente_acreditado.saldo_listado_clp : null;
     return {
       periodo:r.periodo, bruto, folios, rolesMorosos, candidato, candidatoFolios,
+      evidencia2026:r.evidencia_2026 ?? null,
+      focal2026:(r.alertas_focales_independientes ?? []).find(a=>a.tipo === "nomina_a_eximir_2026_s1_focal") ?? null,
       sinSenal:candidato === null ? null : bruto-candidato,
       sinSenalFolios:candidatoFolios === null ? null : folios-candidatoFolios,
       sinCruce:candidato === null ? bruto : 0,
@@ -152,6 +154,58 @@
     }
     if(!rows.length)parent.append(make("p","","Sin resultados para estos filtros."));
   }
+  function drawFocus2026(rows) {
+    const container=el("da-net-focal-content");
+    container.replaceChildren();
+    const selected=rows.filter(r=>r.periodo==="2026-S1" || r.periodo==="2026-S2");
+    if(!selected.length){
+      container.append(make("p","da-net-foot","Selecciona el año 2026 o los semestres 2026-S1/2026-S2 para consultar la evidencia focal. Los demás períodos conservan su propia matriz de auditoría."));
+      return;
+    }
+    for(const r of selected){
+      const card=make("div","da-net-focal-card");
+      card.append(make("h5","",r.periodo+" · "+(r.periodo==="2026-S1"?"cohorte focal pendiente de revisar":"resolución y universo RSH")));
+      const headline=make("p","da-net-focal-lead",number(r.folios)+" folios con saldo listado · "+clp(r.bruto));
+      card.append(headline);
+      if(r.periodo==="2026-S1" && r.focal2026){
+        const a=r.focal2026, expected=a.combinaciones_esperadas, present=a.cuotas_presentes_en_morosos, absent=a.cuotas_ausentes_de_morosos;
+        if(expected!==present+absent)throw Error("Cohorte 2026-S1 sin cuadratura");
+        const facts=make("div","da-net-focal-facts");
+        for(const [label,value] of [
+          ["ROL en cohorte focal",number(a.roles)],
+          ["Combinaciones previstas",number(expected)],
+          ["Presentes en morosos",number(present)],
+          ["Ausentes del extracto",number(absent)]
+        ]){
+          const b=make("div","da-net-focal-fact");b.append(make("small","",label),make("strong","",value));facts.append(b);
+        }
+        card.append(facts);
+        const stacked=make("div","da-net-focal-stack");
+        stacked.setAttribute("role","img");
+        stacked.setAttribute("aria-label",number(present)+" combinaciones previstas presentes en morosos y "+number(absent)+" ausentes, de "+number(expected));
+        const p=make("span","da-net-focal-present");
+        p.style.width=(expected?100*present/expected:0)+"%";
+        const a2=make("span","da-net-focal-absent");
+        a2.style.width=(expected?100*absent/expected:0)+"%";
+        stacked.append(p,a2);
+        card.append(stacked);
+        card.append(make("p","da-net-foot","Monto de la cohorte presente: "+clp(a.saldo_reajuste_multa_pendiente_clp)+" incluyendo saldo, reajustes y multas. NO es una deducción del saldo general ni prueba de exención. Ausencia de un registro NO acredita pago o descarga."));
+        card.append(make("p","da-net-focal-pending","Próxima validación: número real de cuota, acto/vigencia de exención, libros SMC/DAF y movimientos por folio. Sin esas comprobaciones, la deuda depurada sigue S/I."));
+      }else if(r.periodo==="2026-S2"){
+        const e=r.evidencia2026 ?? {};
+        const facts=make("div","da-net-focal-facts");
+        for(const [label,value] of [
+          ["ROL en nómina RSH corregida (no morosos)",number(e.padron_bd9n_roles)],
+          ["ROL en Resolución 2628/2026 (no cuotas)",number(e.acto_municipal_rol)]
+        ]){
+          const b=make("div","da-net-focal-fact");b.append(make("small","",label),make("strong","",value));facts.append(b);
+        }
+        card.append(facts);
+        card.append(make("p","da-net-focal-pending","Pendiente: enlace de esa resolución a las cuotas morosas reales, acuse SMC, fechas de vencimiento y movimientos. No se puede descontar el universo RSH del saldo listado."));
+      }
+      container.append(card);
+    }
+  }
   function td(tr,t){const c=tr.insertCell();c.textContent=t;return c;}
   function drawTable(rows) {
     const body=el("da-net-table");body.replaceChildren();
@@ -187,7 +241,7 @@
   function render() {
     try{
       selected=filtered().map(classification);
-      drawTotals(selected);drawBars(selected);drawTable(selected);
+      drawTotals(selected);drawFocus2026(selected);drawBars(selected);drawTable(selected);
       el("da-net-error").hidden=true;
     }catch(e){el("da-net-error").hidden=false;el("da-net-error").textContent=e.message;}
   }
@@ -200,6 +254,11 @@
         data.periodos.reduce((s,r)=>s+r.cartera.saldo_listado_clp,0)!==2832929422)
         throw new Error("La fuente no coincide con el consolidado aprobado");
       periods=data.periodos;
+      const q=new URLSearchParams(window.location.search);
+      if(q.get("anio")==="2026") {
+        el("da-audit-year").value="2026";
+        el("da-audit-year").dispatchEvent(new Event("change"));
+      }
       for(const key of keys)el(key).addEventListener("change",render);
       el("da-net-unit").addEventListener("change",render);
       el("da-net-export").addEventListener("click",exportCsv);
