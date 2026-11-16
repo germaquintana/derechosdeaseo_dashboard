@@ -57,11 +57,22 @@
   <section class="da-net-panel" id="da-net-panel" aria-labelledby="da-net-title">
     <div class="da-net-head"><span class="mini-label">LECTURA CENTRAL / DEUDA Y EXENCIONES</span>
       <h3 id="da-net-title">Deuda morosa registrada frente a deuda depurada</h3>
-      <p>Este módulo compara saldos <strong>realmente listados</strong> con coincidencias técnicas que requieren estudio. La deuda corregida se informará solo cuando exista conciliación por cuota y movimientos SMC/DAF. Una candidatura RSH no es una exención aprobada; no aparecer en un cruce no demuestra un cobro correcto.</p>
+      <p>Este módulo integra 12 semestres de saldos y ROL prediales distintos extraídos de la cartera, junto con coincidencias técnicas que requieren estudio. La deuda corregida se informará solo cuando exista conciliación por cuota y movimientos SMC/DAF. Una candidatura RSH no es una exención aprobada; no aparecer en un cruce no demuestra un cobro correcto.</p>
     </div>
+    <section class="da-net-coverage" aria-label="Cobertura de la consolidación de morosidad">
+      <div class="da-net-coverage-head"><span class="mini-label">AVANCE DOCUMENTAL · COBERTURA SEGÚN FILTROS</span><h4>Qué tenemos y qué falta validar</h4>
+        <p>El conteo de ROL prediales por semestre ya está recuperado. El cruce técnico con SII/RSH y el cierre jurídico-contable son tareas diferentes. Los indicadores se refieren a las ventanas del extracto con corte 28-10-2026.</p></div>
+      <div class="da-net-coverage-grid">
+        <div class="da-net-coverage-item"><small>Folios y saldos de cartera</small><strong id="da-net-cov-cartera">—</strong><span>Extractos semestrales con corte común</span></div>
+        <div class="da-net-coverage-item"><small>Conteos de ROL completos</small><strong id="da-net-cov-roles">—</strong><span id="da-net-cov-roles-note">Verificación de claves faltantes</span></div>
+        <div class="da-net-coverage-item"><small>Cruce técnico SII/RSH disponible</small><strong id="da-net-cov-cross">—</strong><span id="da-net-cov-cross-note">Dos cruces son referenciales</span></div>
+        <div class="da-net-coverage-item"><small>Cierres jurídico-contables acreditados</small><strong id="da-net-cov-legal">—</strong><span id="da-net-cov-legal-note">Pendiente validar actos, cuotas y movimientos</span></div>
+      </div>
+      <p class="da-net-coverage-note">«Completo» para ROL significa conteo de identificadores distintos en el extracto de ese semestre, <strong>no personas únicas ni deuda exigible.</strong> Para 2025-S2 existe una clave vacía: 8.144 ROL identificados y un identificador no resuelto. Los ROL no se suman entre semestres.</p>
+    </section>
     <div class="da-net-grid" aria-live="polite">
       <article class="da-net-card"><small>Deuda morosa registrada (saldo listado)</small><strong id="da-net-gross">—</strong><p id="da-net-folios">Folios-período</p></article>
-      <article class="da-net-card da-net-pending"><small>Deudores morosos únicos (ROL)</small><strong id="da-net-roles">S/I</strong><p id="da-net-roles-note">No se puede equiparar folio con deudor.</p></article>
+      <article class="da-net-card"><small>ROL prediales distintos con saldo</small><strong id="da-net-roles">—</strong><p id="da-net-roles-note">Se cuentan por semestre, no son personas únicas.</p></article>
       <article class="da-net-card"><small>Saldo con coincidencias técnicas de exención</small><strong id="da-net-candidates">—</strong><p id="da-net-candidates-detail">No descontable sin verificar acto y cuota</p></article>
       <article class="da-net-card da-net-pending"><small>Deuda con cobro correcto acreditado</small><strong id="da-net-correct">S/I</strong><p>No equivale a «sin señal de exención»</p></article>
       <article class="da-net-card da-net-pending"><small>Deuda morosa después de correcciones acreditadas</small><strong id="da-net-adjusted">S/I · pendiente</strong><p>Requiere movimientos conciliados para cada cuota</p></article>
@@ -87,11 +98,19 @@
     </div>
     <div class="da-net-actions"><button type="button" id="da-net-export" class="da-net-export">Exportar comparación (CSV agregado)</button></div>
     <div class="da-net-table-wrap"><table class="da-net-table"><thead><tr>
-      <th>Semestre</th><th>Folios registrados</th><th>Deudores únicos (ROL)</th><th>Morosidad registrada CLP</th>
+      <th>Semestre</th><th>Folios registrados</th><th>ROL distintos identificados</th><th>Morosidad registrada CLP</th>
       <th>Coincidencias técnicas CLP</th><th>Sin coincidencia técnica CLP</th>
       <th>Sin clasificar CLP</th><th>Cobro correcto acreditado CLP</th>
       <th>Correcciones conciliadas CLP</th><th>Morosidad depurada CLP</th>
     </tr></thead><tbody id="da-net-table"><tr><td colspan="10">Cargando comparación...</td></tr></tbody></table></div>
+    <section class="da-net-gaps-panel" aria-labelledby="da-net-gaps-title">
+      <div class="da-net-gaps-heading"><span class="mini-label">CONCILIACIÓN · 12 SEMESTRES</span><h4 id="da-net-gaps-title">Estado y próximo cruce necesario en cada período</h4>
+      <p>Esta tabla explica los campos pendientes del comparador y permite distinguir calidad del ROL, cruce técnico, fundamentación de exenciones y movimientos contables. No asigna cero a resultados sin respaldo.</p></div>
+      <div class="da-net-gaps-scroll"><table class="da-net-gaps-table"><thead><tr><th>Semestre</th><th>ROL prediales del extracto</th><th>Calidad del cruce técnico</th><th>Casos sin grupo técnico</th><th>Causal / acto de exención</th><th>Conciliación contable</th><th>Acción para cerrar brecha</th></tr></thead>
+      <tbody id="da-net-gaps"><tr><td colspan="7">Cargando cobertura...</td></tr></tbody></table></div>
+      <p id="da-net-gaps-note" class="da-net-foot"></p>
+      <p class="da-net-foot">Fuente de los conteos: DA11, extracción agregada de 26 ventanas de vencimiento, con notas de excepción para 2022-S1, 2024-S1/S2 y 2025-S2. <a href="../data/morosidad_cobertura_12_periodos_v1.json" target="_blank" rel="noopener noreferrer">Consultar consolidado y trazabilidad (JSON)</a>.</p>
+    </section>
     <p class="da-net-foot">La composición <strong>no identifica todavía cuotas individualmente acreditadas</strong>: usa folios del extracto al 28-10-2026 y montos agregados. «S/I» significa desconocido/no acreditado, jamás cero. Los semestres 2021-S2 y 2022-S2 usan clasificaciones S1 referenciales (*). Las alertas de la cohorte focal 2026-S1 y TGR no son sumables al grupo técnico SMC. Filtros aplicados: año, semestre y calidad de fuente de la sección superior; la selección «Condición / canal» no cambia esta comparación de cartera total.</p>
     <p id="da-net-error" class="da-net-error" role="alert" hidden></p>
   </section>
