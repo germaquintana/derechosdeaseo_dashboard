@@ -26,6 +26,7 @@
   }
   function classification(r) {
     const bruto = r.cartera.saldo_listado_clp, folios = r.cartera.folios_listados;
+    const rolesMorosos=Number.isInteger(r.cartera.roles_unicos_morosos) ? r.cartera.roles_unicos_morosos : null;
     const tech = r.subconjunto_tecnico_smc;
     const candidato = tech === null ? null : tech.saldo_listado_clp;
     const candidatoFolios = tech === null ? null : tech.folios_suma_sin_solapamiento_grupos;
@@ -42,7 +43,7 @@
       Number.isFinite(r.cobro_procedente_acreditado.saldo_listado_clp) ?
       r.cobro_procedente_acreditado.saldo_listado_clp : null;
     return {
-      periodo:r.periodo, bruto, folios, candidato, candidatoFolios,
+      periodo:r.periodo, bruto, folios, rolesMorosos, candidato, candidatoFolios,
       sinSenal:candidato === null ? null : bruto-candidato,
       sinSenalFolios:candidatoFolios === null ? null : folios-candidatoFolios,
       sinCruce:candidato === null ? bruto : 0,
@@ -61,6 +62,7 @@
     const brutoFolios = sum(list,"folios");
     return {
       total,brutoFolios,
+      rolesMorosos:allKnown(list,"rolesMorosos") ? sum(list,"rolesMorosos") : null,
       candidatos:sum(list,"candidato"),
       candidatosFolios:sum(list,"candidatoFolios"),
       sinSenal:sum(list,"sinSenal"),
@@ -82,6 +84,8 @@
     const s=sums(rows);
     el("da-net-gross").textContent=rows.length ? clp(s.total) : "—";
     el("da-net-folios").textContent=rows.length ? number(s.brutoFolios)+" folios-período" : "Sin selección";
+    el("da-net-roles").textContent=s.rolesMorosos == null ? "S/I" : number(s.rolesMorosos);
+    el("da-net-roles-note").textContent=rows.length > 1 ? "Requiere deduplicar los ROL entre períodos." : "No hay conteo de ROL únicos morosos validado.";
     el("da-net-candidates").textContent=rows.length ? (rows.some(r=>r.candidato !== null) ? clp(s.candidatos) : "S/I") : "—";
     el("da-net-candidates-detail").textContent=rows.length ?
       "Candidatos identificados en "+number(rows.filter(r=>r.candidato !== null).length)+"/"+number(rows.length)+" semestres; NO descontables aún." : "Sin selección";
@@ -155,6 +159,7 @@
       const tr=body.insertRow();
       td(tr,r.periodo+(r.fuente==="CLASIFICACION_S1_REFERENCIAL"?" *":""));
       td(tr,number(r.folios));
+      td(tr,number(r.rolesMorosos));
       td(tr,clp(r.bruto));
       td(tr,clp(r.candidato));
       td(tr,clp(r.sinSenal));
@@ -166,13 +171,13 @@
     if(!rows.length){const tr=body.insertRow();const c=td(tr,"No hay resultados.");c.colSpan=9;}
   }
   function exportCsv() {
-    const fields=["periodo","folios_periodo_listados","saldo_moroso_registrado_clp",
+    const fields=["periodo","folios_periodo_listados","rol_morosos_unicos","saldo_moroso_registrado_clp",
       "coincidencias_tecnicas_clp","sin_coincidencia_tecnica_clp",
       "sin_cruce_clp","cobro_correcto_acreditado_clp","correccion_conciliada_clp",
       "saldo_corregido_verificado_clp","fuente_clasificacion","corte"];
     const esc=v=>'"'+String(v==null?"":v).replaceAll('"','""')+'"';
     const lines=[fields];
-    for(const r of selected)lines.push([r.periodo,r.folios,r.bruto,r.candidato,r.sinSenal,
+    for(const r of selected)lines.push([r.periodo,r.folios,r.rolesMorosos,r.bruto,r.candidato,r.sinSenal,
       r.candidato===null?r.sinCruce:null,r.correcto,r.ajuste,r.corregido,r.fuente,r.corte]);
     const csv="\uFEFF"+lines.map(r=>r.map(esc).join(";")).join("\r\n");
     const url=URL.createObjectURL(new Blob([csv],{type:"text/csv;charset=utf-8"}));
