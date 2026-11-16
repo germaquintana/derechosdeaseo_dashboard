@@ -62,6 +62,7 @@
     </div>
     <div class="da-net-grid" aria-live="polite">
       <article class="da-net-card"><small>Deuda morosa registrada (saldo listado)</small><strong id="da-net-gross">—</strong><p id="da-net-folios">Folios-período</p></article>
+      <article class="da-net-card da-net-pending"><small>Deudores morosos únicos (ROL)</small><strong id="da-net-roles">S/I</strong><p id="da-net-roles-note">No se puede equiparar folio con deudor.</p></article>
       <article class="da-net-card"><small>Saldo con coincidencias técnicas de exención</small><strong id="da-net-candidates">—</strong><p id="da-net-candidates-detail">No descontable sin verificar acto y cuota</p></article>
       <article class="da-net-card da-net-pending"><small>Deuda con cobro correcto acreditado</small><strong id="da-net-correct">S/I</strong><p>No equivale a «sin señal de exención»</p></article>
       <article class="da-net-card da-net-pending"><small>Deuda morosa después de correcciones acreditadas</small><strong id="da-net-adjusted">S/I · pendiente</strong><p>Requiere movimientos conciliados para cada cuota</p></article>
@@ -83,11 +84,11 @@
     </div>
     <div class="da-net-actions"><button type="button" id="da-net-export" class="da-net-export">Exportar comparación (CSV agregado)</button></div>
     <div class="da-net-table-wrap"><table class="da-net-table"><thead><tr>
-      <th>Semestre</th><th>Folios registrados</th><th>Morosidad registrada CLP</th>
+      <th>Semestre</th><th>Folios registrados</th><th>Deudores únicos (ROL)</th><th>Morosidad registrada CLP</th>
       <th>Coincidencias técnicas CLP</th><th>Sin coincidencia técnica CLP</th>
       <th>Sin clasificar CLP</th><th>Cobro correcto acreditado CLP</th>
       <th>Correcciones conciliadas CLP</th><th>Morosidad depurada CLP</th>
-    </tr></thead><tbody id="da-net-table"><tr><td colspan="9">Cargando comparación...</td></tr></tbody></table></div>
+    </tr></thead><tbody id="da-net-table"><tr><td colspan="10">Cargando comparación...</td></tr></tbody></table></div>
     <p class="da-net-foot">La composición <strong>no identifica todavía cuotas individualmente acreditadas</strong>: usa folios del extracto al 28-10-2026 y montos agregados. «S/I» significa desconocido/no acreditado, jamás cero. Los semestres 2021-S2 y 2022-S2 usan clasificaciones S1 referenciales (*). Las alertas de la cohorte focal 2026-S1 y TGR no son sumables al grupo técnico SMC. Filtros aplicados: año, semestre y calidad de fuente de la sección superior; la selección «Condición / canal» no cambia esta comparación de cartera total.</p>
     <p id="da-net-error" class="da-net-error" role="alert" hidden></p>
   </section>
