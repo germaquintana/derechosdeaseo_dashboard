@@ -30,6 +30,7 @@ class CE03Contracts(unittest.TestCase):
         for token in ('id="da-net-gross"','id="da-net-candidates"',
                       'id="da-net-correct"','id="da-net-adjusted"',
                       'id="da-net-table"','id="da-net-bars"',
+                      'id="da-net-roles"',
                       'id="da-net-unit"','id="da-net-export"'):
             self.assertIn(token,HTML)
         self.assertIn("assets/deuda_depurada.js",HTML)
@@ -63,6 +64,7 @@ class CE03Browser(unittest.TestCase):
         page.locator('[data-view="cartera"]').click()
         self.assertEqual(page.locator("#da-net-gross").inner_text(),"$2.832.929.422")
         self.assertEqual(page.locator("#da-net-table tr").count(),12)
+        self.assertEqual(page.locator("#da-net-roles").inner_text(),"S/I")
         self.assertIn("S/I",page.locator("#da-net-adjusted").inner_text())
         self.assertIn("S/I",page.locator("#da-net-correct").inner_text())
         page.locator("#da-audit-year").select_option("2026")
