@@ -77,6 +77,7 @@
     find("da-audit-chart-label").textContent = grp.title + " · folios-período";
     drawChart(visible,grp);
     drawTable(visible);
+    draw2026(visible);
     drawFocal(visible);
   }
   function drawChart(rows,group) {
@@ -113,11 +114,30 @@
       const s=cell(tr,"");const st=statuses[d.fuente_clasificacion]||["Pendiente","pending"];
       const span=document.createElement("span");addClass(span,"da-smallstatus "+st[1]);span.textContent=st[0];s.append(span);
       cell(tr,num(d.cartera.folios_listados));
+      cell(tr,mm(d.cartera.saldo_listado_clp));
       for(const f of fields){const q=d.grupos[f];cell(tr,q==null?"S/I":num(q.folios));}
       cell(tr,d.subconjunto_tecnico_smc==null?"S/I":num(d.subconjunto_tecnico_smc.folios_suma_sin_solapamiento_grupos));
       cell(tr,d.subconjunto_tecnico_smc==null?"S/I":mm(d.subconjunto_tecnico_smc.saldo_listado_clp));
     }
-    if(!rows.length){const tr=body.insertRow();const td=cell(tr,"Sin resultados para los filtros.");td.colSpan=8;}
+    if(!rows.length){const tr=body.insertRow();const td=cell(tr,"Sin resultados para los filtros.");td.colSpan=9;}
+  }
+  function draw2026(rows) {
+    const body=find("da-audit-2026-table");
+    body.replaceChildren();
+    const selected=rows.filter(r=>r.periodo==="2026-S1"||r.periodo==="2026-S2");
+    for(const r of selected){
+      const tr=body.insertRow(), ev=r.evidencia_2026||{}, focal=ev.cotejo_focal;
+      tr.title=ev.nota||"";
+      cell(tr,r.periodo);
+      cell(tr,num(r.cartera.folios_listados));
+      cell(tr,"$"+num(r.cartera.saldo_listado_clp));
+      cell(tr,num(ev.padron_bd9n_roles));
+      cell(tr,num(ev.acto_municipal_rol));
+      cell(tr,focal?num(focal.combinaciones_presentes_en_morosos):"S/I");
+      cell(tr,focal?"$"+num(focal.saldo_y_recargos_clp):"S/I");
+      cell(tr,ev.estado||"Pendiente de cruce");
+    }
+    if(!selected.length){const tr=body.insertRow();const td=cell(tr,"Selecciona 2026 o Todos los años para ver su evidencia.");td.colSpan=8;}
   }
   function drawFocal(rows) {
     const el=find("da-audit-alerts");
@@ -152,14 +172,14 @@
     const rows=[["periodo","fuente_clasificacion","cartera_folios","cartera_saldo_CLP",
       "BD9N_folios","BD9N_saldo_CLP","BD5N_folios","BD5N_saldo_CLP","TGR_RSH_folios",
       "TGR_RSH_saldo_CLP","SMC_subtotal_tecnico_folios","SMC_subtotal_tecnico_saldo_CLP",
-      "descarga_acreditada_folios","descarga_acreditada_CLP"]];
+      "descarga_acreditada_folios","descarga_acreditada_CLP","2026_BD9N_ROL_padron","2026_Res2628_ROL_acto","2026_focal_combinaciones_presentes","2026_focal_saldo_con_recargos_CLP"]];
     const val=(r,g,key)=>r.grupos[g]===null?"":r.grupos[g][key];
     for(const r of visible){const x=r.subconjunto_tecnico_smc;
       rows.push([r.periodo,r.fuente_clasificacion,r.cartera.folios_listados,r.cartera.saldo_listado_clp,
         val(r,"rsh_municipal_bd9n","folios"),val(r,"rsh_municipal_bd9n","saldo_listado_clp"),
         val(r,"avalúo_todos_destinos_bd5n","folios"),val(r,"avalúo_todos_destinos_bd5n","saldo_listado_clp"),
         val(r,"tgr_rsh_no_smc_bd4n_rsh","folios"),val(r,"tgr_rsh_no_smc_bd4n_rsh","saldo_listado_clp"),
-        x==null?"":x.folios_suma_sin_solapamiento_grupos,x==null?"":x.saldo_listado_clp,"",""]);
+        x==null?"":x.folios_suma_sin_solapamiento_grupos,x==null?"":x.saldo_listado_clp,"","",r.evidencia_2026?.padron_bd9n_roles??"",r.evidencia_2026?.acto_municipal_rol??"",r.evidencia_2026?.cotejo_focal?.combinaciones_presentes_en_morosos??"",r.evidencia_2026?.cotejo_focal?.saldo_y_recargos_clp??""]);
     }
     const escape=x=>'"'+String(x==null?"":x).replaceAll('"','""')+'"';
     const csv="\uFEFF"+rows.map(r=>r.map(escape).join(";")).join("\r\n");
