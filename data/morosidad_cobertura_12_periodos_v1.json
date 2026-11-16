@@ -1,0 +1,473 @@
+{
+  "schema": "da17_morosidad_cobertura_12_periodos_v1",
+  "fecha_control_chile": "2026-11-16",
+  "corte_cartera": "2026-10-28",
+  "alcance": "26 ventanas de vencimiento de 12 semestres; registros de cartera al corte, no totalidad de cobros emitidos ni deuda jurídica exigible",
+  "unidad": "ROL predial distinto por semestre; no personas únicas ni contribuyentes deduplicados entre semestres",
+  "fuentes": [
+    {
+      "repositorio": "germaquintana/derechosdeaseo_auditoria",
+      "ruta": "datos_agregados/da11_cartera_xlsx_original_12_periodos_20261103.json",
+      "blob_sha": "ed5def0c733ee87af0c75adb0415d7770891b588",
+      "detalle": "extracción streaming de dos XLSX de morosos y control de 26 ventanas; solo conteos agregados"
+    },
+    {
+      "repositorio": "germaquintana/derechosdeaseo_auditoria",
+      "ruta": "datos_agregados/control_cobertura_cartera_20261028.json",
+      "blob_sha": "b0ea9576a7842b9e98d1183f14bd8d4e92b9c994",
+      "detalle": "excepciones históricas de cruce 2024"
+    },
+    {
+      "repositorio": "germaquintana/derechosdeaseo_dashboard",
+      "ruta": "data/cartera_exenciones_auditoria_v1.json",
+      "blob_sha": "a415b0ca75c471e04d33aa66d081dd5beaaa5a98",
+      "detalle": "grupos BD, saldos y estado de conciliación ya publicados"
+    }
+  ],
+  "reglas": [
+    "Se conserva el corte común 2026-10-28 y las cuotas/vencimientos declarados en DA11.",
+    "En 2025-S2 la clave vacía/sin ROL es UNA CLAVE, no necesariamente un solo folio o persona; contar 8144 ROL identificados y dejar el total completo sin certificar.",
+    "No sumar ROL distintos entre semestres como deudores únicos históricos.",
+    "2022-S1 registra 524 folios en 262 claves ROL+vencimiento repetidas; sin inspección unidad predial/SMC no afirmar duplicidad de cobro.",
+    "2024-S1 y 2024-S2 registran respectivamente 2 folios sin clasificación técnica ($32010 y $32654), distintos de los períodos completos sin cruce.",
+    "Coincidencia técnica BD9N/BD5N es bandera de revisión, no exención acreditada; sin coincidencia no prueba cobro correcto.",
+    "Descarga SMC, saldo depurado proforma y saldo post-SMC son nulos para todos los semestres hasta validación documental y movimiento.",
+    "Saldos semestrales sumados son magnitud histórica no deduplicada, no cartera exigible única a una fecha."
+  ],
+  "resumen": {
+    "semestres": 12,
+    "semestres_con_cartera": 12,
+    "semestres_con_conteo_roles_prediales": 12,
+    "semestres_roles_completos": 11,
+    "semestres_roles_parciales": 1,
+    "semestres_cruce_tecnico": 9,
+    "semestres_cruce_referencial": 2,
+    "semestres_sin_cruce_tecnico": 3,
+    "semestres_con_cierre_juridico_contable": 0,
+    "folios_periodo_suma_sin_deduplicar": 190838,
+    "saldo_clp_suma_sin_deduplicar": 2832929422,
+    "rol_unicos_global": null
+  },
+  "periodos": [
+    {
+      "periodo": "2021-S1",
+      "corte_cartera": "2026-10-28",
+      "cartera": {
+        "folios": 13145,
+        "saldo_listado_clp": 150773150,
+        "roles_prediales_identificados": 6590,
+        "claves_distintas_fuente": 6590,
+        "claves_sin_rol": 0,
+        "calidad_roles": "CONTEO_ROL_IDENTIFICADO_DEL_EXTRACTO"
+      },
+      "control": {
+        "cohortes_vencimiento": 2,
+        "folios_repetidos_clave_rol_vencimiento": 0,
+        "grupos_repetidos_clave_rol_vencimiento": 0
+      },
+      "revision": {
+        "fuente_cruce": "CLASIFICACION_ORIGINAL_SEMESTRE",
+        "coincidencias_tecnicas_folios": 3269,
+        "coincidencias_tecnicas_saldo_clp": 37495430,
+        "folios_sin_cruce_residual": 0,
+        "saldo_sin_cruce_residual_clp": 0,
+        "cierre_juridico_contable": "NO_ACREDITADO",
+        "cobro_correcto_acreditado_clp": null,
+        "exencion_efectiva_conciliada_clp": null,
+        "saldo_depurado_proforma_clp": null,
+        "saldo_post_smc_clp": null
+      },
+      "pendientes": {
+        "conteo_roles": "CONTEO_DISPONIBLE_NO_DEUDOR_PERSONA",
+        "cruce": "VERIFICAR_ALERTAS_Y_EXCEPCIONES_POR_OBLIGACION",
+        "juridico": "VERIFICAR_DESTINO_H_UTM_ACTO_VIGENCIA_Y_CUOTA",
+        "contable": "CONCILIAR_MOVIMIENTOS_SMC_DAF_TESORERIA_TGR_POR_FOLIO"
+      }
+    },
+    {
+      "periodo": "2021-S2",
+      "corte_cartera": "2026-10-28",
+      "cartera": {
+        "folios": 13272,
+        "saldo_listado_clp": 152229840,
+        "roles_prediales_identificados": 6647,
+        "claves_distintas_fuente": 6647,
+        "claves_sin_rol": 0,
+        "calidad_roles": "CONTEO_ROL_IDENTIFICADO_DEL_EXTRACTO"
+      },
+      "control": {
+        "cohortes_vencimiento": 2,
+        "folios_repetidos_clave_rol_vencimiento": 0,
+        "grupos_repetidos_clave_rol_vencimiento": 0
+      },
+      "revision": {
+        "fuente_cruce": "CLASIFICACION_S1_REFERENCIAL",
+        "coincidencias_tecnicas_folios": 3291,
+        "coincidencias_tecnicas_saldo_clp": 37747770,
+        "folios_sin_cruce_residual": 0,
+        "saldo_sin_cruce_residual_clp": 0,
+        "cierre_juridico_contable": "NO_ACREDITADO",
+        "cobro_correcto_acreditado_clp": null,
+        "exencion_efectiva_conciliada_clp": null,
+        "saldo_depurado_proforma_clp": null,
+        "saldo_post_smc_clp": null
+      },
+      "pendientes": {
+        "conteo_roles": "CONTEO_DISPONIBLE_NO_DEUDOR_PERSONA",
+        "cruce": "VALIDAR_CON_DATOS_PROPIOS_S2",
+        "juridico": "VERIFICAR_DESTINO_H_UTM_ACTO_VIGENCIA_Y_CUOTA",
+        "contable": "CONCILIAR_MOVIMIENTOS_SMC_DAF_TESORERIA_TGR_POR_FOLIO"
+      }
+    },
+    {
+      "periodo": "2022-S1",
+      "corte_cartera": "2026-10-28",
+      "cartera": {
+        "folios": 21135,
+        "saldo_listado_clp": 258891500,
+        "roles_prediales_identificados": 10453,
+        "claves_distintas_fuente": 10453,
+        "claves_sin_rol": 0,
+        "calidad_roles": "CONTEO_ROL_IDENTIFICADO_DEL_EXTRACTO"
+      },
+      "control": {
+        "cohortes_vencimiento": 2,
+        "folios_repetidos_clave_rol_vencimiento": 524,
+        "grupos_repetidos_clave_rol_vencimiento": 262
+      },
+      "revision": {
+        "fuente_cruce": "CLASIFICACION_ORIGINAL_SEMESTRE",
+        "coincidencias_tecnicas_folios": 6232,
+        "coincidencias_tecnicas_saldo_clp": 76342000,
+        "folios_sin_cruce_residual": 0,
+        "saldo_sin_cruce_residual_clp": 0,
+        "cierre_juridico_contable": "NO_ACREDITADO",
+        "cobro_correcto_acreditado_clp": null,
+        "exencion_efectiva_conciliada_clp": null,
+        "saldo_depurado_proforma_clp": null,
+        "saldo_post_smc_clp": null
+      },
+      "pendientes": {
+        "conteo_roles": "CONTEO_DISPONIBLE_NO_DEUDOR_PERSONA",
+        "cruce": "VERIFICAR_ALERTAS_Y_EXCEPCIONES_POR_OBLIGACION",
+        "juridico": "VERIFICAR_DESTINO_H_UTM_ACTO_VIGENCIA_Y_CUOTA",
+        "contable": "CONCILIAR_MOVIMIENTOS_SMC_DAF_TESORERIA_TGR_POR_FOLIO"
+      }
+    },
+    {
+      "periodo": "2022-S2",
+      "corte_cartera": "2026-10-28",
+      "cartera": {
+        "folios": 18480,
+        "saldo_listado_clp": 242185774,
+        "roles_prediales_identificados": 9251,
+        "claves_distintas_fuente": 9251,
+        "claves_sin_rol": 0,
+        "calidad_roles": "CONTEO_ROL_IDENTIFICADO_DEL_EXTRACTO"
+      },
+      "control": {
+        "cohortes_vencimiento": 2,
+        "folios_repetidos_clave_rol_vencimiento": 0,
+        "grupos_repetidos_clave_rol_vencimiento": 0
+      },
+      "revision": {
+        "fuente_cruce": "CLASIFICACION_S1_REFERENCIAL",
+        "coincidencias_tecnicas_folios": 4351,
+        "coincidencias_tecnicas_saldo_clp": 57024206,
+        "folios_sin_cruce_residual": 0,
+        "saldo_sin_cruce_residual_clp": 0,
+        "cierre_juridico_contable": "NO_ACREDITADO",
+        "cobro_correcto_acreditado_clp": null,
+        "exencion_efectiva_conciliada_clp": null,
+        "saldo_depurado_proforma_clp": null,
+        "saldo_post_smc_clp": null
+      },
+      "pendientes": {
+        "conteo_roles": "CONTEO_DISPONIBLE_NO_DEUDOR_PERSONA",
+        "cruce": "VALIDAR_CON_DATOS_PROPIOS_S2",
+        "juridico": "VERIFICAR_DESTINO_H_UTM_ACTO_VIGENCIA_Y_CUOTA",
+        "contable": "CONCILIAR_MOVIMIENTOS_SMC_DAF_TESORERIA_TGR_POR_FOLIO"
+      }
+    },
+    {
+      "periodo": "2023-S1",
+      "corte_cartera": "2026-10-28",
+      "cartera": {
+        "folios": 12938,
+        "saldo_listado_clp": 179798426,
+        "roles_prediales_identificados": 6486,
+        "claves_distintas_fuente": 6486,
+        "claves_sin_rol": 0,
+        "calidad_roles": "CONTEO_ROL_IDENTIFICADO_DEL_EXTRACTO"
+      },
+      "control": {
+        "cohortes_vencimiento": 2,
+        "folios_repetidos_clave_rol_vencimiento": 0,
+        "grupos_repetidos_clave_rol_vencimiento": 0
+      },
+      "revision": {
+        "fuente_cruce": "CLASIFICACION_ORIGINAL_SEMESTRE",
+        "coincidencias_tecnicas_folios": 5479,
+        "coincidencias_tecnicas_saldo_clp": 76147142,
+        "folios_sin_cruce_residual": 0,
+        "saldo_sin_cruce_residual_clp": 0,
+        "cierre_juridico_contable": "NO_ACREDITADO",
+        "cobro_correcto_acreditado_clp": null,
+        "exencion_efectiva_conciliada_clp": null,
+        "saldo_depurado_proforma_clp": null,
+        "saldo_post_smc_clp": null
+      },
+      "pendientes": {
+        "conteo_roles": "CONTEO_DISPONIBLE_NO_DEUDOR_PERSONA",
+        "cruce": "VERIFICAR_ALERTAS_Y_EXCEPCIONES_POR_OBLIGACION",
+        "juridico": "VERIFICAR_DESTINO_H_UTM_ACTO_VIGENCIA_Y_CUOTA",
+        "contable": "CONCILIAR_MOVIMIENTOS_SMC_DAF_TESORERIA_TGR_POR_FOLIO"
+      }
+    },
+    {
+      "periodo": "2023-S2",
+      "corte_cartera": "2026-10-28",
+      "cartera": {
+        "folios": 13055,
+        "saldo_listado_clp": 181492640,
+        "roles_prediales_identificados": 6538,
+        "claves_distintas_fuente": 6538,
+        "claves_sin_rol": 0,
+        "calidad_roles": "CONTEO_ROL_IDENTIFICADO_DEL_EXTRACTO"
+      },
+      "control": {
+        "cohortes_vencimiento": 2,
+        "folios_repetidos_clave_rol_vencimiento": 0,
+        "grupos_repetidos_clave_rol_vencimiento": 0
+      },
+      "revision": {
+        "fuente_cruce": "CLASIFICACION_ORIGINAL_SEMESTRE",
+        "coincidencias_tecnicas_folios": 5510,
+        "coincidencias_tecnicas_saldo_clp": 76594780,
+        "folios_sin_cruce_residual": 0,
+        "saldo_sin_cruce_residual_clp": 0,
+        "cierre_juridico_contable": "NO_ACREDITADO",
+        "cobro_correcto_acreditado_clp": null,
+        "exencion_efectiva_conciliada_clp": null,
+        "saldo_depurado_proforma_clp": null,
+        "saldo_post_smc_clp": null
+      },
+      "pendientes": {
+        "conteo_roles": "CONTEO_DISPONIBLE_NO_DEUDOR_PERSONA",
+        "cruce": "VERIFICAR_ALERTAS_Y_EXCEPCIONES_POR_OBLIGACION",
+        "juridico": "VERIFICAR_DESTINO_H_UTM_ACTO_VIGENCIA_Y_CUOTA",
+        "contable": "CONCILIAR_MOVIMIENTOS_SMC_DAF_TESORERIA_TGR_POR_FOLIO"
+      }
+    },
+    {
+      "periodo": "2024-S1",
+      "corte_cartera": "2026-10-28",
+      "cartera": {
+        "folios": 13743,
+        "saldo_listado_clp": 219957037,
+        "roles_prediales_identificados": 6880,
+        "claves_distintas_fuente": 6880,
+        "claves_sin_rol": 0,
+        "calidad_roles": "CONTEO_ROL_IDENTIFICADO_DEL_EXTRACTO"
+      },
+      "control": {
+        "cohortes_vencimiento": 4,
+        "folios_repetidos_clave_rol_vencimiento": 0,
+        "grupos_repetidos_clave_rol_vencimiento": 0
+      },
+      "revision": {
+        "fuente_cruce": "CLASIFICACION_ORIGINAL_SEMESTRE",
+        "coincidencias_tecnicas_folios": 5690,
+        "coincidencias_tecnicas_saldo_clp": 91068450,
+        "folios_sin_cruce_residual": 2,
+        "saldo_sin_cruce_residual_clp": 32010,
+        "cierre_juridico_contable": "NO_ACREDITADO",
+        "cobro_correcto_acreditado_clp": null,
+        "exencion_efectiva_conciliada_clp": null,
+        "saldo_depurado_proforma_clp": null,
+        "saldo_post_smc_clp": null
+      },
+      "pendientes": {
+        "conteo_roles": "CONTEO_DISPONIBLE_NO_DEUDOR_PERSONA",
+        "cruce": "VERIFICAR_ALERTAS_Y_EXCEPCIONES_POR_OBLIGACION",
+        "juridico": "VERIFICAR_DESTINO_H_UTM_ACTO_VIGENCIA_Y_CUOTA",
+        "contable": "CONCILIAR_MOVIMIENTOS_SMC_DAF_TESORERIA_TGR_POR_FOLIO"
+      }
+    },
+    {
+      "periodo": "2024-S2",
+      "corte_cartera": "2026-10-28",
+      "cartera": {
+        "folios": 14072,
+        "saldo_listado_clp": 229753544,
+        "roles_prediales_identificados": 7048,
+        "claves_distintas_fuente": 7048,
+        "claves_sin_rol": 0,
+        "calidad_roles": "CONTEO_ROL_IDENTIFICADO_DEL_EXTRACTO"
+      },
+      "control": {
+        "cohortes_vencimiento": 2,
+        "folios_repetidos_clave_rol_vencimiento": 0,
+        "grupos_repetidos_clave_rol_vencimiento": 0
+      },
+      "revision": {
+        "fuente_cruce": "CLASIFICACION_ORIGINAL_SEMESTRE",
+        "coincidencias_tecnicas_folios": 5900,
+        "coincidencias_tecnicas_saldo_clp": 96329300,
+        "folios_sin_cruce_residual": 2,
+        "saldo_sin_cruce_residual_clp": 32654,
+        "cierre_juridico_contable": "NO_ACREDITADO",
+        "cobro_correcto_acreditado_clp": null,
+        "exencion_efectiva_conciliada_clp": null,
+        "saldo_depurado_proforma_clp": null,
+        "saldo_post_smc_clp": null
+      },
+      "pendientes": {
+        "conteo_roles": "CONTEO_DISPONIBLE_NO_DEUDOR_PERSONA",
+        "cruce": "VERIFICAR_ALERTAS_Y_EXCEPCIONES_POR_OBLIGACION",
+        "juridico": "VERIFICAR_DESTINO_H_UTM_ACTO_VIGENCIA_Y_CUOTA",
+        "contable": "CONCILIAR_MOVIMIENTOS_SMC_DAF_TESORERIA_TGR_POR_FOLIO"
+      }
+    },
+    {
+      "periodo": "2025-S1",
+      "corte_cartera": "2026-10-28",
+      "cartera": {
+        "folios": 16891,
+        "saldo_listado_clp": 281893899,
+        "roles_prediales_identificados": 8465,
+        "claves_distintas_fuente": 8465,
+        "claves_sin_rol": 0,
+        "calidad_roles": "CONTEO_ROL_IDENTIFICADO_DEL_EXTRACTO"
+      },
+      "control": {
+        "cohortes_vencimiento": 2,
+        "folios_repetidos_clave_rol_vencimiento": 0,
+        "grupos_repetidos_clave_rol_vencimiento": 0
+      },
+      "revision": {
+        "fuente_cruce": "RECRUCE_CORREGIDO_2025S1",
+        "coincidencias_tecnicas_folios": 8253,
+        "coincidencias_tecnicas_saldo_clp": 137734317,
+        "folios_sin_cruce_residual": 0,
+        "saldo_sin_cruce_residual_clp": 0,
+        "cierre_juridico_contable": "NO_ACREDITADO",
+        "cobro_correcto_acreditado_clp": null,
+        "exencion_efectiva_conciliada_clp": null,
+        "saldo_depurado_proforma_clp": null,
+        "saldo_post_smc_clp": null
+      },
+      "pendientes": {
+        "conteo_roles": "CONTEO_DISPONIBLE_NO_DEUDOR_PERSONA",
+        "cruce": "VERIFICAR_ALERTAS_Y_EXCEPCIONES_POR_OBLIGACION",
+        "juridico": "VERIFICAR_DESTINO_H_UTM_ACTO_VIGENCIA_Y_CUOTA",
+        "contable": "CONCILIAR_MOVIMIENTOS_SMC_DAF_TESORERIA_TGR_POR_FOLIO"
+      }
+    },
+    {
+      "periodo": "2025-S2",
+      "corte_cartera": "2026-10-28",
+      "cartera": {
+        "folios": 16261,
+        "saldo_listado_clp": 277162912,
+        "roles_prediales_identificados": 8144,
+        "claves_distintas_fuente": 8145,
+        "claves_sin_rol": 1,
+        "calidad_roles": "PARCIAL_UNA_CLAVE_VACIA"
+      },
+      "control": {
+        "cohortes_vencimiento": 2,
+        "folios_repetidos_clave_rol_vencimiento": 0,
+        "grupos_repetidos_clave_rol_vencimiento": 0
+      },
+      "revision": {
+        "fuente_cruce": "SIN_CRUCE_ROL_SEMESTRE",
+        "coincidencias_tecnicas_folios": null,
+        "coincidencias_tecnicas_saldo_clp": null,
+        "folios_sin_cruce_residual": null,
+        "saldo_sin_cruce_residual_clp": null,
+        "cierre_juridico_contable": "NO_ACREDITADO",
+        "cobro_correcto_acreditado_clp": null,
+        "exencion_efectiva_conciliada_clp": null,
+        "saldo_depurado_proforma_clp": null,
+        "saldo_post_smc_clp": null
+      },
+      "pendientes": {
+        "conteo_roles": "RECUPERAR_ROL_FALTANTE_SIN_INFERIR_UNIDAD_PREDIAL",
+        "cruce": "RECONSTRUIR_CRUCE_POR_FOLIO_CON_ROL_GRUPO_DE_PERIODO",
+        "juridico": "VERIFICAR_DESTINO_H_UTM_ACTO_VIGENCIA_Y_CUOTA",
+        "contable": "CONCILIAR_MOVIMIENTOS_SMC_DAF_TESORERIA_TGR_POR_FOLIO"
+      }
+    },
+    {
+      "periodo": "2026-S1",
+      "corte_cartera": "2026-10-28",
+      "cartera": {
+        "folios": 26131,
+        "saldo_listado_clp": 451083131,
+        "roles_prediales_identificados": 13715,
+        "claves_distintas_fuente": 13715,
+        "claves_sin_rol": 0,
+        "calidad_roles": "CONTEO_ROL_IDENTIFICADO_DEL_EXTRACTO"
+      },
+      "control": {
+        "cohortes_vencimiento": 3,
+        "folios_repetidos_clave_rol_vencimiento": 0,
+        "grupos_repetidos_clave_rol_vencimiento": 0
+      },
+      "revision": {
+        "fuente_cruce": "SIN_CRUCE_ROL_SEMESTRE",
+        "coincidencias_tecnicas_folios": null,
+        "coincidencias_tecnicas_saldo_clp": null,
+        "folios_sin_cruce_residual": null,
+        "saldo_sin_cruce_residual_clp": null,
+        "cierre_juridico_contable": "NO_ACREDITADO",
+        "cobro_correcto_acreditado_clp": null,
+        "exencion_efectiva_conciliada_clp": null,
+        "saldo_depurado_proforma_clp": null,
+        "saldo_post_smc_clp": null
+      },
+      "pendientes": {
+        "conteo_roles": "CONTEO_DISPONIBLE_NO_DEUDOR_PERSONA",
+        "cruce": "RECONSTRUIR_CRUCE_POR_FOLIO_CON_ROL_GRUPO_DE_PERIODO",
+        "juridico": "VERIFICAR_DESTINO_H_UTM_ACTO_VIGENCIA_Y_CUOTA",
+        "contable": "CONCILIAR_MOVIMIENTOS_SMC_DAF_TESORERIA_TGR_POR_FOLIO"
+      }
+    },
+    {
+      "periodo": "2026-S2",
+      "corte_cartera": "2026-10-28",
+      "cartera": {
+        "folios": 11715,
+        "saldo_listado_clp": 207707569,
+        "roles_prediales_identificados": 11715,
+        "claves_distintas_fuente": 11715,
+        "claves_sin_rol": 0,
+        "calidad_roles": "CONTEO_ROL_IDENTIFICADO_DEL_EXTRACTO"
+      },
+      "control": {
+        "cohortes_vencimiento": 1,
+        "folios_repetidos_clave_rol_vencimiento": 0,
+        "grupos_repetidos_clave_rol_vencimiento": 0
+      },
+      "revision": {
+        "fuente_cruce": "SIN_CRUCE_ROL_SEMESTRE",
+        "coincidencias_tecnicas_folios": null,
+        "coincidencias_tecnicas_saldo_clp": null,
+        "folios_sin_cruce_residual": null,
+        "saldo_sin_cruce_residual_clp": null,
+        "cierre_juridico_contable": "NO_ACREDITADO",
+        "cobro_correcto_acreditado_clp": null,
+        "exencion_efectiva_conciliada_clp": null,
+        "saldo_depurado_proforma_clp": null,
+        "saldo_post_smc_clp": null
+      },
+      "pendientes": {
+        "conteo_roles": "CONTEO_DISPONIBLE_NO_DEUDOR_PERSONA",
+        "cruce": "RECONSTRUIR_CRUCE_POR_FOLIO_CON_ROL_GRUPO_DE_PERIODO",
+        "juridico": "VERIFICAR_DESTINO_H_UTM_ACTO_VIGENCIA_Y_CUOTA",
+        "contable": "CONCILIAR_MOVIMIENTOS_SMC_DAF_TESORERIA_TGR_POR_FOLIO"
+      }
+    }
+  ]
+}
