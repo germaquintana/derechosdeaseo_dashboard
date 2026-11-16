@@ -1,0 +1,47 @@
+/* CE03 · diferencia visible entre deuda registrada, alerta técnica y deuda acreditada */
+.da-net-panel{margin:22px 0;padding:22px;border:1px solid #d7e2e7;border-radius:12px;background:#fff}
+.da-net-head h3{margin:4px 0 9px;color:#153d50;font-size:23px}
+.da-net-head p{font-size:13px;line-height:1.6;color:#4d6070;max-width:1050px}
+.da-net-grid{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:12px;margin:18px 0}
+.da-net-card{background:#f5f9fa;border:1px solid #dce7eb;border-radius:9px;padding:14px;min-width:0}
+.da-net-card small{display:block;min-height:35px;font-size:11px;color:#576e7d;font-weight:700}
+.da-net-card strong{display:block;margin:8px 0;font-size:23px;color:#183e52;overflow-wrap:anywhere;line-height:1.1}
+.da-net-card p{font-size:11px;color:#617381;margin:0}
+.da-net-card.da-net-pending{background:#fcfaf4;border-color:#eadab7}
+.da-net-card.da-net-pending strong{color:#815f25;font-size:19px}
+.da-net-comparison{border:1px solid #e3eaee;border-radius:9px;padding:16px;margin-top:14px}
+.da-net-comparison h4,.da-net-breakdown h4{font-size:15px;color:#28475b;margin:0 0 12px}
+.da-net-measure{margin:9px 0}
+.da-net-measure-head{display:flex;justify-content:space-between;gap:12px;font-size:12px;color:#3b5364;margin-bottom:6px}
+.da-net-measure-track{height:29px;background:#eaf0f3;border-radius:6px;overflow:hidden}
+.da-net-gross-bar{background:#216d87;display:block;height:100%}
+.da-net-adjust-bar{background:#2d8b76;display:flex;align-items:center;height:100%;min-width:0;color:white;font-weight:700;font-size:11px;padding-left:8px;box-sizing:border-box}
+.da-net-adjust-bar.da-net-unknown{background:repeating-linear-gradient(135deg,#d8dde1,#d8dde1 9px,#eef1f3 9px,#eef1f3 18px);color:#3c5667;justify-content:center;padding:0}
+.da-net-foot{margin-top:10px;font-size:12px;line-height:1.55;color:#526875}
+.da-net-breakdown{margin-top:22px}
+.da-net-breakdown-head{display:flex;justify-content:space-between;gap:12px;align-items:center;flex-wrap:wrap}
+.da-net-breakdown-head label{font-size:12px;font-weight:700;color:#365364}
+.da-net-breakdown-head select{border-radius:7px;border:1px solid #c9d6db;padding:6px;font-size:12px;color:#213f51;background:#fff}
+.da-net-legend{display:flex;flex-wrap:wrap;gap:12px;font-size:11px;color:#365163;margin:11px 0}
+.da-net-legend span{display:flex;align-items:center;gap:5px}
+.da-net-chip{display:inline-block;width:12px;height:12px;border-radius:2px}
+.da-net-chip.candidate,.da-net-segment-candidate{background:#d39b47}
+.da-net-chip.other,.da-net-segment-other{background:#347e96}
+.da-net-chip.unknown,.da-net-segment-pending{background:#b8c2c9}
+.da-net-bar-row{display:grid;grid-template-columns:105px minmax(0,1fr) 98px;align-items:center;gap:10px;margin:8px 0}
+.da-net-bar-title{font-weight:700;color:#365266;font-size:12px}
+.da-net-bar-title small{display:block;font-size:9px;color:#98753c}
+.da-net-bar-bg{display:flex;height:23px;border-radius:4px;overflow:hidden;background:#f2f5f7;min-width:0}
+.da-net-bar-bg span{display:block;height:100%}
+.da-net-bar-value{text-align:right;font-size:12px;color:#355166}
+.da-net-table-wrap{overflow-x:auto;margin-top:18px}
+.da-net-table{border-collapse:collapse;width:100%;min-width:940px;font-size:12px}
+.da-net-table th{color:#2d4758;background:#edf3f5;text-align:left;font-size:11px;white-space:normal;padding:9px}
+.da-net-table td{border-bottom:1px solid #e1e8ec;padding:9px;color:#355065}
+.da-net-table td:first-child{font-weight:700}
+.da-net-actions{display:flex;justify-content:flex-end;margin:10px 0}
+.da-net-export{border:1px solid #b3cdd1;border-radius:6px;padding:7px 11px;background:#fff;color:#175668;font-size:12px;cursor:pointer}
+.da-net-export:hover{background:#eef7f8}
+.da-net-error{color:#8e342c;font-size:13px;font-weight:700}
+@media(max-width:1100px){.da-net-grid{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media(max-width:560px){.da-net-panel{padding:13px}.da-net-grid{grid-template-columns:1fr 1fr;gap:7px}.da-net-card{padding:10px}.da-net-card strong{font-size:17px}.da-net-card.da-net-pending strong{font-size:15px}.da-net-bar-row{grid-template-columns:80px minmax(0,1fr) 72px;gap:5px}.da-net-bar-title,.da-net-bar-value{font-size:10px}}

@@ -7,7 +7,9 @@
   <link rel="stylesheet" href="assets/style.css">
   <script src="assets/app.js" defer></script>
   <link rel="stylesheet" href="assets/cartera_exenciones.css">
+  <link rel="stylesheet" href="assets/deuda_depurada.css">
   <script src="assets/cartera_exenciones.js" defer></script>
+  <script src="assets/deuda_depurada.js" defer></script>
 </head>
 <body>
 <div class="shell">
@@ -53,6 +55,43 @@
     <label>Estado de fuente<select id="da-audit-state"><option value="todos">Todos los estados</option><option value="propia">Clasificación del semestre</option><option value="recalculada">Recruce corregido</option><option value="referencial">S1 reutilizado como referencia S2</option><option value="sincruce">Sin cruce individual</option></select></label>
     <label>Semestre<select id="da-audit-period"><option value="todos">Todos los semestres</option></select></label>
   </div>
+  <section class="da-net-panel" id="da-net-panel" aria-labelledby="da-net-title">
+    <div class="da-net-head"><span class="mini-label">04.C / CARTERA REGISTRADA Y EFECTO DE EXENCIONES</span>
+      <h3 id="da-net-title">Deuda morosa registrada frente a deuda depurada</h3>
+      <p>Este módulo compara saldos <strong>realmente listados</strong> con coincidencias técnicas que requieren estudio. La deuda corregida se informará solo cuando exista conciliación por cuota y movimientos SMC/DAF. Una candidatura RSH no es una exención aprobada; no aparecer en un cruce no demuestra un cobro correcto.</p>
+    </div>
+    <div class="da-net-grid" aria-live="polite">
+      <article class="da-net-card"><small>Deuda morosa registrada (saldo listado)</small><strong id="da-net-gross">—</strong><p id="da-net-folios">Folios-período</p></article>
+      <article class="da-net-card da-net-pending"><small>Deudores morosos únicos (ROL)</small><strong id="da-net-roles">S/I</strong><p id="da-net-roles-note">No se puede equiparar folio con deudor.</p></article>
+      <article class="da-net-card"><small>Saldo con coincidencias técnicas de exención</small><strong id="da-net-candidates">—</strong><p id="da-net-candidates-detail">No descontable sin verificar acto y cuota</p></article>
+      <article class="da-net-card da-net-pending"><small>Deuda con cobro correcto acreditado</small><strong id="da-net-correct">S/I</strong><p>No equivale a «sin señal de exención»</p></article>
+      <article class="da-net-card da-net-pending"><small>Deuda morosa después de correcciones acreditadas</small><strong id="da-net-adjusted">S/I · pendiente</strong><p>Requiere movimientos conciliados para cada cuota</p></article>
+    </div>
+    <div class="da-net-comparison"><h4>Comparación de los dos indicadores principales</h4>
+      <div class="da-net-measure"><div class="da-net-measure-head"><strong>Saldo moroso registrado</strong><span>Base observada</span></div><div class="da-net-measure-track"><span id="da-net-gross-bar" class="da-net-gross-bar" role="img"></span></div></div>
+      <div class="da-net-measure"><div class="da-net-measure-head"><strong>Saldo moroso depurado y conciliado</strong><span>Resultado sujeto a acreditación</span></div><div class="da-net-measure-track"><span id="da-net-adjust-bar" class="da-net-adjust-bar da-net-unknown">S/I · no calculable todavía</span></div></div>
+      <p id="da-net-adjust-note" class="da-net-foot">No hay saldo depurado verificable todavía.</p>
+    </div>
+    <div class="da-net-breakdown"><div class="da-net-breakdown-head"><h4>Composición de los saldos morosos registrados por semestre</h4>
+      <label for="da-net-unit">Ver barras en <select id="da-net-unit"><option value="saldo">Montos CLP</option><option value="folios">Folios del extracto</option></select></label></div>
+      <div class="da-net-legend">
+        <span><i class="da-net-chip candidate" aria-hidden="true"></i>Coincidencia técnica · requiere validar exención</span>
+        <span><i class="da-net-chip other" aria-hidden="true"></i>Sin coincidencia técnica · NO equivale a cobro correcto</span>
+        <span><i class="da-net-chip unknown" aria-hidden="true"></i>Sin clasificación disponible</span>
+      </div>
+      <div id="da-net-bars" aria-label="Composición técnica de saldos registrados por semestre"></div>
+      <p id="da-net-chart-caption" class="da-net-foot"></p><p id="da-net-scope" class="da-net-foot"></p>
+    </div>
+    <div class="da-net-actions"><button type="button" id="da-net-export" class="da-net-export">Exportar comparación (CSV agregado)</button></div>
+    <div class="da-net-table-wrap"><table class="da-net-table"><thead><tr>
+      <th>Semestre</th><th>Folios registrados</th><th>Deudores únicos (ROL)</th><th>Morosidad registrada CLP</th>
+      <th>Coincidencias técnicas CLP</th><th>Sin coincidencia técnica CLP</th>
+      <th>Sin clasificar CLP</th><th>Cobro correcto acreditado CLP</th>
+      <th>Correcciones conciliadas CLP</th><th>Morosidad depurada CLP</th>
+    </tr></thead><tbody id="da-net-table"><tr><td colspan="10">Cargando comparación...</td></tr></tbody></table></div>
+    <p class="da-net-foot">La composición <strong>no identifica todavía cuotas individualmente acreditadas</strong>: usa folios del extracto al 28-10-2026 y montos agregados. «S/I» significa desconocido/no acreditado, jamás cero. Los semestres 2021-S2 y 2022-S2 usan clasificaciones S1 referenciales (*). Las alertas de la cohorte focal 2026-S1 y TGR no son sumables al grupo técnico SMC. Filtros aplicados: año, semestre y calidad de fuente de la sección superior; la selección «Condición / canal» no cambia esta comparación de cartera total.</p>
+    <p id="da-net-error" class="da-net-error" role="alert" hidden></p>
+  </section>
   <div class="da-audit-kpis" aria-live="polite">
     <div class="da-audit-kpi"><small>Semestres con clasificación en selección</small><strong id="da-audit-coverage">—</strong><span id="da-audit-coverage-note">Verificando fuentes</span></div>
     <div class="da-audit-kpi"><small>Folios-período de coincidencia técnica</small><strong id="da-audit-folios">—</strong><span>No equivale a roles únicos ni cuotas indebidas</span></div>
