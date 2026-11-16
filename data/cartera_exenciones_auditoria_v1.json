@@ -1,0 +1,500 @@
+{
+  "esquema": "da17_auditoria_potenciales_exenciones_cartera_v1",
+  "fecha_chile": "2026-11-16",
+  "corte_cartera": "2026-10-28",
+  "naturaleza": "Derivado estadístico agregado, no contiene roles ni folios individualizados. No autoriza descarga masiva, condonación o ajuste.",
+  "reglas": {
+    "moneda": "CLP",
+    "unidad_mm_pesos": 1000000000,
+    "bd5n": "Filtro avalúo <=225 UTM de todos los destinos; nunca implica por sí solo exención legal",
+    "bd9n": "Coincidencia RSH candidata sin acto acreditado por cuota",
+    "bd4n_rsh": "Marca RSH del canal TGR; NO universo para descarga SMC",
+    "suma": "Solo BD5N + BD9N como indicadores técnicos de cartera municipal, no monto apto de descarga; no sumar alertas focales ni períodos para deuda única",
+    "nulos": "No disponible/no acreditado; jamás interpretarlos como cero",
+    "temporalidad": "S1 reciclados en 2021-S2/2022-S2 son referenciales; 2025-S1 usa reconstrucción corregida",
+    "cuotas": "No ejecutar descargas ni generar nóminas operativas sin acto, vigencia, folio, movimientos y autorización",
+    "fuentes": "Matriz agregada técnica DIMAO, corte de cartera 28-10-2026; 2025-S1 recruce corregido, nómina focal 2026-S1. Fuentes documentales y nominativas bajo custodia institucional restringida."
+  },
+  "resumen": {
+    "periodos": 12,
+    "folios_periodo_cartera": 190838,
+    "suma_saldos_listados_clp_no_deduplicada": 2832929422,
+    "periodos_con_clasificacion_no_nula": 9,
+    "periodos_sin_cruce": 3,
+    "periodos_con_clasificacion_referencial": 2,
+    "descargas_acreditadas": null,
+    "estado": "DIAGNOSTICO_AGREGADO_PARCIAL_NO_APTO_DESCARGAS"
+  },
+  "periodos": [
+    {
+      "periodo": "2021-S1",
+      "corte_cartera": "2026-10-28",
+      "cartera": {
+        "folios_listados": 13145,
+        "saldo_listado_clp": 150773150
+      },
+      "fuente_clasificacion": "CLASIFICACION_ORIGINAL_SEMESTRE",
+      "grupos": {
+        "rsh_municipal_bd9n": {
+          "folios": 3269,
+          "saldo_listado_clp": 37495430,
+          "roles_unicos": null
+        },
+        "avalúo_todos_destinos_bd5n": {
+          "folios": 0,
+          "saldo_listado_clp": 0,
+          "roles_unicos": null
+        },
+        "tgr_rsh_no_smc_bd4n_rsh": {
+          "folios": 0,
+          "saldo_listado_clp": 0,
+          "roles_unicos": null
+        }
+      },
+      "subconjunto_tecnico_smc": {
+        "folios_suma_sin_solapamiento_grupos": 3269,
+        "saldo_listado_clp": 37495430,
+        "calificacion": "SOLO_CONCURRENCIA_TECNICA_NO_DESCARGA"
+      },
+      "alertas_focales_independientes": [],
+      "descarga_smc_acreditada": {
+        "folios": null,
+        "monto_clp": null,
+        "estado": "NO_ACREDITADO_PENDIENTE_ACTO_Y_LIBRO"
+      },
+      "nota": "Cartera agrupada por clasificación BD original; validación del acto social y del libro SMC pendiente."
+    },
+    {
+      "periodo": "2021-S2",
+      "corte_cartera": "2026-10-28",
+      "cartera": {
+        "folios_listados": 13272,
+        "saldo_listado_clp": 152229840
+      },
+      "fuente_clasificacion": "CLASIFICACION_S1_REFERENCIAL",
+      "grupos": {
+        "rsh_municipal_bd9n": {
+          "folios": 3291,
+          "saldo_listado_clp": 37747770,
+          "roles_unicos": null
+        },
+        "avalúo_todos_destinos_bd5n": {
+          "folios": 0,
+          "saldo_listado_clp": 0,
+          "roles_unicos": null
+        },
+        "tgr_rsh_no_smc_bd4n_rsh": {
+          "folios": 0,
+          "saldo_listado_clp": 0,
+          "roles_unicos": null
+        }
+      },
+      "subconjunto_tecnico_smc": {
+        "folios_suma_sin_solapamiento_grupos": 3291,
+        "saldo_listado_clp": 37747770,
+        "calificacion": "SOLO_CONCURRENCIA_TECNICA_NO_DESCARGA"
+      },
+      "alertas_focales_independientes": [],
+      "descarga_smc_acreditada": {
+        "folios": null,
+        "monto_clp": null,
+        "estado": "NO_ACREDITADO_PENDIENTE_ACTO_Y_LIBRO"
+      },
+      "nota": "Clasificación reutilizada desde 2021-S1: no acredita vigencia del beneficio en el segundo semestre."
+    },
+    {
+      "periodo": "2022-S1",
+      "corte_cartera": "2026-10-28",
+      "cartera": {
+        "folios_listados": 21135,
+        "saldo_listado_clp": 258891500
+      },
+      "fuente_clasificacion": "CLASIFICACION_ORIGINAL_SEMESTRE",
+      "grupos": {
+        "rsh_municipal_bd9n": {
+          "folios": 6232,
+          "saldo_listado_clp": 76342000,
+          "roles_unicos": null
+        },
+        "avalúo_todos_destinos_bd5n": {
+          "folios": 0,
+          "saldo_listado_clp": 0,
+          "roles_unicos": null
+        },
+        "tgr_rsh_no_smc_bd4n_rsh": {
+          "folios": 0,
+          "saldo_listado_clp": 0,
+          "roles_unicos": null
+        }
+      },
+      "subconjunto_tecnico_smc": {
+        "folios_suma_sin_solapamiento_grupos": 6232,
+        "saldo_listado_clp": 76342000,
+        "calificacion": "SOLO_CONCURRENCIA_TECNICA_NO_DESCARGA"
+      },
+      "alertas_focales_independientes": [
+        {
+          "tipo": "nomina_tarifa_cero_res1363",
+          "folios": 88,
+          "roles": 42,
+          "saldo_listado_clp": 1078000,
+          "estado": "coincidencia_nomina_pendiente_acto_y_libro",
+          "solapa_grupos": true
+        }
+      ],
+      "descarga_smc_acreditada": {
+        "folios": null,
+        "monto_clp": null,
+        "estado": "NO_ACREDITADO_PENDIENTE_ACTO_Y_LIBRO"
+      },
+      "nota": "Clasificación BD original; nómina de Resolución 1363 exige acuse, vigencia y conciliación por folio."
+    },
+    {
+      "periodo": "2022-S2",
+      "corte_cartera": "2026-10-28",
+      "cartera": {
+        "folios_listados": 18480,
+        "saldo_listado_clp": 242185774
+      },
+      "fuente_clasificacion": "CLASIFICACION_S1_REFERENCIAL",
+      "grupos": {
+        "rsh_municipal_bd9n": {
+          "folios": 4351,
+          "saldo_listado_clp": 57024206,
+          "roles_unicos": null
+        },
+        "avalúo_todos_destinos_bd5n": {
+          "folios": 0,
+          "saldo_listado_clp": 0,
+          "roles_unicos": null
+        },
+        "tgr_rsh_no_smc_bd4n_rsh": {
+          "folios": 2,
+          "saldo_listado_clp": 26212,
+          "roles_unicos": null
+        }
+      },
+      "subconjunto_tecnico_smc": {
+        "folios_suma_sin_solapamiento_grupos": 4351,
+        "saldo_listado_clp": 57024206,
+        "calificacion": "SOLO_CONCURRENCIA_TECNICA_NO_DESCARGA"
+      },
+      "alertas_focales_independientes": [],
+      "descarga_smc_acreditada": {
+        "folios": null,
+        "monto_clp": null,
+        "estado": "NO_ACREDITADO_PENDIENTE_ACTO_Y_LIBRO"
+      },
+      "nota": "Clasificación reutilizada desde 2022-S1: no acredita vigencia social del segundo semestre."
+    },
+    {
+      "periodo": "2023-S1",
+      "corte_cartera": "2026-10-28",
+      "cartera": {
+        "folios_listados": 12938,
+        "saldo_listado_clp": 179798426
+      },
+      "fuente_clasificacion": "CLASIFICACION_ORIGINAL_SEMESTRE",
+      "grupos": {
+        "rsh_municipal_bd9n": {
+          "folios": 5473,
+          "saldo_listado_clp": 76063754,
+          "roles_unicos": null
+        },
+        "avalúo_todos_destinos_bd5n": {
+          "folios": 6,
+          "saldo_listado_clp": 83388,
+          "roles_unicos": null
+        },
+        "tgr_rsh_no_smc_bd4n_rsh": {
+          "folios": 19,
+          "saldo_listado_clp": 264062,
+          "roles_unicos": null
+        }
+      },
+      "subconjunto_tecnico_smc": {
+        "folios_suma_sin_solapamiento_grupos": 5479,
+        "saldo_listado_clp": 76147142,
+        "calificacion": "SOLO_CONCURRENCIA_TECNICA_NO_DESCARGA"
+      },
+      "alertas_focales_independientes": [
+        {
+          "tipo": "tarifa_cero_SII",
+          "folios": 12,
+          "roles": 6,
+          "saldo_listado_clp": 166776,
+          "estado": "coincidencia_tarifa_cero_sin_acto_completo",
+          "solapa_grupos": true
+        }
+      ],
+      "descarga_smc_acreditada": {
+        "folios": null,
+        "monto_clp": null,
+        "estado": "NO_ACREDITADO_PENDIENTE_ACTO_Y_LIBRO"
+      },
+      "nota": "Res. 818/2023 sin CD íntegro que permita confirmar exención municipal individual."
+    },
+    {
+      "periodo": "2023-S2",
+      "corte_cartera": "2026-10-28",
+      "cartera": {
+        "folios_listados": 13055,
+        "saldo_listado_clp": 181492640
+      },
+      "fuente_clasificacion": "CLASIFICACION_ORIGINAL_SEMESTRE",
+      "grupos": {
+        "rsh_municipal_bd9n": {
+          "folios": 5508,
+          "saldo_listado_clp": 76566284,
+          "roles_unicos": null
+        },
+        "avalúo_todos_destinos_bd5n": {
+          "folios": 2,
+          "saldo_listado_clp": 28496,
+          "roles_unicos": null
+        },
+        "tgr_rsh_no_smc_bd4n_rsh": {
+          "folios": 8,
+          "saldo_listado_clp": 113984,
+          "roles_unicos": null
+        }
+      },
+      "subconjunto_tecnico_smc": {
+        "folios_suma_sin_solapamiento_grupos": 5510,
+        "saldo_listado_clp": 76594780,
+        "calificacion": "SOLO_CONCURRENCIA_TECNICA_NO_DESCARGA"
+      },
+      "alertas_focales_independientes": [
+        {
+          "tipo": "tarifa_cero_SII",
+          "folios": 6,
+          "roles": 3,
+          "saldo_listado_clp": 84788,
+          "estado": "requiere_vigencia_y_movimientos",
+          "solapa_grupos": true
+        }
+      ],
+      "descarga_smc_acreditada": {
+        "folios": null,
+        "monto_clp": null,
+        "estado": "NO_ACREDITADO_PENDIENTE_ACTO_Y_LIBRO"
+      },
+      "nota": "Cartera con clasificación técnica, exención RSH y norma temporal requieren acto por cuota."
+    },
+    {
+      "periodo": "2024-S1",
+      "corte_cartera": "2026-10-28",
+      "cartera": {
+        "folios_listados": 13743,
+        "saldo_listado_clp": 219957037
+      },
+      "fuente_clasificacion": "CLASIFICACION_ORIGINAL_SEMESTRE",
+      "grupos": {
+        "rsh_municipal_bd9n": {
+          "folios": 5684,
+          "saldo_listado_clp": 90972420,
+          "roles_unicos": null
+        },
+        "avalúo_todos_destinos_bd5n": {
+          "folios": 6,
+          "saldo_listado_clp": 96030,
+          "roles_unicos": null
+        },
+        "tgr_rsh_no_smc_bd4n_rsh": {
+          "folios": 141,
+          "saldo_listado_clp": 2256705,
+          "roles_unicos": null
+        }
+      },
+      "subconjunto_tecnico_smc": {
+        "folios_suma_sin_solapamiento_grupos": 5690,
+        "saldo_listado_clp": 91068450,
+        "calificacion": "SOLO_CONCURRENCIA_TECNICA_NO_DESCARGA"
+      },
+      "alertas_focales_independientes": [
+        {
+          "tipo": "tarifa_cero_v2",
+          "folios": 190,
+          "roles": 95,
+          "saldo_listado_clp": 3040950,
+          "estado": "carga_efectiva_y_movimientos_pendientes",
+          "solapa_grupos": true
+        }
+      ],
+      "descarga_smc_acreditada": {
+        "folios": null,
+        "monto_clp": null,
+        "estado": "NO_ACREDITADO_PENDIENTE_ACTO_Y_LIBRO"
+      },
+      "nota": "BD5N incluye destinos distintos de vivienda; además existen alertas independientes por tarifa cero."
+    },
+    {
+      "periodo": "2024-S2",
+      "corte_cartera": "2026-10-28",
+      "cartera": {
+        "folios_listados": 14072,
+        "saldo_listado_clp": 229753544
+      },
+      "fuente_clasificacion": "CLASIFICACION_ORIGINAL_SEMESTRE",
+      "grupos": {
+        "rsh_municipal_bd9n": {
+          "folios": 5896,
+          "saldo_listado_clp": 96263992,
+          "roles_unicos": null
+        },
+        "avalúo_todos_destinos_bd5n": {
+          "folios": 4,
+          "saldo_listado_clp": 65308,
+          "roles_unicos": null
+        },
+        "tgr_rsh_no_smc_bd4n_rsh": {
+          "folios": 12,
+          "saldo_listado_clp": 195924,
+          "roles_unicos": null
+        }
+      },
+      "subconjunto_tecnico_smc": {
+        "folios_suma_sin_solapamiento_grupos": 5900,
+        "saldo_listado_clp": 96329300,
+        "calificacion": "SOLO_CONCURRENCIA_TECNICA_NO_DESCARGA"
+      },
+      "alertas_focales_independientes": [],
+      "descarga_smc_acreditada": {
+        "folios": null,
+        "monto_clp": null,
+        "estado": "NO_ACREDITADO_PENDIENTE_ACTO_Y_LIBRO"
+      },
+      "nota": "Nómina municipal de trabajo no equivale a resolución auténtica/acreditación en SMC."
+    },
+    {
+      "periodo": "2025-S1",
+      "corte_cartera": "2026-10-28",
+      "cartera": {
+        "folios_listados": 16891,
+        "saldo_listado_clp": 281893899
+      },
+      "fuente_clasificacion": "RECRUCE_CORREGIDO_2025S1",
+      "grupos": {
+        "rsh_municipal_bd9n": {
+          "folios": 8249,
+          "saldo_listado_clp": 137667561,
+          "roles_unicos": 4133
+        },
+        "avalúo_todos_destinos_bd5n": {
+          "folios": 4,
+          "saldo_listado_clp": 66756,
+          "roles_unicos": 2
+        },
+        "tgr_rsh_no_smc_bd4n_rsh": null
+      },
+      "subconjunto_tecnico_smc": {
+        "folios_suma_sin_solapamiento_grupos": 8253,
+        "saldo_listado_clp": 137734317,
+        "calificacion": "SOLO_CONCURRENCIA_TECNICA_NO_DESCARGA"
+      },
+      "alertas_focales_independientes": [
+        {
+          "tipo": "nomina_tarifa_cero",
+          "folios": 24,
+          "roles": 12,
+          "saldo_listado_clp": 400536,
+          "estado": "actos_y_cartera_pendientes",
+          "solapa_grupos": true
+        },
+        {
+          "tipo": "legal_H_225_preliminar",
+          "folios": 2,
+          "roles": 1,
+          "saldo_listado_clp": 33378,
+          "estado": "destino_H_y_avalúo_filtro_pendiente_competencia",
+          "solapa_grupos": true
+        }
+      ],
+      "descarga_smc_acreditada": {
+        "folios": null,
+        "monto_clp": null,
+        "estado": "NO_ACREDITADO_PENDIENTE_ACTO_Y_LIBRO"
+      },
+      "nota": "Recruce corregido de SII auténtico 55.648 y RSH; sustituye categorías 2025-S1 históricas mal rotuladas."
+    },
+    {
+      "periodo": "2025-S2",
+      "corte_cartera": "2026-10-28",
+      "cartera": {
+        "folios_listados": 16261,
+        "saldo_listado_clp": 277162912
+      },
+      "fuente_clasificacion": "SIN_CRUCE_ROL_SEMESTRE",
+      "grupos": {
+        "rsh_municipal_bd9n": null,
+        "avalúo_todos_destinos_bd5n": null,
+        "tgr_rsh_no_smc_bd4n_rsh": null
+      },
+      "subconjunto_tecnico_smc": null,
+      "alertas_focales_independientes": [],
+      "descarga_smc_acreditada": {
+        "folios": null,
+        "monto_clp": null,
+        "estado": "NO_ACREDITADO_PENDIENTE_ACTO_Y_LIBRO"
+      },
+      "nota": "Aún no hay enlace por folio a grupos SII/RSH de semestre propio en el agregado disponible."
+    },
+    {
+      "periodo": "2026-S1",
+      "corte_cartera": "2026-10-28",
+      "cartera": {
+        "folios_listados": 26131,
+        "saldo_listado_clp": 451083131
+      },
+      "fuente_clasificacion": "SIN_CRUCE_ROL_SEMESTRE",
+      "grupos": {
+        "rsh_municipal_bd9n": null,
+        "avalúo_todos_destinos_bd5n": null,
+        "tgr_rsh_no_smc_bd4n_rsh": null
+      },
+      "subconjunto_tecnico_smc": null,
+      "alertas_focales_independientes": [
+        {
+          "tipo": "nomina_a_eximir_2026_s1_focal",
+          "roles": 1765,
+          "combinaciones_esperadas": 3530,
+          "cuotas_presentes_en_morosos": 2526,
+          "cuotas_ausentes_de_morosos": 1004,
+          "roles_con_alguna_ausente": 756,
+          "saldo_reajuste_multa_pendiente_clp": 44213485,
+          "importe_principal_ausentes_revisar_clp": 17332052,
+          "estado": "pendiente_validacion_acto_cuota_movimientos_smc",
+          "solapa_grupos": null
+        }
+      ],
+      "descarga_smc_acreditada": {
+        "folios": null,
+        "monto_clp": null,
+        "estado": "NO_ACREDITADO_PENDIENTE_ACTO_Y_LIBRO"
+      },
+      "nota": "Cartera sin clasificación masiva individual en agregado. Existe cohorte focal independiente de 1.765 roles a eximir."
+    },
+    {
+      "periodo": "2026-S2",
+      "corte_cartera": "2026-10-28",
+      "cartera": {
+        "folios_listados": 11715,
+        "saldo_listado_clp": 207707569
+      },
+      "fuente_clasificacion": "SIN_CRUCE_ROL_SEMESTRE",
+      "grupos": {
+        "rsh_municipal_bd9n": null,
+        "avalúo_todos_destinos_bd5n": null,
+        "tgr_rsh_no_smc_bd4n_rsh": null
+      },
+      "subconjunto_tecnico_smc": null,
+      "alertas_focales_independientes": [],
+      "descarga_smc_acreditada": {
+        "folios": null,
+        "monto_clp": null,
+        "estado": "NO_ACREDITADO_PENDIENTE_ACTO_Y_LIBRO"
+      },
+      "nota": "No hay cruce individual en agregado; Resolución 2628 y nómina 18.842 no prueban carga SMC."
+    }
+  ]
+}
