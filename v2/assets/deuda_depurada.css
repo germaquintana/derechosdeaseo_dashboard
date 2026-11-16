@@ -45,3 +45,22 @@
 .da-net-error{color:#8e342c;font-size:13px;font-weight:700}
 @media(max-width:1100px){.da-net-grid{grid-template-columns:repeat(2,minmax(0,1fr))}}
 @media(max-width:560px){.da-net-panel{padding:13px}.da-net-grid{grid-template-columns:1fr 1fr;gap:7px}.da-net-card{padding:10px}.da-net-card strong{font-size:17px}.da-net-card.da-net-pending strong{font-size:15px}.da-net-bar-row{grid-template-columns:80px minmax(0,1fr) 72px;gap:5px}.da-net-bar-title,.da-net-bar-value{font-size:10px}}
+/* CE04: foco 2026 y jerarquía Morosidad; sin cambiar el dataset */
+.da-net-focus{border:1px solid #d6e1e8;border-radius:10px;background:#f9fbfc;padding:18px;margin:22px 0}
+.da-net-focus h4{font-size:17px;color:#244659;margin:5px 0 8px}
+.da-net-focus-heading p{font-size:12px;color:#576c7a;line-height:1.55;max-width:900px}
+.da-net-focal-card{background:white;border:1px solid #e0e9ed;border-radius:9px;padding:15px;margin:12px 0}
+.da-net-focal-card h5{font-size:14px;color:#234f60;margin:0 0 8px}
+.da-net-focal-lead{font-size:13px;font-weight:700;color:#354c60}
+.da-net-focal-facts{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:9px;margin:12px 0}
+.da-net-focal-fact{border:1px solid #dce6e9;background:#f2f7f8;padding:11px;border-radius:7px;min-width:0}
+.da-net-focal-fact small{display:block;font-size:10px;line-height:1.35;color:#586c7b;min-height:26px}
+.da-net-focal-fact strong{display:block;font-size:20px;line-height:1.25;color:#255267;margin-top:4px;overflow-wrap:anywhere}
+.da-net-focal-stack{display:flex;height:22px;overflow:hidden;border-radius:5px;background:#e5edf0;margin:10px 0}
+.da-net-focal-present{height:100%;background:#d79d43}
+.da-net-focal-absent{height:100%;background:#8c9cab}
+.da-net-focal-pending{margin:11px 0 0;font-size:12px;line-height:1.55;color:#815d28;background:#fff6e7;border-radius:6px;padding:10px}
+.da-net-history{margin-top:30px;padding-top:23px;border-top:1px solid #d7e5e9}
+.da-net-history-head h3{font-size:18px;margin:6px 0;color:#264c5e}
+.da-net-history-head p{font-size:12px;line-height:1.5;color:#6a7c8b}
+@media(max-width:700px){.da-net-focal-facts{grid-template-columns:repeat(2,minmax(0,1fr))}.da-net-focal-fact strong{font-size:17px}.da-net-focus{padding:12px}}
