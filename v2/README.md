@@ -18,3 +18,8 @@ Este directorio se incorpora a la rama `main` una vez revisada la propuesta. Git
 **Estado editorial:** versión técnica exploratoria; no sustituye el informe institucional ni acredita cierres jurídico-contables. Validación de publicación referida a los indicadores agregados existentes; revisiones futuras deben volver a controlar privacidad y consistencia.
 
 **Procedencia:** PR #1 de implementación visual y rama separada de publicación `pages-v2-public-20261110` que preserva la portada anterior.
+## Convención de montos · actualización 16-11-2026
+
+Por instrucción expresa del responsable, **1 MM$ = 1.000.000.000 pesos chilenos** en los productos de Derechos de Aseo. La visualización convierte a MM$ únicamente al presentar las cifras: la serie fuente `saldo_listado_millones_clp` sigue expresada en **millones de pesos** y no se modifica para evitar pérdida de trazabilidad o alteración de cálculos. Ejemplos: 208 millones se presenta como **0,208 MM$**; la suma de doce cortes públicos redondeados (2.833 millones) se presenta como **2,833 MM$**. El consolidado privado exacto es $2.832.929.422, cuyo redondeo a tres decimales en MM$ también resulta 2,833. **La suma no es deuda exigible ni recaudación acreditada**.
+
+El CSV incorpora dos columnas: `saldo_listado_millones_CLP_fuente` (magnitud íntegra del JSON público, sin transformación) y `saldo_listado_MM_CLP_mil_millones_aprox` (la conversión a MM$). Las etiquetas y gráficos muestran MM$ con tres decimales y coma decimal conforme al formato de Chile.
