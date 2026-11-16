@@ -39,7 +39,7 @@ class CE03Contracts(unittest.TestCase):
         self.assertIn("rows.some(r=>r.candidato !== null)",JS)
         self.assertEqual(HTML.count('data-view="'),6)
         self.assertIn("No equivale a «sin señal de exención»",HTML)
-        self.assertIn("No se han acreditado por cuota",JS)
+        self.assertIn("Sin conciliación por cuota",JS)
         self.assertIn("S/I · no calculable todavía",JS)
 
 class CE03Browser(unittest.TestCase):
