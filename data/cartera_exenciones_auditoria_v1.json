@@ -23,7 +23,8 @@
     "periodos_sin_cruce": 3,
     "periodos_con_clasificacion_referencial": 2,
     "descargas_acreditadas": null,
-    "estado": "DIAGNOSTICO_AGREGADO_PARCIAL_NO_APTO_DESCARGAS"
+    "estado": "DIAGNOSTICO_AGREGADO_PARCIAL_NO_APTO_DESCARGAS",
+    "evidencia_2026": "cartera total disponible para ambos semestres; evidencia de padrón y cohortes auxiliares sin conciliar como deuda improcedente"
   },
   "periodos": [
     {
@@ -472,7 +473,19 @@
         "monto_clp": null,
         "estado": "NO_ACREDITADO_PENDIENTE_ACTO_Y_LIBRO"
       },
-      "nota": "Cartera sin clasificación masiva individual en agregado. Existe cohorte focal independiente de 1.765 roles a eximir."
+      "nota": "Cartera sin clasificación masiva individual en agregado. Existe cohorte focal independiente de 1.765 roles a eximir.",
+      "evidencia_2026": {
+        "padron_bd9n_roles": 18119,
+        "acto_municipal_rol": null,
+        "cotejo_focal": {
+          "roles_observados": 1765,
+          "combinaciones_presentes_en_morosos": 2526,
+          "combinaciones_ausentes": 1004,
+          "saldo_y_recargos_clp": 44213485
+        },
+        "estado": "Cohorte focal conciliada técnicamente; actos, cuotas y movimientos pendientes",
+        "nota": "BD9N 18.119 ROL proviene del padrón histórico 2026-S1, no de las cuotas en morosidad. Cohorte focal independiente, no suma a saldos. Fuente DA01/DA17-CE01."
+      }
     },
     {
       "periodo": "2026-S2",
@@ -494,7 +507,14 @@
         "monto_clp": null,
         "estado": "NO_ACREDITADO_PENDIENTE_ACTO_Y_LIBRO"
       },
-      "nota": "No hay cruce individual en agregado; Resolución 2628 y nómina 18.842 no prueban carga SMC."
+      "nota": "No hay cruce individual en agregado; Resolución 2628 y nómina 18.842 no prueban carga SMC.",
+      "evidencia_2026": {
+        "padron_bd9n_roles": 18842,
+        "acto_municipal_rol": 2832,
+        "cotejo_focal": null,
+        "estado": "Nómina RSH corregida; falta acuse SMC, vigencia y cruce final por cuota",
+        "nota": "BD9N 18.842 ROL corresponde a nómina RSH final, no a cartera ni padrón exclusivo reemitido. Res. 2628/2026 identifica 2.832 ROL con acto, no prueba carga SMC. Fuente DA11."
+      }
     }
   ]
 }
