@@ -168,7 +168,7 @@
       td(tr,clp(r.ajuste));
       td(tr,clp(r.corregido));
     }
-    if(!rows.length){const tr=body.insertRow();const c=td(tr,"No hay resultados.");c.colSpan=9;}
+    if(!rows.length){const tr=body.insertRow();const c=td(tr,"No hay resultados.");c.colSpan=10;}
   }
   function exportCsv() {
     const fields=["periodo","folios_periodo_listados","rol_morosos_unicos","saldo_moroso_registrado_clp",
