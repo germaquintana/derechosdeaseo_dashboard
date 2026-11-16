@@ -62,16 +62,16 @@
     const brutoFolios = sum(list,"folios");
     return {
       total,brutoFolios,
-      rolesMorosos:allKnown(list,"rolesMorosos") ? sum(list,"rolesMorosos") : null,
+      rolesMorosos:list.length===1 && allKnown(list,"rolesMorosos") ? sum(list,"rolesMorosos") : null,
       candidatos:sum(list,"candidato"),
       candidatosFolios:sum(list,"candidatoFolios"),
       sinSenal:sum(list,"sinSenal"),
       sinSenalFolios:sum(list,"sinSenalFolios"),
       sinCruce:sum(list,"sinCruce"),
       sinCruceFolios:sum(list,"sinCruceFolios"),
-      corregido:allKnown(list,"corregido") ? sum(list,"corregido") : null,
-      ajuste:allKnown(list,"ajuste") ? sum(list,"ajuste") : null,
-      correcto:allKnown(list,"correcto") ? sum(list,"correcto") : null
+      corregido:list.length===1 && allKnown(list,"corregido") ? sum(list,"corregido") : null,
+      ajuste:list.length===1 && allKnown(list,"ajuste") ? sum(list,"ajuste") : null,
+      correcto:list.length===1 && allKnown(list,"correcto") ? sum(list,"correcto") : null
     };
   }
   function make(tag,cls,text) {
@@ -83,16 +83,16 @@
   function drawTotals(rows) {
     const s=sums(rows);
     el("da-net-gross").textContent=rows.length ? clp(s.total) : "—";
-    el("da-net-folios").textContent=rows.length ? number(s.brutoFolios)+" folios-período" : "Sin selección";
+    el("da-net-folios").textContent=rows.length ? number(s.brutoFolios)+(rows.length===1?" folios del corte":" folios-período; suma no deduplicada") : "Sin selección";
     el("da-net-roles").textContent=s.rolesMorosos == null ? "S/I" : number(s.rolesMorosos);
-    el("da-net-roles-note").textContent=rows.length > 1 ? "Requiere deduplicar los ROL entre períodos." : "No hay conteo de ROL únicos morosos validado.";
+    el("da-net-roles-note").textContent=rows.length > 1 ? "Suma de ROL por semestre no identifica personas únicas." : "No hay conteo de ROL únicos morosos validado.";
     el("da-net-candidates").textContent=rows.length ? (rows.some(r=>r.candidato !== null) ? clp(s.candidatos) : "S/I") : "—";
     el("da-net-candidates-detail").textContent=rows.length ?
       "Candidatos identificados en "+number(rows.filter(r=>r.candidato !== null).length)+"/"+number(rows.length)+" semestres; NO descontables aún." : "Sin selección";
     el("da-net-correct").textContent=s.correcto == null ? "S/I" : clp(s.correcto);
     el("da-net-adjusted").textContent=s.corregido == null ? "S/I · pendiente" : clp(s.corregido);
     el("da-net-adjust-note").textContent=s.corregido == null ?
-      "No se han acreditado por cuota las correcciones y la conciliación SMC/DAF: no existe saldo depurado comprobado." :
+      "Sin conciliación por cuota y deduplicación de obligaciones no existe saldo depurado comprobado; varios semestres son cortes históricos, no una cartera única." :
       "Saldo registrado menos correcciones documentadas, con conciliación completa de los períodos incluidos.";
     el("da-net-gross-bar").style.width=rows.length?"100%":"0%";
     el("da-net-gross-bar").setAttribute("aria-label",rows.length ? "Saldo registrado "+clp(s.total) : "Sin selección");
