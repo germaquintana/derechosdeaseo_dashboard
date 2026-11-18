@@ -34,6 +34,11 @@
     const missingSaldo=ev.revision.saldo_sin_cruce_residual_clp;
     if(r.cartera.folios_listados!==ev.cartera.folios || r.cartera.saldo_listado_clp!==ev.cartera.saldo_listado_clp)
       throw Error("Cuadratura de fuente DA11 distinta en "+r.periodo);
+    const evidence=r.evidenciaFocal ?? null;
+    if(evidence && (evidence.folios_cartera!==folios || evidence.saldo_cartera_clp!==bruto ||
+      evidence.senal_folios + evidence.resto_sin_clasificar_folios!==folios ||
+      evidence.senal_saldo_clp + evidence.resto_sin_clasificar_clp!==bruto))
+      throw Error("Descuadre de señal focal en "+r.periodo);
     const tech = r.subconjunto_tecnico_smc;
     const candidato = tech === null ? null : tech.saldo_listado_clp;
     const candidatoFolios = tech === null ? null : tech.folios_suma_sin_solapamiento_grupos;
@@ -51,13 +56,15 @@
       r.cobro_procedente_acreditado.saldo_listado_clp : null;
     return {
       periodo:r.periodo, bruto, folios, rolesMorosos, rolNoIdent, candidato, candidatoFolios,
+      evidence, focalSenal:tech===null?(evidence?.senal_saldo_clp ?? null):null,
+      focalSenalFolios:tech===null?(evidence?.senal_folios ?? null):null,
       cobertura:ev,
       evidencia2026:r.evidencia_2026 ?? null,
       focal2026:(r.alertas_focales_independientes ?? []).find(a=>a.tipo === "nomina_a_eximir_2026_s1_focal") ?? null,
       sinSenal:candidato === null ? null : bruto-candidato-missingSaldo,
       sinSenalFolios:candidatoFolios === null ? null : folios-candidatoFolios-missing,
-      sinCruce:candidato === null ? bruto : missingSaldo,
-      sinCruceFolios:candidatoFolios === null ? folios : missing,
+      sinCruce:candidato === null ? (evidence ? evidence.resto_sin_clasificar_clp : bruto) : missingSaldo,
+      sinCruceFolios:candidatoFolios === null ? (evidence ? evidence.resto_sin_clasificar_folios : folios) : missing,
       ajuste:conciliado ? adjustment.monto_clp : null,
       corregido:corrected, correcto:correct,
       fuente:r.fuente_clasificacion,
@@ -300,12 +307,14 @@
   }
   async function init(){
     try{
-      const [response,respCoverage]=await Promise.all([
+      const [response,respCoverage,respFocal]=await Promise.all([
         fetch("../data/cartera_exenciones_auditoria_v1.json",{cache:"no-store"}),
-        fetch("../data/morosidad_cobertura_12_periodos_v1.json",{cache:"no-store"})
+        fetch("../data/morosidad_cobertura_12_periodos_v1.json",{cache:"no-store"}),
+        fetch("../data/morosidad_hallazgos_focales_2025s2_2026_v1.json",{cache:"no-store"})
       ]);
-      if(!response.ok || !respCoverage.ok)throw new Error("Fuentes de cartera y cobertura no disponibles");
-      const [data,coverage]=await Promise.all([response.json(),respCoverage.json()]);
+      if(!response.ok || !respCoverage.ok || !respFocal.ok)throw new Error("Fuentes de cartera y cobertura no disponibles");
+      const [data,coverage,focal]=await Promise.all([response.json(),respCoverage.json(),respFocal.json()]);
+      if(focal.periodos.length!==3)throw new Error("Deben existir tres períodos focales recuperados");
       if(coverage.periodos.length!==12 || coverage.resumen.semestres_con_cartera!==12
         || coverage.resumen.folios_periodo_suma_sin_deduplicar!==190838
         || coverage.resumen.saldo_clp_suma_sin_deduplicar!==2832929422)
@@ -316,7 +325,11 @@
       if(data.periodos.length!==12 ||
         data.periodos.reduce((s,r)=>s+r.cartera.saldo_listado_clp,0)!==2832929422)
         throw new Error("La fuente no coincide con el consolidado aprobado");
-      periods=data.periodos.map(p=>({...p,cobertura:coverageMap.get(p.periodo)}));
+      const focalMap=new Map(focal.periodos.map(p=>[p.periodo,p]));
+      if(focalMap.size!==3 || focal.periodos.some(p=>!coverageMap.has(p.periodo)))
+        throw Error("Evidencias focales no cuadran con cortes de cartera");
+      periods=data.periodos.map(p=>({...p,cobertura:coverageMap.get(p.periodo),
+        evidenciaFocal:focalMap.get(p.periodo) ?? null}));
       const q=new URLSearchParams(window.location.search);
       if(q.get("anio")==="2026") {
         el("da-audit-year").value="2026";
