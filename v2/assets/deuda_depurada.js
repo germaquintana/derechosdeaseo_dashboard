@@ -109,7 +109,8 @@
     el("da-net-cov-roles-note").textContent=n-roleFull?
       number(n-roleFull)+" semestre(s) con ROL faltante: 2025-S2 contiene una clave vacía":"Conteos prediales por semestre disponibles";
     el("da-net-cov-cross").textContent=number(technically)+"/"+number(n);
-    el("da-net-cov-cross-note").textContent=number(referential)+" de esos cruces son referenciales; "+number(n-technically)+" sin cruce técnico";
+    el("da-net-cov-cross-note").textContent=number(referential)+" cruces referenciales; "+number(n-technically)+
+      " sin cruce masivo ("+number(rows.filter(r=>r.evidence!==null).length)+" con hallazgos focales documentados)";
     el("da-net-cov-legal").textContent="0/"+number(n);
     el("da-net-cov-legal-note").textContent="Ningún semestre con cierre jurídico y contable acreditado";
     const table=el("da-net-gaps");
@@ -119,7 +120,9 @@
       td(tr,r.periodo);
       td(tr,number(r.rolesMorosos)+(r.rolNoIdent?" identificados + clave sin ROL":" ROL"));
       td(tr,cruceState(r));
-      td(tr,r.candidato===null ? "Cruce masivo pendiente":
+      td(tr,r.candidato===null ? (r.evidence ?
+        "Cruce masivo pendiente; "+number(r.evidence.senal_folios)+" hallazgos focales" :
+        "Cruce masivo pendiente") :
         r.sinCruceFolios ? number(r.sinCruceFolios)+" folio(s) sin grupo técnico" :
         "Cartera con clasificación técnica");
       td(tr,"Acto, causal y vigencia por cuota");
@@ -150,7 +153,9 @@
         "ROL prediales distintos del extracto; NO personas deudoras únicas.";
     el("da-net-candidates").textContent=rows.length ? (rows.some(r=>r.candidato !== null) ? clp(s.candidatos) : "S/I") : "—";
     el("da-net-candidates-detail").textContent=rows.length ?
-      "Candidatos identificados en "+number(rows.filter(r=>r.candidato !== null).length)+"/"+number(rows.length)+" semestres; NO descontables aún." : "Sin selección";
+      "Cruce masivo en "+number(rows.filter(r=>r.candidato!==null).length)+"/"+number(rows.length)+
+      " semestres; "+number(rows.filter(r=>r.evidence!==null).length)+
+      " con hallazgos focales no aditivos. No descontar sin validar exención por cuota." : "Sin selección";
     el("da-net-correct").textContent=s.correcto == null ? "S/I" : clp(s.correcto);
     el("da-net-adjusted").textContent=s.corregido == null ? "S/I · pendiente" : clp(s.corregido);
     el("da-net-adjust-note").textContent=s.corregido == null ?
@@ -182,20 +187,26 @@
     const grossKey=unit==="folios"?"folios":"bruto";
     const candidateKey=unit==="folios"?"candidatoFolios":"candidato";
     const otherKey=unit==="folios"?"sinSenalFolios":"sinSenal";
+    const focalKey=unit==="folios"?"focalSenalFolios":"focalSenal";
+    const unknownKey=unit==="folios"?"sinCruceFolios":"sinCruce";
     const grossTotal=Math.max(1,...rows.map(r=>r[grossKey]));
     const unitText=unit==="folios"?"folios-período del extracto (cuota real pendiente)":"CLP de saldo listado";
-    el("da-net-chart-caption").textContent="Composición técnica · "+unitText+". No se puede inferir qué parte es deuda correctamente emitida ni corregida.";
+    el("da-net-chart-caption").textContent="Cruces técnicos y hallazgos focales · "+unitText+". El componente gris sigue sin clasificación masiva; ningún color acredita exención o cobro correcto.";
     for(const r of rows){
       const line=make("div","da-net-bar-row");
       const title=make("div","da-net-bar-title",r.periodo);
       if(r.fuente==="CLASIFICACION_S1_REFERENCIAL")title.append(make("small",""," · referencial"));
+      if(r.evidence)title.append(make("small","da-net-focal-marker"," · "+number(r.evidence.senal_folios)+" hallazgos"));
       const bar=make("div","da-net-bar-bg");
-      const c=r[candidateKey],o=r[otherKey],unknown=c==null?r[grossKey]:0;
+      const c=r[candidateKey],o=r[otherKey],f=r[focalKey],unknown=r[unknownKey];
       const pieces=[
-        [c??0,"da-net-segment-candidate","Coincidencia técnica"],
-        [o??0,"da-net-segment-other","Sin coincidencia técnica"],
-        [unknown,"da-net-segment-pending","Sin clasificación"]
+        [c??0,"da-net-segment-candidate","Coincidencia técnica de cruce histórico"],
+        [o??0,"da-net-segment-other","Sin coincidencia en cruce histórico"],
+        [f??0,"da-net-segment-focal","Hallazgo focal documentado, no exención aplicada"],
+        [unknown,"da-net-segment-pending","Resto sin cruce masivo"]
       ];
+      const composition=pieces.reduce((s,p)=>s+p[0],0);
+      if(Math.abs(composition-r[grossKey])>0.01)throw Error("Descuadre en barra "+r.periodo);
       for(const [value,css,titleText] of pieces){
         if(!value)continue;
         const span=make("span",css);
@@ -208,7 +219,8 @@
       bar.setAttribute("aria-label",r.periodo+": "+number(r[grossKey])+" "+unitText+
         "; candidatos "+(c==null?"sin información":number(c))+
         "; sin coincidencia "+(o==null?"sin información":number(o))+
-        "; sin clasificación "+number(unknown));
+        "; hallazgo focal "+(f==null?"ninguno":number(f))+
+        "; resto sin cruce masivo "+number(unknown));
       line.append(title,bar,make("div","da-net-bar-value",number(r[grossKey])));
       parent.append(line);
     }
@@ -275,27 +287,28 @@
       td(tr,number(r.folios));
       td(tr,number(r.rolesMorosos)+(r.rolNoIdent?" + clave sin ROL":""));
       td(tr,clp(r.bruto));
-      td(tr,clp(r.candidato));
+       td(tr,clp(r.candidato));
+      td(tr,clp(r.focalSenal));
       td(tr,clp(r.sinSenal));
       td(tr,r.sinCruceFolios>0?clp(r.sinCruce):"—");
       td(tr,clp(r.correcto));
       td(tr,clp(r.ajuste));
       td(tr,clp(r.corregido));
     }
-    if(!rows.length){const tr=body.insertRow();const c=td(tr,"No hay resultados.");c.colSpan=10;}
+    if(!rows.length){const tr=body.insertRow();const c=td(tr,"No hay resultados.");c.colSpan=11;}
   }
   function exportCsv() {
     const fields=["periodo","folios_periodo_listados","rol_prediales_identificados","claves_sin_rol","saldo_moroso_registrado_clp",
-      "coincidencias_tecnicas_clp","sin_coincidencia_tecnica_clp",
+      "coincidencias_tecnicas_clp","hallazgos_focales_clp","sin_coincidencia_tecnica_clp",
       "sin_cruce_clp","cobro_correcto_acreditado_clp","correccion_conciliada_clp",
-      "saldo_corregido_verificado_clp","fuente_clasificacion","corte","calidad_rol","folios_sin_cruce_tecnico"];
+      "saldo_corregido_verificado_clp","fuente_clasificacion","corte","calidad_rol","folios_sin_cruce_tecnico","hallazgos_focales_folios","cobertura_hallazgo"];
     const esc=v=>'"'+String(v==null?"":v).replaceAll('"','""')+'"';
     const lines=[fields];
-    for(const r of selected)lines.push([r.periodo,r.folios,r.rolesMorosos,r.rolNoIdent,r.bruto,r.candidato,r.sinSenal,
-      r.sinCruce,r.correcto,r.ajuste,r.corregido,r.fuente,r.corte,r.cobertura.cartera.calidad_roles,r.sinCruceFolios]);
+    for(const r of selected)lines.push([r.periodo,r.folios,r.rolesMorosos,r.rolNoIdent,r.bruto,r.candidato,r.focalSenal,r.sinSenal,
+      r.sinCruce,r.correcto,r.ajuste,r.corregido,r.fuente,r.corte,r.cobertura.cartera.calidad_roles,r.sinCruceFolios,r.focalSenalFolios,r.evidence?.clase_segmento ?? null]);
     const csv="\uFEFF"+lines.map(r=>r.map(esc).join(";")).join("\r\n");
     const url=URL.createObjectURL(new Blob([csv],{type:"text/csv;charset=utf-8"}));
-    const a=document.createElement("a");a.href=url;a.download="derechos_aseo_morosidad_consolidada_12_periodos_ce05.csv";
+    const a=document.createElement("a");a.href=url;a.download="derechos_aseo_morosidad_hallazgos_cobertura_ce06.csv";
     a.click();setTimeout(()=>URL.revokeObjectURL(url),1000);
   }
   function render() {
