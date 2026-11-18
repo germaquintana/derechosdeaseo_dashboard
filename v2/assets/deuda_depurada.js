@@ -380,6 +380,36 @@
     }
   }
   function td(tr,t){const c=tr.insertCell();c.textContent=t;return c;}
+  function drawCE08Detail(rows){
+    const table=el("da-net-ce08-body");
+    table.replaceChildren();
+    const actual=rows.filter(r=>r.ce08);
+    const status=el("da-net-ce08-status");
+    status.textContent=ce08Status+" En la selección: "+number(actual.length)+"/"+number(rows.length)+
+      " semestres con grupos CE08; sin modificación de deuda neta ni pagos.";
+    const legend=el("da-net-ce08-legend");
+    legend.hidden=!actual.length;
+    for(const r of actual){
+      const tr=table.insertRow();
+      td(tr,r.periodo);
+      for(const g of r.ce08.grupos){
+        const cell=tr.insertCell();
+        cell.append(make("strong","",clp(g.saldo_clp)),
+                    make("small","",number(g.folios)+" folios"));
+      }
+      const residualClp=r.ce08.residuo.reduce((a,b)=>a+b.saldo_clp,0);
+      const residualFolios=r.ce08.residuo.reduce((a,b)=>a+b.folios,0);
+      const cell=tr.insertCell();
+      cell.append(make("strong","",clp(residualClp)),
+                  make("small","",number(residualFolios)+" folios"));
+    }
+    el("da-net-ce08-detail").hidden=!actual.length;
+    if(!actual.length){
+      const tr=table.insertRow();
+      const cell=tr.insertCell();cell.colSpan=7;
+      cell.textContent="No hay clasificación CE08 autorizada para los semestres seleccionados.";
+    }
+  }
   function drawTable(rows) {
     const body=el("da-net-table");body.replaceChildren();
     for(const r of rows){
@@ -402,20 +432,29 @@
     const fields=["periodo","folios_periodo_listados","rol_prediales_identificados","claves_sin_rol","saldo_moroso_registrado_clp",
       "coincidencias_tecnicas_clp","hallazgos_focales_clp","sin_coincidencia_tecnica_clp",
       "sin_cruce_clp","cobro_correcto_acreditado_clp","correccion_conciliada_clp",
-      "saldo_corregido_verificado_clp","fuente_clasificacion","corte","calidad_rol","folios_sin_cruce_tecnico","hallazgos_focales_folios","cobertura_hallazgo"];
+      "saldo_corregido_verificado_clp","fuente_clasificacion","corte","calidad_rol","folios_sin_cruce_tecnico","hallazgos_focales_folios","cobertura_hallazgo",
+      ...CE08_GROUPS.flatMap(g=>[g+"_folios_ce08",g+"_saldo_clp_ce08"]),
+      "residuo_folios_ce08","residuo_saldo_clp_ce08","estado_ce08"];
     const esc=v=>'"'+String(v==null?"":v).replaceAll('"','""')+'"';
     const lines=[fields];
     for(const r of selected)lines.push([r.periodo,r.folios,r.rolesMorosos,r.rolNoIdent,r.bruto,r.candidato,r.focalSenal,r.sinSenal,
-      r.sinCruce,r.correcto,r.ajuste,r.corregido,r.fuente,r.corte,r.cobertura.cartera.calidad_roles,r.sinCruceFolios,r.focalSenalFolios,r.evidence?.clase_segmento ?? null]);
+      r.sinCruce,r.correcto,r.ajuste,r.corregido,r.fuente,r.corte,r.cobertura.cartera.calidad_roles,r.sinCruceFolios,r.focalSenalFolios,r.evidence?.clase_segmento ?? null,
+      ...CE08_GROUPS.flatMap(g=>{
+        const match=r.ce08?.grupos.find(x=>x.grupo_bd===g);
+        return [match?.folios ?? null,match?.saldo_clp ?? null];
+      }),
+      r.ce08?.residuo.reduce((n,x)=>n+x.folios,0)??null,
+      r.ce08?.residuo.reduce((n,x)=>n+x.saldo_clp,0)??null,
+      r.ce08?"AGREGADO_TECNICO_REVISADO_NO_CONTABLE":null]);
     const csv="\uFEFF"+lines.map(r=>r.map(esc).join(";")).join("\r\n");
     const url=URL.createObjectURL(new Blob([csv],{type:"text/csv;charset=utf-8"}));
-    const a=document.createElement("a");a.href=url;a.download="derechos_aseo_morosidad_hallazgos_cobertura_ce06.csv";
+    const a=document.createElement("a");a.href=url;a.download="derechos_aseo_morosidad_grupos_ce08_y_cobertura.csv";
     a.click();setTimeout(()=>URL.revokeObjectURL(url),1000);
   }
   function render() {
     try{
       selected=filtered().map(classification);
-      drawCoverage(selected);drawTotals(selected);drawFocus2026(selected);drawBars(selected);drawFocalSummary(selected);drawTable(selected);
+      drawCoverage(selected);drawTotals(selected);drawFocus2026(selected);drawBars(selected);drawFocalSummary(selected);drawCE08Detail(selected);drawTable(selected);
       el("da-net-error").hidden=true;
     }catch(e){el("da-net-error").hidden=false;el("da-net-error").textContent=e.message;}
   }
@@ -439,11 +478,27 @@
       if(data.periodos.length!==12 ||
         data.periodos.reduce((s,r)=>s+r.cartera.saldo_listado_clp,0)!==2832929422)
         throw new Error("La fuente no coincide con el consolidado aprobado");
+      let ce08Map=new Map();
+      try{
+        const c=await fetch("../data/morosidad_clasificacion_ce08_aprobada_v1.json",{cache:"no-store"});
+        if(c.status===404){
+          ce08Status="CE08: 0/3 resultados de cruce real autorizados para publicación; la interfaz sigue usando CE06.";
+        }else if(!c.ok){
+          ce08Status="CE08: no se pudo cargar el agregado aprobado; se conserva CE06.";
+        }else{
+          ce08Map=validateCE08(await c.json(),data.periodos);
+          ce08Status="CE08: "+number(ce08Map.size)+"/3 periodos con agregado técnico revisado. No acredita exención ni descarga.";
+        }
+      }catch(e){
+        ce08Map=new Map();
+        ce08Status="CE08: archivo ausente/inválido, rechazada su carga; se conserva CE06.";
+      }
+      window.__daCE08PeriodosCargados=ce08Map.size;
       const focalMap=new Map(focal.periodos.map(p=>[p.periodo,p]));
       if(focalMap.size!==3 || focal.periodos.some(p=>!coverageMap.has(p.periodo)))
         throw Error("Evidencias focales no cuadran con cortes de cartera");
       periods=data.periodos.map(p=>({...p,cobertura:coverageMap.get(p.periodo),
-        evidenciaFocal:focalMap.get(p.periodo) ?? null}));
+        evidenciaFocal:focalMap.get(p.periodo) ?? null, ce08:ce08Map.get(p.periodo) ?? null}));
       const q=new URLSearchParams(window.location.search);
       if(q.get("anio")==="2026") {
         el("da-audit-year").value="2026";
