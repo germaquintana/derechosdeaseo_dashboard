@@ -9,6 +9,7 @@
   <link rel="stylesheet" href="assets/cartera_exenciones.css">
   <link rel="stylesheet" href="assets/deuda_depurada.css">
   <script src="assets/cartera_exenciones.js" defer></script>
+  <script src="assets/morosidad_diagnosticos_ce10.js" defer></script>
   <script src="assets/deuda_depurada.js" defer></script>
 </head>
 <body>
@@ -106,6 +107,14 @@
       <div id="da-net-bars" aria-label="Composición técnica de saldos registrados por semestre"></div>
       <p id="da-net-chart-caption" class="da-net-foot"></p><p id="da-net-scope" class="da-net-foot"></p>
       <div id="da-net-focal-summary" class="da-net-focal-summary" aria-live="polite" aria-label="Hallazgos recuperados de los tres semestres sin clasificación masiva" hidden></div>
+      <section id="da-net-ce10" class="da-net-ce10" aria-labelledby="da-net-ce10-title">
+        <div class="da-net-ce10-heading"><span class="mini-label">CE10 · EVIDENCIA RECUPERADA / CORTE 28-10-2026</span>
+          <h4 id="da-net-ce10-title">Qué sabemos de los tres períodos todavía sin cruce completo</h4>
+          <p>Desglose real de los expedientes por <strong>criterios distintos</strong>: tarifa (2025-S2), vencimiento (2026-S1) y presencia en lista provisional BD8N (2026-S2). Estos segmentos <strong>no son grupos de exención</strong> y no deben sumarse a los hallazgos focales ni descontarse de la morosidad.</p>
+        </div>
+        <p id="da-net-ce10-status" class="da-net-ce10-status">Cargando controles agregados...</p>
+        <div id="da-net-ce10-cards" class="da-net-ce10-cards" aria-live="polite"></div>
+      </section>
       <section id="da-net-ce08-detail" class="da-net-ce08-detail" aria-label="Desglose técnico CE08 de períodos revisados" hidden>
         <h4>Detalle de cinco grupos del cruce autorizado CE08</h4>
         <p>Importes de cartera asignados técnicamente por grupo, más folios residuales. BD4N corresponde al canal TGR. No equivale a exenciones otorgadas ni a deuda depurada.</p>
