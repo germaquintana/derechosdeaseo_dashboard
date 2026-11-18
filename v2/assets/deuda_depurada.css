@@ -87,3 +87,15 @@
 .da-net-coverage a,.da-net-gaps-panel a{color:#1a677e;text-underline-offset:2px}
 @media(max-width:1080px){.da-net-coverage-grid{grid-template-columns:repeat(2,minmax(0,1fr))}}
 @media(max-width:560px){.da-net-coverage{padding:11px}.da-net-gaps-panel{padding:12px}.da-net-coverage-grid{gap:7px}.da-net-coverage-item{padding:9px}.da-net-coverage-item strong{font-size:20px}.da-net-coverage-item small{min-height:43px}}
+
+/* CE06 · señales focales que NO sustituyen la clasificación masiva de cartera */
+.da-net-chip.focal,.da-net-segment-focal{background:#8a6caf}
+.da-net-focal-marker{color:#725295!important;font-weight:750}
+.da-net-focal-summary{margin:20px 0 4px;display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:11px}
+.da-net-focal-summary[hidden]{display:none}
+.da-net-focal-summary-card{background:#fcfaff;border:1px solid #e6dbf1;border-radius:10px;padding:14px;min-width:0}
+.da-net-focal-summary-card h5{color:#544071;font-size:13px;margin:0 0 10px}
+.da-net-focal-summary-number{font-size:14px;font-weight:750;line-height:1.35;color:#4f3b71;margin:8px 0}
+.da-net-focal-summary-detail{font-size:11px;color:#4c5870;line-height:1.45;margin:6px 0}
+.da-net-focal-summary-warning{font-size:11px;color:#755524;line-height:1.5;background:#fff7e9;border-radius:5px;padding:8px;margin:10px 0 2px}
+@media(max-width:980px){.da-net-focal-summary{grid-template-columns:1fr}}
