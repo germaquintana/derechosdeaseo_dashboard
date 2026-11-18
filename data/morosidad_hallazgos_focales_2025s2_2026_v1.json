@@ -1,0 +1,128 @@
+{
+  "esquema": "da17_ce06_senales_focales_no_conciliadas_v1",
+  "fecha_revision_chile": "2026-11-18",
+  "corte_cartera": "2026-10-28",
+  "alcance": "Hallazgos confirmados de resúmenes de recruces ya ejecutados en Drive; NO equivalen a clasificación técnica integral de BD9N/BD5N ni a acreditación jurídica.",
+  "fuentes": [
+    {
+      "periodo": "2025-S2",
+      "archivo": "Resumen_Control_2025_S2.json",
+      "sha256": "2df69df098f25a2fadb48b97e56fdfc29c1e5bd8bc1e6354d706508cb1b8523f",
+      "origen": "Expediente Recruce Independiente 2025-S2, 29-10-2026"
+    },
+    {
+      "periodo": "2026-S1",
+      "archivo": "Resumen_2026_S1_corte_20261028.json",
+      "sha256": "0fc3b202097d21cc965a71588bdb15dc79b23c6eee5d3f5739c48722457ae253",
+      "origen": "Expediente Recruce Independiente 2026-S1, 29-10-2026"
+    },
+    {
+      "periodo": "2026-S2",
+      "archivo": "Resumen_Recruce_2026_S2_Corte_20261028.json",
+      "sha256": "199bcc6405abaefffb73581a6c83d476114431af090018f202befb629a413842",
+      "origen": "Expediente Recruce 2026-S2, 29-10-2026"
+    }
+  ],
+  "reglas": [
+    "El segmento de lista o resolución focal no es la clasificación BD9N/BD5N masiva y no se suma a los candidatos de otros períodos como si compartieran metodología.",
+    "Solo se segmentan saldos registrados y folios de un mismo período; el resto conserva categoría SIN_CRUCE_MASIVO, no 'sin coincidencia'.",
+    "2026-S1: los 40 folios Res. 158 vencen 31-05 y el folio Res. 833 vence 30-06; no son el mismo folio, pero los ROL pueden repetirse.",
+    "2026-S2: dos folios coinciden con BD9N corregida, ninguno con BD5N; los cuatro de la nómina Res.833 pueden solaparse con esos dos y se muestran solo como alerta NO ADITIVA fuera de las barras.",
+    "2026-S2: BD1 SII etiquetada S2 replica maestro S1 y los grupos BD8N/BD9N se solapan en cinco ROL; resultado de BD9N es provisional, no clasificación BD integral reemitida.",
+    "Las salidas no incluyen folios, ROL, RUT, direcciones ni contribuyentes individuales. Los archivos de origen permanecen en Drive bajo custodia.",
+    "No hay exenciones aprobadas por cuota ni descargas SMC acreditadas; no calcular deuda corregida."
+  ],
+  "periodos": [
+    {
+      "periodo": "2025-S2",
+      "folios_cartera": 16261,
+      "saldo_cartera_clp": 277162912,
+      "clase_segmento": "COINCIDENCIA_NOMINA_TARIFA_CERO_FOCAL",
+      "senal_folios": 4,
+      "senal_saldo_clp": 68232,
+      "senal_roles_prediales": 2,
+      "desglose": [
+        {
+          "fuente": "Nómina SII tarifa cero V2 aceptada; coincidencia en cartera",
+          "folios": 4,
+          "saldo_clp": 68232
+        }
+      ],
+      "resto_sin_clasificar_folios": 16257,
+      "resto_sin_clasificar_clp": 277094680,
+      "cruce_masivo_bd9n_bd5n": "PENDIENTE",
+      "conciliacion_juridico_contable": "PENDIENTE",
+      "alertas_independientes": []
+    },
+    {
+      "periodo": "2026-S1",
+      "folios_cartera": 26131,
+      "saldo_cartera_clp": 451083131,
+      "clase_segmento": "COINCIDENCIA_RESOLUCION_Y_TARIFA_CERO_FOCAL",
+      "senal_folios": 41,
+      "senal_saldo_clp": 707783,
+      "senal_roles_prediales": null,
+      "desglose": [
+        {
+          "fuente": "Resolución 158/2026; fecha de vencimiento 31-05",
+          "folios": 40,
+          "saldo_clp": 690520
+        },
+        {
+          "fuente": "Resolución 833/2026; fecha de vencimiento 30-06",
+          "folios": 1,
+          "saldo_clp": 17263
+        }
+      ],
+      "resto_sin_clasificar_folios": 26090,
+      "resto_sin_clasificar_clp": 450375348,
+      "cruce_masivo_bd9n_bd5n": "PENDIENTE",
+      "conciliacion_juridico_contable": "PENDIENTE",
+      "alertas_independientes": [
+        {
+          "tipo": "cohorte_focal_otro_universo",
+          "descripcion": "1.765 ROL / 2.526 combinaciones presentes y 1.004 ausentes con saldo+recargos de $44.213.485; no sumar por alcance y accesorios diferentes."
+        }
+      ]
+    },
+    {
+      "periodo": "2026-S2",
+      "folios_cartera": 11715,
+      "saldo_cartera_clp": 207707569,
+      "clase_segmento": "COINCIDENCIA_BD9N_CORREGIDA_PRELIMINAR",
+      "senal_folios": 2,
+      "senal_saldo_clp": 35466,
+      "senal_roles_prediales": null,
+      "desglose": [
+        {
+          "fuente": "Comparación de cartera con lista BD9N RSH corregida",
+          "folios": 2,
+          "saldo_clp": 35466
+        },
+        {
+          "fuente": "Comparación de cartera con lista BD5N, cero coincidencias en este cotejo",
+          "folios": 0,
+          "saldo_clp": 0
+        }
+      ],
+      "resto_sin_clasificar_folios": 11713,
+      "resto_sin_clasificar_clp": 207672103,
+      "cruce_masivo_bd9n_bd5n": "PARCIAL_PROVISIONAL_MAESTRO_SII_S2_REUTILIZA_S1",
+      "conciliacion_juridico_contable": "PENDIENTE",
+      "alertas_independientes": [
+        {
+          "tipo": "lista_tarifa_cero_res833_no_aditiva",
+          "folios": 4,
+          "saldo_clp": 70932,
+          "advertencia": "Puede solaparse con BD9N; NO agregar a barras ni restar de cartera."
+        },
+        {
+          "tipo": "fuera_padron_bd8n",
+          "folios": 11,
+          "saldo_clp": 195063,
+          "advertencia": "No equivale a exención; revisar padrón y canal."
+        }
+      ]
+    }
+  ]
+}

@@ -34,6 +34,11 @@
     const missingSaldo=ev.revision.saldo_sin_cruce_residual_clp;
     if(r.cartera.folios_listados!==ev.cartera.folios || r.cartera.saldo_listado_clp!==ev.cartera.saldo_listado_clp)
       throw Error("Cuadratura de fuente DA11 distinta en "+r.periodo);
+    const evidence=r.evidenciaFocal ?? null;
+    if(evidence && (evidence.folios_cartera!==folios || evidence.saldo_cartera_clp!==bruto ||
+      evidence.senal_folios + evidence.resto_sin_clasificar_folios!==folios ||
+      evidence.senal_saldo_clp + evidence.resto_sin_clasificar_clp!==bruto))
+      throw Error("Descuadre de señal focal en "+r.periodo);
     const tech = r.subconjunto_tecnico_smc;
     const candidato = tech === null ? null : tech.saldo_listado_clp;
     const candidatoFolios = tech === null ? null : tech.folios_suma_sin_solapamiento_grupos;
@@ -51,13 +56,15 @@
       r.cobro_procedente_acreditado.saldo_listado_clp : null;
     return {
       periodo:r.periodo, bruto, folios, rolesMorosos, rolNoIdent, candidato, candidatoFolios,
+      evidence, focalSenal:tech===null?(evidence?.senal_saldo_clp ?? null):null,
+      focalSenalFolios:tech===null?(evidence?.senal_folios ?? null):null,
       cobertura:ev,
       evidencia2026:r.evidencia_2026 ?? null,
       focal2026:(r.alertas_focales_independientes ?? []).find(a=>a.tipo === "nomina_a_eximir_2026_s1_focal") ?? null,
       sinSenal:candidato === null ? null : bruto-candidato-missingSaldo,
       sinSenalFolios:candidatoFolios === null ? null : folios-candidatoFolios-missing,
-      sinCruce:candidato === null ? bruto : missingSaldo,
-      sinCruceFolios:candidatoFolios === null ? folios : missing,
+      sinCruce:candidato === null ? (evidence ? evidence.resto_sin_clasificar_clp : bruto) : missingSaldo,
+      sinCruceFolios:candidatoFolios === null ? (evidence ? evidence.resto_sin_clasificar_folios : folios) : missing,
       ajuste:conciliado ? adjustment.monto_clp : null,
       corregido:corrected, correcto:correct,
       fuente:r.fuente_clasificacion,
@@ -102,7 +109,8 @@
     el("da-net-cov-roles-note").textContent=n-roleFull?
       number(n-roleFull)+" semestre(s) con ROL faltante: 2025-S2 contiene una clave vacía":"Conteos prediales por semestre disponibles";
     el("da-net-cov-cross").textContent=number(technically)+"/"+number(n);
-    el("da-net-cov-cross-note").textContent=number(referential)+" de esos cruces son referenciales; "+number(n-technically)+" sin cruce técnico";
+    el("da-net-cov-cross-note").textContent=number(referential)+" cruces referenciales; "+number(n-technically)+
+      " sin cruce masivo ("+number(rows.filter(r=>r.evidence!==null).length)+" con hallazgos focales documentados)";
     el("da-net-cov-legal").textContent="0/"+number(n);
     el("da-net-cov-legal-note").textContent="Ningún semestre con cierre jurídico y contable acreditado";
     const table=el("da-net-gaps");
@@ -112,7 +120,9 @@
       td(tr,r.periodo);
       td(tr,number(r.rolesMorosos)+(r.rolNoIdent?" identificados + clave sin ROL":" ROL"));
       td(tr,cruceState(r));
-      td(tr,r.candidato===null ? "Cruce masivo pendiente":
+      td(tr,r.candidato===null ? (r.evidence ?
+        "Cruce masivo pendiente; "+number(r.evidence.senal_folios)+" hallazgos focales" :
+        "Cruce masivo pendiente") :
         r.sinCruceFolios ? number(r.sinCruceFolios)+" folio(s) sin grupo técnico" :
         "Cartera con clasificación técnica");
       td(tr,"Acto, causal y vigencia por cuota");
@@ -143,7 +153,9 @@
         "ROL prediales distintos del extracto; NO personas deudoras únicas.";
     el("da-net-candidates").textContent=rows.length ? (rows.some(r=>r.candidato !== null) ? clp(s.candidatos) : "S/I") : "—";
     el("da-net-candidates-detail").textContent=rows.length ?
-      "Candidatos identificados en "+number(rows.filter(r=>r.candidato !== null).length)+"/"+number(rows.length)+" semestres; NO descontables aún." : "Sin selección";
+      "Cruce masivo en "+number(rows.filter(r=>r.candidato!==null).length)+"/"+number(rows.length)+
+      " semestres; "+number(rows.filter(r=>r.evidence!==null).length)+
+      " con hallazgos focales no aditivos. No descontar sin validar exención por cuota." : "Sin selección";
     el("da-net-correct").textContent=s.correcto == null ? "S/I" : clp(s.correcto);
     el("da-net-adjusted").textContent=s.corregido == null ? "S/I · pendiente" : clp(s.corregido);
     el("da-net-adjust-note").textContent=s.corregido == null ?
@@ -168,6 +180,40 @@
       number(rows.length-known)+" sin cruce por obligación. Los candidatos de S2 referenciales conservan esa advertencia." :
       "No hay semestres para estos filtros.";
   }
+  function drawFocalSummary(rows){
+    const wrap=el("da-net-focal-summary");wrap.replaceChildren();
+    const selected=rows.filter(r=>r.evidence);
+    if(!selected.length){
+      wrap.hidden=true;
+      return;
+    }
+    wrap.hidden=false;
+    for(const r of selected){
+      const e=r.evidence;
+      const card=make("article","da-net-focal-summary-card");
+      card.append(make("h5","",r.periodo+" · evidencia parcial del expediente"));
+      card.append(make("p","da-net-focal-summary-number",number(e.senal_folios)+" folios con señal documentada · "+clp(e.senal_saldo_clp)));
+      card.append(make("p","da-net-focal-summary-detail",
+        number(e.resto_sin_clasificar_folios)+" folios y "+clp(e.resto_sin_clasificar_clp)+
+        " siguen sin cruce masivo comparable (gris)."));
+      for(const d of e.desglose){
+        const note=make("p","da-net-focal-summary-detail",d.fuente+": "+number(d.folios)+" folios; "+clp(d.saldo_clp));
+        card.append(note);
+      }
+      for(const extra of e.alertas_independientes ?? []){
+        if(Number.isInteger(extra.folios))
+          card.append(make("p","da-net-focal-summary-warning",
+            "Alerta adicional NO sumable a la barra: "+extra.tipo+" · "+
+            number(extra.folios)+" folios · "+clp(extra.saldo_clp)+". "+extra.advertencia));
+      }
+      if(r.periodo==="2026-S2")
+        card.append(make("p","da-net-focal-summary-warning",
+          "BD1 SII S2 conserva semestres S1 y existe solape BD8N/BD9N: la señal BD9N es provisional, no cruce integral validado."));
+      card.append(make("p","da-net-focal-summary-warning",
+        "No demuestra exención vigente, baja SMC ni cobro indebido. Para cerrar se requiere cruce de cartera completo y actos/movimientos por cuota."));
+      wrap.append(card);
+    }
+  }
   function drawBars(rows) {
     const parent=el("da-net-bars");
     parent.replaceChildren();
@@ -175,20 +221,26 @@
     const grossKey=unit==="folios"?"folios":"bruto";
     const candidateKey=unit==="folios"?"candidatoFolios":"candidato";
     const otherKey=unit==="folios"?"sinSenalFolios":"sinSenal";
+    const focalKey=unit==="folios"?"focalSenalFolios":"focalSenal";
+    const unknownKey=unit==="folios"?"sinCruceFolios":"sinCruce";
     const grossTotal=Math.max(1,...rows.map(r=>r[grossKey]));
     const unitText=unit==="folios"?"folios-período del extracto (cuota real pendiente)":"CLP de saldo listado";
-    el("da-net-chart-caption").textContent="Composición técnica · "+unitText+". No se puede inferir qué parte es deuda correctamente emitida ni corregida.";
+    el("da-net-chart-caption").textContent="Cruces técnicos y hallazgos focales · "+unitText+". El componente gris sigue sin clasificación masiva; ningún color acredita exención o cobro correcto.";
     for(const r of rows){
       const line=make("div","da-net-bar-row");
       const title=make("div","da-net-bar-title",r.periodo);
       if(r.fuente==="CLASIFICACION_S1_REFERENCIAL")title.append(make("small",""," · referencial"));
+      if(r.evidence)title.append(make("small","da-net-focal-marker"," · "+number(r.evidence.senal_folios)+" hallazgos"));
       const bar=make("div","da-net-bar-bg");
-      const c=r[candidateKey],o=r[otherKey],unknown=c==null?r[grossKey]:0;
+      const c=r[candidateKey],o=r[otherKey],f=r[focalKey],unknown=r[unknownKey];
       const pieces=[
-        [c??0,"da-net-segment-candidate","Coincidencia técnica"],
-        [o??0,"da-net-segment-other","Sin coincidencia técnica"],
-        [unknown,"da-net-segment-pending","Sin clasificación"]
+        [c??0,"da-net-segment-candidate","Coincidencia técnica de cruce histórico"],
+        [o??0,"da-net-segment-other","Sin coincidencia en cruce histórico"],
+        [f??0,"da-net-segment-focal","Hallazgo focal documentado, no exención aplicada"],
+        [unknown,"da-net-segment-pending","Resto sin cruce masivo"]
       ];
+      const composition=pieces.reduce((s,p)=>s+p[0],0);
+      if(Math.abs(composition-r[grossKey])>0.01)throw Error("Descuadre en barra "+r.periodo);
       for(const [value,css,titleText] of pieces){
         if(!value)continue;
         const span=make("span",css);
@@ -201,7 +253,8 @@
       bar.setAttribute("aria-label",r.periodo+": "+number(r[grossKey])+" "+unitText+
         "; candidatos "+(c==null?"sin información":number(c))+
         "; sin coincidencia "+(o==null?"sin información":number(o))+
-        "; sin clasificación "+number(unknown));
+        "; hallazgo focal "+(f==null?"ninguno":number(f))+
+        "; resto sin cruce masivo "+number(unknown));
       line.append(title,bar,make("div","da-net-bar-value",number(r[grossKey])));
       parent.append(line);
     }
@@ -268,44 +321,47 @@
       td(tr,number(r.folios));
       td(tr,number(r.rolesMorosos)+(r.rolNoIdent?" + clave sin ROL":""));
       td(tr,clp(r.bruto));
-      td(tr,clp(r.candidato));
+       td(tr,clp(r.candidato));
+      td(tr,clp(r.focalSenal));
       td(tr,clp(r.sinSenal));
       td(tr,r.sinCruceFolios>0?clp(r.sinCruce):"—");
       td(tr,clp(r.correcto));
       td(tr,clp(r.ajuste));
       td(tr,clp(r.corregido));
     }
-    if(!rows.length){const tr=body.insertRow();const c=td(tr,"No hay resultados.");c.colSpan=10;}
+    if(!rows.length){const tr=body.insertRow();const c=td(tr,"No hay resultados.");c.colSpan=11;}
   }
   function exportCsv() {
     const fields=["periodo","folios_periodo_listados","rol_prediales_identificados","claves_sin_rol","saldo_moroso_registrado_clp",
-      "coincidencias_tecnicas_clp","sin_coincidencia_tecnica_clp",
+      "coincidencias_tecnicas_clp","hallazgos_focales_clp","sin_coincidencia_tecnica_clp",
       "sin_cruce_clp","cobro_correcto_acreditado_clp","correccion_conciliada_clp",
-      "saldo_corregido_verificado_clp","fuente_clasificacion","corte","calidad_rol","folios_sin_cruce_tecnico"];
+      "saldo_corregido_verificado_clp","fuente_clasificacion","corte","calidad_rol","folios_sin_cruce_tecnico","hallazgos_focales_folios","cobertura_hallazgo"];
     const esc=v=>'"'+String(v==null?"":v).replaceAll('"','""')+'"';
     const lines=[fields];
-    for(const r of selected)lines.push([r.periodo,r.folios,r.rolesMorosos,r.rolNoIdent,r.bruto,r.candidato,r.sinSenal,
-      r.sinCruce,r.correcto,r.ajuste,r.corregido,r.fuente,r.corte,r.cobertura.cartera.calidad_roles,r.sinCruceFolios]);
+    for(const r of selected)lines.push([r.periodo,r.folios,r.rolesMorosos,r.rolNoIdent,r.bruto,r.candidato,r.focalSenal,r.sinSenal,
+      r.sinCruce,r.correcto,r.ajuste,r.corregido,r.fuente,r.corte,r.cobertura.cartera.calidad_roles,r.sinCruceFolios,r.focalSenalFolios,r.evidence?.clase_segmento ?? null]);
     const csv="\uFEFF"+lines.map(r=>r.map(esc).join(";")).join("\r\n");
     const url=URL.createObjectURL(new Blob([csv],{type:"text/csv;charset=utf-8"}));
-    const a=document.createElement("a");a.href=url;a.download="derechos_aseo_morosidad_consolidada_12_periodos_ce05.csv";
+    const a=document.createElement("a");a.href=url;a.download="derechos_aseo_morosidad_hallazgos_cobertura_ce06.csv";
     a.click();setTimeout(()=>URL.revokeObjectURL(url),1000);
   }
   function render() {
     try{
       selected=filtered().map(classification);
-      drawCoverage(selected);drawTotals(selected);drawFocus2026(selected);drawBars(selected);drawTable(selected);
+      drawCoverage(selected);drawTotals(selected);drawFocus2026(selected);drawBars(selected);drawFocalSummary(selected);drawTable(selected);
       el("da-net-error").hidden=true;
     }catch(e){el("da-net-error").hidden=false;el("da-net-error").textContent=e.message;}
   }
   async function init(){
     try{
-      const [response,respCoverage]=await Promise.all([
+      const [response,respCoverage,respFocal]=await Promise.all([
         fetch("../data/cartera_exenciones_auditoria_v1.json",{cache:"no-store"}),
-        fetch("../data/morosidad_cobertura_12_periodos_v1.json",{cache:"no-store"})
+        fetch("../data/morosidad_cobertura_12_periodos_v1.json",{cache:"no-store"}),
+        fetch("../data/morosidad_hallazgos_focales_2025s2_2026_v1.json",{cache:"no-store"})
       ]);
-      if(!response.ok || !respCoverage.ok)throw new Error("Fuentes de cartera y cobertura no disponibles");
-      const [data,coverage]=await Promise.all([response.json(),respCoverage.json()]);
+      if(!response.ok || !respCoverage.ok || !respFocal.ok)throw new Error("Fuentes de cartera y cobertura no disponibles");
+      const [data,coverage,focal]=await Promise.all([response.json(),respCoverage.json(),respFocal.json()]);
+      if(focal.periodos.length!==3)throw new Error("Deben existir tres períodos focales recuperados");
       if(coverage.periodos.length!==12 || coverage.resumen.semestres_con_cartera!==12
         || coverage.resumen.folios_periodo_suma_sin_deduplicar!==190838
         || coverage.resumen.saldo_clp_suma_sin_deduplicar!==2832929422)
@@ -316,7 +372,11 @@
       if(data.periodos.length!==12 ||
         data.periodos.reduce((s,r)=>s+r.cartera.saldo_listado_clp,0)!==2832929422)
         throw new Error("La fuente no coincide con el consolidado aprobado");
-      periods=data.periodos.map(p=>({...p,cobertura:coverageMap.get(p.periodo)}));
+      const focalMap=new Map(focal.periodos.map(p=>[p.periodo,p]));
+      if(focalMap.size!==3 || focal.periodos.some(p=>!coverageMap.has(p.periodo)))
+        throw Error("Evidencias focales no cuadran con cortes de cartera");
+      periods=data.periodos.map(p=>({...p,cobertura:coverageMap.get(p.periodo),
+        evidenciaFocal:focalMap.get(p.periodo) ?? null}));
       const q=new URLSearchParams(window.location.search);
       if(q.get("anio")==="2026") {
         el("da-audit-year").value="2026";
