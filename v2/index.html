@@ -70,6 +70,7 @@
       </div>
       <p class="da-net-coverage-note">«Completo» para ROL significa conteo de identificadores distintos en el extracto de ese semestre, <strong>no personas únicas ni deuda exigible.</strong> Para 2025-S2 existe una clave vacía: 8.144 ROL identificados y un identificador no resuelto. Los ROL no se suman entre semestres.</p>
     </section>
+    <p id="da-net-ce08-status" class="da-net-ce08-status" aria-live="polite">CE08 · Esperando resultados de cruce real autorizados; se conserva la clasificación parcial CE06.</p>
     <div class="da-net-grid" aria-live="polite">
       <article class="da-net-card"><small>Deuda morosa registrada (saldo listado)</small><strong id="da-net-gross">—</strong><p id="da-net-folios">Folios-período</p></article>
       <article class="da-net-card"><small>ROL prediales distintos con saldo</small><strong id="da-net-roles">—</strong><p id="da-net-roles-note">Se cuentan por semestre, no son personas únicas.</p></article>
@@ -94,9 +95,26 @@
         <span><i class="da-net-chip focal" aria-hidden="true"></i>Hallazgo focal de nómina/BD provisional · pendiente de validar</span>
         <span><i class="da-net-chip unknown" aria-hidden="true"></i>Resto sin clasificación masiva comparable</span>
       </div>
+      <div id="da-net-ce08-legend" class="da-net-legend da-net-ce08-legend" hidden>
+        <span><i class="da-net-chip bd5n" aria-hidden="true"></i>Posible exención por avalúo (BD5N)</span>
+        <span><i class="da-net-chip bd9n" aria-hidden="true"></i>Posible exención municipal RSH (BD9N)</span>
+        <span><i class="da-net-chip bd8n" aria-hidden="true"></i>Cobro municipal (BD8N)</span>
+        <span><i class="da-net-chip bd4n-rsh" aria-hidden="true"></i>Canal TGR con marca RSH (BD4N_RSH)</span>
+        <span><i class="da-net-chip bd4n-resto" aria-hidden="true"></i>Canal TGR sin marca RSH (BD4N_RESTO)</span>
+        <span><i class="da-net-chip unknown" aria-hidden="true"></i>Residuo sin clasificación</span>
+      </div>
       <div id="da-net-bars" aria-label="Composición técnica de saldos registrados por semestre"></div>
       <p id="da-net-chart-caption" class="da-net-foot"></p><p id="da-net-scope" class="da-net-foot"></p>
       <div id="da-net-focal-summary" class="da-net-focal-summary" aria-live="polite" aria-label="Hallazgos recuperados de los tres semestres sin clasificación masiva" hidden></div>
+      <section id="da-net-ce08-detail" class="da-net-ce08-detail" aria-label="Desglose técnico CE08 de períodos revisados" hidden>
+        <h4>Detalle de cinco grupos del cruce autorizado CE08</h4>
+        <p>Importes de cartera asignados técnicamente por grupo, más folios residuales. BD4N corresponde al canal TGR. No equivale a exenciones otorgadas ni a deuda depurada.</p>
+        <div class="da-net-ce08-scroll"><table><thead><tr>
+          <th>Semestre</th><th>Avalúo ≤225 UTM · BD5N</th><th>RSH municipal · BD9N</th>
+          <th>Cobro municipal · BD8N</th><th>TGR marca RSH · BD4N_RSH</th>
+          <th>TGR resto · BD4N_RESTO</th><th>Sin grupo (residuo)</th>
+        </tr></thead><tbody id="da-net-ce08-body"></tbody></table></div>
+      </section>
     </div>
     <div class="da-net-actions"><button type="button" id="da-net-export" class="da-net-export">Exportar comparación (CSV agregado)</button></div>
     <div class="da-net-table-wrap"><table class="da-net-table"><thead><tr>
@@ -113,7 +131,7 @@
       <p id="da-net-gaps-note" class="da-net-foot"></p>
       <p class="da-net-foot">Fuente de los conteos: DA11, extracción agregada de 26 ventanas de vencimiento, con notas de excepción para 2022-S1, 2024-S1/S2 y 2025-S2. <a href="../data/morosidad_cobertura_12_periodos_v1.json" target="_blank" rel="noopener noreferrer">Consultar consolidado y trazabilidad (JSON)</a>.</p>
     </section>
-    <p class="da-net-foot">La composición <strong>no identifica todavía cuotas individualmente acreditadas</strong>: usa folios del extracto al 28-10-2026 y montos agregados. En 2025-S2 y 2026 los segmentos morados son alertas focales que no reemplazan el cruce BD9N/BD5N integral: el resto continúa gris, sin clasificar. «S/I» significa desconocido/no acreditado, jamás cero. Los semestres 2021-S2 y 2022-S2 usan clasificaciones S1 referenciales (*). Las alertas de la cohorte amplia 2026-S1 y TGR no son sumables al grupo técnico SMC ni a las señales focales de otra metodología. Filtros aplicados: año, semestre y calidad de fuente de la sección superior; la selección «Condición / canal» no cambia esta comparación de cartera total.</p>
+    <p class="da-net-foot">El futuro agregado CE08 puede completar hasta cinco grupos por período solo después de revisión y autorización independiente. Mientras no exista ese agregado, las barras siguen con las señales parciales CE06. La composición <strong>no identifica todavía cuotas individualmente acreditadas</strong>: usa folios del extracto al 28-10-2026 y montos agregados. En 2025-S2 y 2026 los segmentos morados son alertas focales que no reemplazan el cruce BD9N/BD5N integral: el resto continúa gris, sin clasificar. «S/I» significa desconocido/no acreditado, jamás cero. Los semestres 2021-S2 y 2022-S2 usan clasificaciones S1 referenciales (*). Las alertas de la cohorte amplia 2026-S1 y TGR no son sumables al grupo técnico SMC ni a las señales focales de otra metodología. Filtros aplicados: año, semestre y calidad de fuente de la sección superior; la selección «Condición / canal» no cambia esta comparación de cartera total.</p>
     <p id="da-net-error" class="da-net-error" role="alert" hidden></p>
   </section>
   <div class="da-audit-kpis" aria-live="polite">
