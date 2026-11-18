@@ -120,3 +120,26 @@
 .da-net-ce08-scroll td:first-child{font-weight:700}
 .da-net-ce08-scroll td strong{display:block;font-size:12px;white-space:nowrap}
 .da-net-ce08-scroll td small{display:block;margin-top:4px;color:#708394;font-size:10px}
+
+
+/* CE10: cuadros auditables de evidencia agregada; no equivalen a clasificación de exenciones */
+.da-net-ce10{margin:20px 0 18px;border-top:1px solid #d5e1e6;padding:17px 0 0}
+.da-net-ce10-heading h4{font-size:15px;margin:6px 0;color:#254c61}
+.da-net-ce10-heading p,.da-net-ce10-status{font-size:12px;line-height:1.6;color:#577080;max-width:1100px}
+.da-net-ce10-status{margin:12px 0 16px}
+.da-net-ce10-cards{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px}
+.da-net-ce10-card{min-width:0;border:1px solid #d7e4ea;background:#f9fbfc;border-radius:9px;padding:14px}
+.da-net-ce10-card h5{font-size:13px;line-height:1.45;color:#294e62;margin:0 0 8px}
+.da-net-ce10-sub{font-size:11px;color:#557184;margin:0 0 10px}
+.da-net-ce10-bar{height:12px;display:flex;width:100%;overflow:hidden;background:#bbc9d0;border-radius:5px}
+.da-net-ce10-bar span{height:100%;display:block;min-width:0}
+.da-net-ce10-color-0{background:#3983a2}
+.da-net-ce10-color-1{background:#e1a64e}
+.da-net-ce10-color-2{background:#aa799d}
+.da-net-ce10-segments{padding:0;margin:10px 0 12px;list-style:none}
+.da-net-ce10-segments li{display:grid;grid-template-columns:9px minmax(0,1fr);gap:6px 8px;align-items:start;border-bottom:1px solid #e1e9ed;padding:7px 0;font-size:11px;color:#405c6c}
+.da-net-ce10-dot{width:8px;height:8px;border-radius:2px;margin-top:3px}
+.da-net-ce10-segments li strong{grid-column:2;font-size:11px;font-weight:700}
+.da-net-ce10-note{font-size:11px;line-height:1.5;color:#6f5b46;margin:5px 0}
+.da-net-ce10-next{font-size:11px;line-height:1.5;color:#2b5364;border-left:3px solid #598dab;padding:8px;background:#eff6f8;margin:11px 0 0}
+@media(max-width:1000px){.da-net-ce10-cards{grid-template-columns:1fr}}

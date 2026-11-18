@@ -1,0 +1,124 @@
+{
+  "schema": "DA17-CE10-DIAGNOSTICOS_ORIGEN_V1",
+  "corte": "2026-10-28",
+  "descripcion": "Cortes reales agregados con particiones distintas por semestre. No reemplazan la clasificación BD completa ni prueban una exención aplicada.",
+  "segmentos_separados_de_ce08": true,
+  "data_personal": false,
+  "periodos": [
+    {
+      "periodo": "2025-S2",
+      "folios_cartera": 16261,
+      "saldo_cartera_clp": 277162912,
+      "fuente": "Resumen_Control_2025_S2.json",
+      "criterio": "Estructura de tarifas registradas",
+      "notas": [
+        "Tarifa no es categoría de exención ni prueba de procedencia de cobro.",
+        "Las 4 coincidencias de tarifa cero son alertas focales independientes y NO se suman como otra categoría."
+      ],
+      "segmentos": [
+        {
+          "codigo": "TARIFA_GENERAL",
+          "nombre": "Tarifa general registrada",
+          "folios": 16248,
+          "saldo_clp": 277158384
+        },
+        {
+          "codigo": "TARIFA_ESPECIAL_369",
+          "nombre": "Tarifa especial de $369",
+          "folios": 12,
+          "saldo_clp": 4428
+        },
+        {
+          "codigo": "REGISTRO_PRUEBA",
+          "nombre": "Registro de prueba",
+          "folios": 1,
+          "saldo_clp": 100
+        }
+      ],
+      "excepciones": [
+        {
+          "tipo": "tarifa_cero_focal_no_aditiva",
+          "folios": 4,
+          "saldo_clp": 68232
+        }
+      ],
+      "accion_pendiente": "Contrastar causal de exención, ROL/folio y aplicación por cuota en origen restringido."
+    },
+    {
+      "periodo": "2026-S1",
+      "folios_cartera": 26131,
+      "saldo_cartera_clp": 451083131,
+      "fuente": "Resumen_2026_S1_corte_20261028.json",
+      "criterio": "Vencimientos y asignación formal de cuota",
+      "notas": [
+        "La cohorte con vencimiento en mayo está incluida en cartera, pero su adscripción formal sigue pendiente.",
+        "Las 41 señales de resoluciones son focales y no se suman a la partición por vencimientos."
+      ],
+      "segmentos": [
+        {
+          "codigo": "CUOTAS_DOCUMENTADAS",
+          "nombre": "Cuotas con vencimiento documentado de abril y junio",
+          "folios": 12539,
+          "saldo_clp": 216453066
+        },
+        {
+          "codigo": "COHORTE_MAYO_PENDIENTE",
+          "nombre": "Cohorte del 31 de mayo; asignación por validar",
+          "folios": 13592,
+          "saldo_clp": 234630065
+        }
+      ],
+      "excepciones": [
+        {
+          "tipo": "res158_municipal_focal_no_aditiva",
+          "folios": 40,
+          "saldo_clp": 690520
+        },
+        {
+          "tipo": "res833_tarifa_cero_focal_no_aditiva",
+          "folios": 1,
+          "saldo_clp": 17263
+        }
+      ],
+      "accion_pendiente": "Acreditar cuota y vencimiento de la cohorte de mayo; cruzar BD5N/BD9N por obligación."
+    },
+    {
+      "periodo": "2026-S2",
+      "folios_cartera": 11715,
+      "saldo_cartera_clp": 207707569,
+      "fuente": "Resumen_Recruce_2026_S2_Corte_20261028.json",
+      "criterio": "Presencia en nómina técnica BD8N provisional",
+      "notas": [
+        "Estar en BD8N no acredita un cobro correcto: la fuente SII etiquetada S2 reproduce S1.",
+        "BD8N y BD9N presentan solapamientos: las señales focales no se suman a esta partición."
+      ],
+      "segmentos": [
+        {
+          "codigo": "EN_BD8N_PROVISIONAL",
+          "nombre": "Folios presentes en lista BD8N provisional",
+          "folios": 11704,
+          "saldo_clp": 207512506
+        },
+        {
+          "codigo": "FUERA_BD8N",
+          "nombre": "Folios fuera de lista BD8N provisional",
+          "folios": 11,
+          "saldo_clp": 195063
+        }
+      ],
+      "excepciones": [
+        {
+          "tipo": "bd9n_corregida_focal_no_aditiva",
+          "folios": 2,
+          "saldo_clp": 35466
+        },
+        {
+          "tipo": "res833_tarifa_cero_focal_no_aditiva_solape_no_descartado",
+          "folios": 4,
+          "saldo_clp": 70932
+        }
+      ],
+      "accion_pendiente": "Validar fuente SII-S2 propia, resolver solapes BD8N/BD9N y cuadrar cinco grupos exclusivos."
+    }
+  ]
+}
