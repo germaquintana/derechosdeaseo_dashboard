@@ -180,6 +180,40 @@
       number(rows.length-known)+" sin cruce por obligación. Los candidatos de S2 referenciales conservan esa advertencia." :
       "No hay semestres para estos filtros.";
   }
+  function drawFocalSummary(rows){
+    const wrap=el("da-net-focal-summary");wrap.replaceChildren();
+    const selected=rows.filter(r=>r.evidence);
+    if(!selected.length){
+      wrap.hidden=true;
+      return;
+    }
+    wrap.hidden=false;
+    for(const r of selected){
+      const e=r.evidence;
+      const card=make("article","da-net-focal-summary-card");
+      card.append(make("h5","",r.periodo+" · evidencia parcial del expediente"));
+      card.append(make("p","da-net-focal-summary-number",number(e.senal_folios)+" folios con señal documentada · "+clp(e.senal_saldo_clp)));
+      card.append(make("p","da-net-focal-summary-detail",
+        number(e.resto_sin_clasificar_folios)+" folios y "+clp(e.resto_sin_clasificar_clp)+
+        " siguen sin cruce masivo comparable (gris)."));
+      for(const d of e.desglose){
+        const note=make("p","da-net-focal-summary-detail",d.fuente+": "+number(d.folios)+" folios; "+clp(d.saldo_clp));
+        card.append(note);
+      }
+      for(const extra of e.alertas_independientes ?? []){
+        if(Number.isInteger(extra.folios))
+          card.append(make("p","da-net-focal-summary-warning",
+            "Alerta adicional NO sumable a la barra: "+extra.tipo+" · "+
+            number(extra.folios)+" folios · "+clp(extra.saldo_clp)+". "+extra.advertencia));
+      }
+      if(r.periodo==="2026-S2")
+        card.append(make("p","da-net-focal-summary-warning",
+          "BD1 SII S2 conserva semestres S1 y existe solape BD8N/BD9N: la señal BD9N es provisional, no cruce integral validado."));
+      card.append(make("p","da-net-focal-summary-warning",
+        "No demuestra exención vigente, baja SMC ni cobro indebido. Para cerrar se requiere cruce de cartera completo y actos/movimientos por cuota."));
+      wrap.append(card);
+    }
+  }
   function drawBars(rows) {
     const parent=el("da-net-bars");
     parent.replaceChildren();
@@ -314,7 +348,7 @@
   function render() {
     try{
       selected=filtered().map(classification);
-      drawCoverage(selected);drawTotals(selected);drawFocus2026(selected);drawBars(selected);drawTable(selected);
+      drawCoverage(selected);drawTotals(selected);drawFocus2026(selected);drawBars(selected);drawFocalSummary(selected);drawTable(selected);
       el("da-net-error").hidden=true;
     }catch(e){el("da-net-error").hidden=false;el("da-net-error").textContent=e.message;}
   }
