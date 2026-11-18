@@ -57,7 +57,7 @@
   <section class="da-net-panel" id="da-net-panel" aria-labelledby="da-net-title">
     <div class="da-net-head"><span class="mini-label">LECTURA CENTRAL / DEUDA Y EXENCIONES</span>
       <h3 id="da-net-title">Deuda morosa registrada frente a deuda depurada</h3>
-      <p>Este módulo integra 12 semestres de saldos y ROL prediales distintos extraídos de la cartera, junto con coincidencias técnicas que requieren estudio. La deuda corregida se informará solo cuando exista conciliación por cuota y movimientos SMC/DAF. Una candidatura RSH no es una exención aprobada; no aparecer en un cruce no demuestra un cobro correcto.</p>
+      <p>Este módulo integra 12 semestres de saldos y ROL prediales distintos extraídos de la cartera, junto con coincidencias técnicas y hallazgos focales de los expedientes de 2025-S2 y 2026 que requieren estudio. La deuda corregida se informará solo cuando exista conciliación por cuota y movimientos SMC/DAF. Una candidatura RSH no es una exención aprobada; no aparecer en un cruce no demuestra un cobro correcto.</p>
     </div>
     <section class="da-net-coverage" aria-label="Cobertura de la consolidación de morosidad">
       <div class="da-net-coverage-head"><span class="mini-label">AVANCE DOCUMENTAL · COBERTURA SEGÚN FILTROS</span><h4>Qué tenemos y qué falta validar</h4>
@@ -90,19 +90,21 @@
       <label for="da-net-unit">Ver barras en <select id="da-net-unit"><option value="saldo">Montos CLP</option><option value="folios">Folios del extracto</option></select></label></div>
       <div class="da-net-legend">
         <span><i class="da-net-chip candidate" aria-hidden="true"></i>Coincidencia técnica · requiere validar exención</span>
-        <span><i class="da-net-chip other" aria-hidden="true"></i>Sin coincidencia técnica · NO equivale a cobro correcto</span>
-        <span><i class="da-net-chip unknown" aria-hidden="true"></i>Sin clasificación disponible</span>
+        <span><i class="da-net-chip other" aria-hidden="true"></i>Sin coincidencia técnica en cruce masivo · NO equivale a cobro correcto</span>
+        <span><i class="da-net-chip focal" aria-hidden="true"></i>Hallazgo focal de nómina/BD provisional · pendiente de validar</span>
+        <span><i class="da-net-chip unknown" aria-hidden="true"></i>Resto sin clasificación masiva comparable</span>
       </div>
       <div id="da-net-bars" aria-label="Composición técnica de saldos registrados por semestre"></div>
       <p id="da-net-chart-caption" class="da-net-foot"></p><p id="da-net-scope" class="da-net-foot"></p>
+      <div id="da-net-focal-summary" class="da-net-focal-summary" aria-live="polite" aria-label="Hallazgos recuperados de los tres semestres sin clasificación masiva" hidden></div>
     </div>
     <div class="da-net-actions"><button type="button" id="da-net-export" class="da-net-export">Exportar comparación (CSV agregado)</button></div>
     <div class="da-net-table-wrap"><table class="da-net-table"><thead><tr>
       <th>Semestre</th><th>Folios registrados</th><th>ROL distintos identificados</th><th>Morosidad registrada CLP</th>
-      <th>Coincidencias técnicas CLP</th><th>Sin coincidencia técnica CLP</th>
+      <th>Coincidencias técnicas CLP</th><th>Hallazgos focales CLP (otra metodología)</th><th>Sin coincidencia técnica CLP</th>
       <th>Sin clasificar CLP</th><th>Cobro correcto acreditado CLP</th>
       <th>Correcciones conciliadas CLP</th><th>Morosidad depurada CLP</th>
-    </tr></thead><tbody id="da-net-table"><tr><td colspan="10">Cargando comparación...</td></tr></tbody></table></div>
+    </tr></thead><tbody id="da-net-table"><tr><td colspan="11">Cargando comparación...</td></tr></tbody></table></div>
     <section class="da-net-gaps-panel" aria-labelledby="da-net-gaps-title">
       <div class="da-net-gaps-heading"><span class="mini-label">CONCILIACIÓN · 12 SEMESTRES</span><h4 id="da-net-gaps-title">Estado y próximo cruce necesario en cada período</h4>
       <p>Esta tabla explica los campos pendientes del comparador y permite distinguir calidad del ROL, cruce técnico, fundamentación de exenciones y movimientos contables. No asigna cero a resultados sin respaldo.</p></div>
@@ -111,7 +113,7 @@
       <p id="da-net-gaps-note" class="da-net-foot"></p>
       <p class="da-net-foot">Fuente de los conteos: DA11, extracción agregada de 26 ventanas de vencimiento, con notas de excepción para 2022-S1, 2024-S1/S2 y 2025-S2. <a href="../data/morosidad_cobertura_12_periodos_v1.json" target="_blank" rel="noopener noreferrer">Consultar consolidado y trazabilidad (JSON)</a>.</p>
     </section>
-    <p class="da-net-foot">La composición <strong>no identifica todavía cuotas individualmente acreditadas</strong>: usa folios del extracto al 28-10-2026 y montos agregados. «S/I» significa desconocido/no acreditado, jamás cero. Los semestres 2021-S2 y 2022-S2 usan clasificaciones S1 referenciales (*). Las alertas de la cohorte focal 2026-S1 y TGR no son sumables al grupo técnico SMC. Filtros aplicados: año, semestre y calidad de fuente de la sección superior; la selección «Condición / canal» no cambia esta comparación de cartera total.</p>
+    <p class="da-net-foot">La composición <strong>no identifica todavía cuotas individualmente acreditadas</strong>: usa folios del extracto al 28-10-2026 y montos agregados. En 2025-S2 y 2026 los segmentos morados son alertas focales que no reemplazan el cruce BD9N/BD5N integral: el resto continúa gris, sin clasificar. «S/I» significa desconocido/no acreditado, jamás cero. Los semestres 2021-S2 y 2022-S2 usan clasificaciones S1 referenciales (*). Las alertas de la cohorte amplia 2026-S1 y TGR no son sumables al grupo técnico SMC ni a las señales focales de otra metodología. Filtros aplicados: año, semestre y calidad de fuente de la sección superior; la selección «Condición / canal» no cambia esta comparación de cartera total.</p>
     <p id="da-net-error" class="da-net-error" role="alert" hidden></p>
   </section>
   <div class="da-audit-kpis" aria-live="polite">
