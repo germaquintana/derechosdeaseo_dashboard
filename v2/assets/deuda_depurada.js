@@ -152,7 +152,7 @@
     if(text !== undefined)e.textContent=text;
     return e;
   }
-  const cruceState = r => r.fuente==="SIN_CRUCE_ROL_SEMESTRE"?"Sin cruce por ROL":
+  const cruceState = r => r.ce08?"Cruce CE08 validado":r.fuente==="SIN_CRUCE_ROL_SEMESTRE"?"Sin cruce por ROL":
     r.fuente==="CLASIFICACION_S1_REFERENCIAL"?"Referencial S1→S2":
     r.fuente==="RECRUCE_CORREGIDO_2025S1"?"Recruce corregido":"Cruce técnico del semestre";
   function drawCoverage(rows) {
@@ -175,14 +175,16 @@
       td(tr,r.periodo);
       td(tr,number(r.rolesMorosos)+(r.rolNoIdent?" identificados + clave sin ROL":" ROL"));
       td(tr,cruceState(r));
-      td(tr,r.candidato===null ? (r.evidence ?
+      td(tr,r.ce08 ? (r.sinCruceFolios>0?number(r.sinCruceFolios)+" folios residual CE08":"Cruce completo CE08") :
+        r.candidato===null ? (r.evidence ?
         "Cruce masivo pendiente; "+number(r.evidence.senal_folios)+" hallazgos focales" :
         "Cruce masivo pendiente") :
         r.sinCruceFolios ? number(r.sinCruceFolios)+" folio(s) sin grupo técnico" :
         "Cartera con clasificación técnica");
       td(tr,"Acto, causal y vigencia por cuota");
       td(tr,"SMC/DAF: pagos, abonos, ajustes y reversas");
-      const action=r.rolNoIdent?"Resolver clave sin ROL; luego clasificar y conciliar":
+      const action=r.ce08?"Validar causales y movimientos SMC/DAF/TGR; no descontar grupos técnicos":
+        r.rolNoIdent?"Resolver clave sin ROL; luego clasificar y conciliar":
         r.fuente==="SIN_CRUCE_ROL_SEMESTRE"?"Cruzar ROL + folio + cuota real con padrón del semestre":
         r.fuente==="CLASIFICACION_S1_REFERENCIAL"?"Reemplazar referencia S1 por clasificación S2 y conciliar":
         r.sinCruceFolios?"Resolver excepciones sin clasificación y revisar actos":
@@ -208,7 +210,7 @@
         "ROL prediales distintos del extracto; NO personas deudoras únicas.";
     el("da-net-candidates").textContent=rows.length ? (rows.some(r=>r.candidato !== null) ? clp(s.candidatos) : "S/I") : "—";
     el("da-net-candidates-detail").textContent=rows.length ?
-      "Cruce masivo en "+number(rows.filter(r=>r.candidato!==null).length)+"/"+number(rows.length)+
+      "Cruce técnico en "+number(rows.filter(r=>r.candidato!==null).length)+"/"+number(rows.length)+
       " semestres; "+number(rows.filter(r=>r.evidence!==null).length)+
       " con hallazgos focales no aditivos. No descontar sin validar exención por cuota." : "Sin selección";
     el("da-net-correct").textContent=s.correcto == null ? "S/I" : clp(s.correcto);
@@ -246,9 +248,11 @@
     for(const r of selected){
       const e=r.evidence;
       const card=make("article","da-net-focal-summary-card");
-      card.append(make("h5","",r.periodo+" · evidencia parcial del expediente"));
+      card.append(make("h5","",r.periodo+(r.ce08?" · alerta focal histórica NO aditiva":" · evidencia parcial del expediente")));
       card.append(make("p","da-net-focal-summary-number",number(e.senal_folios)+" folios con señal documentada · "+clp(e.senal_saldo_clp)));
-      card.append(make("p","da-net-focal-summary-detail",
+      if(r.ce08)card.append(make("p","da-net-focal-summary-warning",
+        "Existe un cruce CE08 aprobado del mismo período. Esta coincidencia CE06 es una referencia histórica que podría estar contenida en sus grupos; NO se suma al gráfico."));
+      else card.append(make("p","da-net-focal-summary-detail",
         number(e.resto_sin_clasificar_folios)+" folios y "+clp(e.resto_sin_clasificar_clp)+
         " siguen sin cruce masivo comparable (gris)."));
       for(const d of e.desglose){
@@ -280,20 +284,28 @@
     const unknownKey=unit==="folios"?"sinCruceFolios":"sinCruce";
     const grossTotal=Math.max(1,...rows.map(r=>r[grossKey]));
     const unitText=unit==="folios"?"folios-período del extracto (cuota real pendiente)":"CLP de saldo listado";
-    el("da-net-chart-caption").textContent="Cruces técnicos y hallazgos focales · "+unitText+". El componente gris sigue sin clasificación masiva; ningún color acredita exención o cobro correcto.";
+    el("da-net-chart-caption").textContent="Clasificación técnica y hallazgos focales · "+unitText+
+      ". Donde existe agregado CE08 revisado aparecen cinco grupos BD separados, más residuo. Ningún color acredita exención, cobro correcto ni descarga SMC.";
     for(const r of rows){
       const line=make("div","da-net-bar-row");
       const title=make("div","da-net-bar-title",r.periodo);
       if(r.fuente==="CLASIFICACION_S1_REFERENCIAL")title.append(make("small",""," · referencial"));
-      if(r.evidence)title.append(make("small","da-net-focal-marker"," · "+number(r.evidence.senal_folios)+" hallazgos"));
+      if(r.ce08)title.append(make("small","da-net-verified-marker"," · CE08 cotejado"));
+      else if(r.evidence)title.append(make("small","da-net-focal-marker"," · "+number(r.evidence.senal_folios)+" hallazgos"));
       const bar=make("div","da-net-bar-bg");
       const c=r[candidateKey],o=r[otherKey],f=r[focalKey],unknown=r[unknownKey];
-      const pieces=[
-        [c??0,"da-net-segment-candidate","Coincidencia técnica de cruce histórico"],
-        [o??0,"da-net-segment-other","Sin coincidencia en cruce histórico"],
-        [f??0,"da-net-segment-focal","Hallazgo focal documentado, no exención aplicada"],
-        [unknown,"da-net-segment-pending","Resto sin cruce masivo"]
-      ];
+      const pieces=r.ce08?
+        [...r.ce08.grupos.map(g=>[
+          unit==="folios"?g.folios:g.saldo_clp,
+          "da-net-segment-"+g.grupo_bd.toLowerCase().replaceAll("_","-"),
+          g.grupo_bd+" · clasificación técnica, no cobro correcto ni exención acreditada"]),
+         [unknown,"da-net-segment-pending","Residuo CE08 no clasificado"]]:
+        [
+          [c??0,"da-net-segment-candidate","Coincidencia técnica de cruce histórico"],
+          [o??0,"da-net-segment-other","Sin coincidencia en cruce histórico"],
+          [f??0,"da-net-segment-focal","Hallazgo focal documentado, no exención aplicada"],
+          [unknown,"da-net-segment-pending","Resto sin cruce masivo"]
+        ];
       const composition=pieces.reduce((s,p)=>s+p[0],0);
       if(Math.abs(composition-r[grossKey])>0.01)throw Error("Descuadre en barra "+r.periodo);
       for(const [value,css,titleText] of pieces){
@@ -306,10 +318,10 @@
       bar.style.width=(r[grossKey]===0?0:Math.max(1,r[grossKey]/grossTotal*100))+"%";
       bar.setAttribute("role","img");
       bar.setAttribute("aria-label",r.periodo+": "+number(r[grossKey])+" "+unitText+
-        "; candidatos "+(c==null?"sin información":number(c))+
-        "; sin coincidencia "+(o==null?"sin información":number(o))+
-        "; hallazgo focal "+(f==null?"ninguno":number(f))+
-        "; resto sin cruce masivo "+number(unknown));
+        "; candidatos técnicos "+(c==null?"sin información":number(c))+
+        "; grupos no candidatos "+(o==null?"sin información":number(o))+
+        "; hallazgo focal CE06 "+(f==null?"ninguno":number(f))+
+        "; residuo sin clasificar "+number(unknown));
       line.append(title,bar,make("div","da-net-bar-value",number(r[grossKey])));
       parent.append(line);
     }
