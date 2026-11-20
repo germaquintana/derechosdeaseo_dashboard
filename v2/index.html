@@ -58,7 +58,7 @@
     <div class="ce31-metrics" aria-label="Indicadores generales de morosidad">
       <div class="ce31-metric"><small>Saldo histórico listado</small><strong id="ce31-saldo">Validando…</strong><em>Suma de importes de cartera; no deuda exigible</em></div>
       <div class="ce31-metric"><small>Folios-período</small><strong id="ce31-folios">Validando…</strong><em>No son deudores únicos</em></div>
-      <div class="ce31-metric"><small>Semestres con SII propio identificado</small><strong id="ce31-sii">Validando…</strong><em>Los demás se señalan explícitamente</em></div>
+      <div class="ce31-metric"><small>Semestres con SII propio identificado</small><strong id="ce31-sii">Validando…</strong><em>1 semestre con continuidad S1→S2 y 2 pendientes</em></div>
       <div class="ce31-metric"><small>Saldo depurado acreditado</small><strong id="ce31-corregido">S/I</strong><em>Sin conciliación por obligación</em></div>
     </div>
     <p id="ce31-message" class="ce31-mini" role="status" aria-live="polite">Comprobando fuente pública, cortes y cuadratura de saldos…</p>
@@ -72,11 +72,11 @@
     <div class="ce31-controls">
       <div><h4>Evolución de saldos registrados</h4><p>Barra horizontal por semestre · CLP millones · <b id="ce31-visible">Validando…</b></p></div>
       <label for="ce31-filter">Calidad de la fuente SII
-        <select id="ce31-filter"><option value="todos">Todos los períodos</option><option value="propio">SII propio identificado</option><option value="no_acreditado">SII propio no acreditado</option></select>
+        <select id="ce31-filter"><option value="todos">Todos los períodos</option><option value="propio">SII propio identificado</option><option value="continuidad">SII S1 reutilizado en S2</option><option value="no_acreditado">Procedencia SII pendiente</option></select>
       </label>
     </div>
     <div id="ce31-bars" class="ce31-bars" role="list" aria-label="Gráfico de saldos históricos listados por semestre, no deuda exigible"></div>
-    <div class="ce31-legend"><span>SII propio identificado</span><span>SII propio no acreditado</span></div>
+    <div class="ce31-legend"><span>SII propio identificado</span><span>Continuidad 2026-S1→S2</span><span>Procedencia SII pendiente</span></div>
     <p class="ce31-disclaimer" id="ce31-filter-note">Las brechas documentales no equivalen a deuda incorrecta.</p>
     <details class="ce31-details"><summary>Ver los doce valores y su respaldo</summary>
       <div class="ce31-table-wrap"><table><thead><tr><th scope="col">Semestre</th><th scope="col">Folios-período</th><th scope="col">Saldo listado CLP</th><th scope="col">Estado SII</th></tr></thead><tbody id="ce31-table"></tbody></table></div>
