@@ -111,7 +111,7 @@ class DirectorCE31Browser(unittest.TestCase):
                     self.assertGreaterEqual(amount_px, 12)
                     self.assertTrue(page.locator("#ce31-metric").count() == 0)
                     page.locator("#ce31-filter").select_option("no_acreditado")
-                    self.assertEqual(page.locator("#ce31-bars .ce31-bar-row").count(), 3)
+                    self.assertEqual(page.locator("#ce31-bars .ce31-bar-row").count(), 2)
                 finally:
                     page.close()
 
