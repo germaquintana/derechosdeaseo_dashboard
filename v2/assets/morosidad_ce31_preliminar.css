@@ -46,7 +46,6 @@
 .ce31-legend { display: flex; flex-wrap: wrap; gap: 16px; color: #577283; font-size: 11px; margin-top: 5px; }
 .ce31-legend span::before { content: ""; display: inline-block; width: 12px; height: 8px; margin-right: 6px; background: #287f96; }
 .ce31-legend span:nth-child(2)::before { background: #758a9e; }
-.ce31-legend span:last-child::before { background: #b18c52; }
 .ce31-bar-fill.ce31-bar-continuity { background: #758a9e; }
 .ce31-table-wrap { overflow-x: auto; margin-top: 16px; }
 .ce31-table-wrap table { width: 100%; font-size: 12px; border-collapse: collapse; }
