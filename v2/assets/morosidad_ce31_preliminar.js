@@ -57,6 +57,7 @@
     const maxSaldo = Math.max(...periods.map(row => row.saldo));
     for (const row of data) {
       const item = create("div", "ce31-bar-row");
+      item.setAttribute("role", "listitem");
       const label = create("span", "ce31-period", row.name);
       const track = create("div", "ce31-bar-track");
       const bar = create("div", "ce31-bar-fill" + (row.fuentePropia ? "" : " ce31-bar-pending"));
