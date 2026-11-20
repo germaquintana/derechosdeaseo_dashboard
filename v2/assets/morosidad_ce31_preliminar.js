@@ -11,10 +11,10 @@
   const integer = value => Number.isSafeInteger(value) && value >= 0;
   const format = value => new Intl.NumberFormat("es-CL", {maximumFractionDigits: 0}).format(value);
   const million = value => new Intl.NumberFormat("es-CL", {maximumFractionDigits: 1}).format(value / 1000000);
-  const missingSii = new Set(["2021-S2", "2022-S2"]);
-  // Criterio del responsable 20-11-2026: SII no emitió nueva nómina para 2026-S2.
-  // El SII 2026-S1 se reutiliza por continuidad operativa; no es fuente S2 independiente.
-  const continuedSii = new Set(["2026-S2"]);
+  // Criterio del responsable 20-11-2026: nómina SII anual para 2021 y 2022,
+  // y continuidad 2026-S1→2026-S2 porque no se recibió una nómina nueva.
+  // Fuente de referencia disponible ≠ cruce de cuota ni exención aplicada.
+  const continuedSii = new Set(["2021-S2", "2022-S2", "2026-S2"]);
   const expectedPeriods = ["2021-S1","2021-S2","2022-S1","2022-S2","2023-S1","2023-S2","2024-S1","2024-S2","2025-S1","2025-S2","2026-S1","2026-S2"];
   const expected = {folios: 190838, saldo: 2832929422, corte: "2026-10-28"};
   let periods = [];
@@ -32,15 +32,14 @@
         throw Error("Período, identidad o monto inválido");
       }
       seen.add(name); totalFolios += f; totalSaldo += s;
-      const estadoFuente = missingSii.has(name) ? "pendiente" : (continuedSii.has(name) ? "continuidad" : "propio");
+      const estadoFuente = continuedSii.has(name) ? "continuidad" : "propio";
       return {name, folios: f, saldo: s, estadoFuente};
     });
     if (totalFolios !== expected.folios || totalSaldo !== expected.saldo ||
         doc.resumen.folios_periodo_suma_sin_deduplicar !== totalFolios ||
         doc.resumen.saldo_clp_suma_sin_deduplicar !== totalSaldo ||
         seen.size !== 12 || rows.filter(x => x.estadoFuente === "propio").length !== 9 ||
-        rows.filter(x => x.estadoFuente === "continuidad").length !== 1 ||
-        rows.filter(x => x.estadoFuente === "pendiente").length !== 2) {
+        rows.filter(x => x.estadoFuente === "continuidad").length !== 3) {
       throw Error("Cuadratura o cobertura de SII no coincide con el control");
     }
     return rows.sort((a,b) => expectedPeriods.indexOf(a.name) - expectedPeriods.indexOf(b.name));
@@ -56,8 +55,7 @@
   function render(filter) {
     const data = periods.filter(row => filter === "todos" ||
       (filter === "propio" && row.estadoFuente === "propio") ||
-      (filter === "continuidad" && row.estadoFuente === "continuidad") ||
-      (filter === "no_acreditado" && row.estadoFuente === "pendiente"));
+      (filter === "continuidad" && row.estadoFuente === "continuidad"));
     const chart = byId("ce31-bars");
     const table = byId("ce31-table");
     chart.replaceChildren(); table.replaceChildren();
@@ -67,33 +65,31 @@
       item.setAttribute("role", "listitem");
       const label = create("span", "ce31-period", row.name);
       const track = create("div", "ce31-bar-track");
-      const bar = create("div", "ce31-bar-fill" + (row.estadoFuente === "pendiente" ? " ce31-bar-pending" :
-        (row.estadoFuente === "continuidad" ? " ce31-bar-continuity" : "")));
+      const bar = create("div", "ce31-bar-fill" + (row.estadoFuente === "continuidad" ? " ce31-bar-continuity" : ""));
       bar.style.width = (100 * row.saldo / maxSaldo).toFixed(3) + "%";
       bar.setAttribute("aria-hidden", "true");
       track.appendChild(bar);
       const amount = create("span", "ce31-amount", "$" + million(row.saldo) + " MM");
       item.append(label, track, amount);
       item.setAttribute("aria-label", row.name + ": $" + format(row.saldo) +
-        " de saldo listado; fuente SII " + (row.estadoFuente === "propio" ? "del semestre identificada" :
-          row.estadoFuente === "continuidad" ? "2026-S1 utilizada por continuidad en 2026-S2" : "con procedencia pendiente"));
+        " de saldo listado; nómina SII " + (row.estadoFuente === "propio" ? "del semestre identificada" :
+          "del primer semestre de " + row.name.slice(0,4) + " aplicada por continuidad en " + row.name));
       chart.appendChild(item);
 
       const tr = create("tr");
       const cols = [row.name, format(row.folios), "$" + format(row.saldo),
-        row.estadoFuente === "propio" ? "Semestre propio" :
-        (row.estadoFuente === "continuidad" ? "Continuidad 2026-S1 usada en S2" : "Procedencia SII pendiente")];
+        row.estadoFuente === "propio" ? "Nómina del semestre" :
+        "Continuidad " + row.name.slice(0,4) + "-S1 usada en S2"];
       for (let i = 0; i < cols.length; i++) {
         const td = create("td", i === 3 ?
-          (row.estadoFuente === "propio" ? "ce31-source-ok" :
-           row.estadoFuente === "continuidad" ? "ce31-source-continuity" : "ce31-source-pending") : "", cols[i]);
+          (row.estadoFuente === "propio" ? "ce31-source-ok" : "ce31-source-continuity") : "", cols[i]);
         tr.appendChild(td);
       }
       table.appendChild(tr);
     }
     byId("ce31-visible").textContent = data.length + " de 12 semestres";
     byId("ce31-filter-note").textContent = filter === "todos"
-      ? "Se muestran los doce saldos. 2026-S2 utiliza la nómina SII 2026-S1 por continuidad informada; 2021-S2 y 2022-S2 requieren aclarar procedencia."
+      ? "Los 12 semestres tienen nómina SII de referencia: 9 del propio semestre y 3 continuidades S1→S2 (2021, 2022, 2026), según el responsable. Falta conciliar la aplicación por cuota."
       : "Filtro de calidad documental; no modifica los importes ni certifica su exigibilidad.";
   }
 
@@ -101,7 +97,7 @@
     periods = rows;
     byId("ce31-saldo").textContent = "$" + million(expected.saldo) + " MM";
     byId("ce31-folios").textContent = format(expected.folios);
-    byId("ce31-sii").textContent = "9 / 12";
+    byId("ce31-sii").textContent = "12 / 12";
     byId("ce31-corregido").textContent = "S/I";
     const filter = byId("ce31-filter");
     filter.addEventListener("change", () => render(filter.value));
