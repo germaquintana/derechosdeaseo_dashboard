@@ -63,7 +63,7 @@ class DirectorCE31Browser(unittest.TestCase):
         self.assertTrue(page.locator("#ce31-table").is_visible())
         self.assertIn("2026-S2", page.locator("#ce31-table").inner_text())
         self.assertEqual(page.locator("#ce31-table tr.ce31-source-pending").count(), 0)
-        self.assertEqual(page.locator("#ce31-table td.ce31-source-pending").count(), 3)
+        self.assertEqual(page.locator("#ce31-table td.ce31-source-pending").count(), 2)
 
     def test_filtro_fuente_sii_y_reposicion(self):
         page = self.open_page()
@@ -73,13 +73,17 @@ class DirectorCE31Browser(unittest.TestCase):
         self.assertEqual(page.locator("#ce31-bars .ce31-bar-row").count(), 9)
         self.assertEqual(page.locator("#ce31-table tr").count(), 9)
         self.assertEqual(page.locator("#ce31-visible").inner_text(), "9 de 12 semestres")
+        filtro.select_option("continuidad")
+        self.assertEqual(page.locator("#ce31-bars .ce31-bar-row").count(), 1)
+        self.assertEqual(page.locator("#ce31-bars .ce31-period").first.inner_text(), "2026-S2")
+        self.assertIn("Continuidad 2026-S1", page.locator("#ce31-table").inner_text())
         filtro.select_option("no_acreditado")
-        self.assertEqual(page.locator("#ce31-bars .ce31-bar-row").count(), 3)
+        self.assertEqual(page.locator("#ce31-bars .ce31-bar-row").count(), 2)
         self.assertEqual(
             [x.inner_text() for x in page.locator("#ce31-bars .ce31-period").all()],
-            ["2021-S2", "2022-S2", "2026-S2"],
+            ["2021-S2", "2022-S2"],
         )
-        self.assertEqual(page.locator("#ce31-table td.ce31-source-pending").count(), 3)
+        self.assertEqual(page.locator("#ce31-table td.ce31-source-pending").count(), 2)
         self.assertIn("no modifica", page.locator("#ce31-filter-note").inner_text())
         filtro.select_option("todos")
         self.assertEqual(page.locator("#ce31-bars .ce31-bar-row").count(), 12)
