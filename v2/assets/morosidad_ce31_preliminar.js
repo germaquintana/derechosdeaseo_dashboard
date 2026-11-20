@@ -11,7 +11,10 @@
   const integer = value => Number.isSafeInteger(value) && value >= 0;
   const format = value => new Intl.NumberFormat("es-CL", {maximumFractionDigits: 0}).format(value);
   const million = value => new Intl.NumberFormat("es-CL", {maximumFractionDigits: 1}).format(value / 1000000);
-  const missingSii = new Set(["2021-S2", "2022-S2", "2026-S2"]);
+  const missingSii = new Set(["2021-S2", "2022-S2"]);
+  // Criterio del responsable 20-11-2026: SII no emitió nueva nómina para 2026-S2.
+  // El SII 2026-S1 se reutiliza por continuidad operativa; no es fuente S2 independiente.
+  const continuedSii = new Set(["2026-S2"]);
   const expectedPeriods = ["2021-S1","2021-S2","2022-S1","2022-S2","2023-S1","2023-S2","2024-S1","2024-S2","2025-S1","2025-S2","2026-S1","2026-S2"];
   const expected = {folios: 190838, saldo: 2832929422, corte: "2026-10-28"};
   let periods = [];
@@ -29,12 +32,15 @@
         throw Error("Período, identidad o monto inválido");
       }
       seen.add(name); totalFolios += f; totalSaldo += s;
-      return {name, folios: f, saldo: s, fuentePropia: !missingSii.has(name)};
+      const estadoFuente = missingSii.has(name) ? "pendiente" : (continuedSii.has(name) ? "continuidad" : "propio");
+      return {name, folios: f, saldo: s, estadoFuente};
     });
     if (totalFolios !== expected.folios || totalSaldo !== expected.saldo ||
         doc.resumen.folios_periodo_suma_sin_deduplicar !== totalFolios ||
         doc.resumen.saldo_clp_suma_sin_deduplicar !== totalSaldo ||
-        seen.size !== 12 || rows.filter(x => x.fuentePropia).length !== 9) {
+        seen.size !== 12 || rows.filter(x => x.estadoFuente === "propio").length !== 9 ||
+        rows.filter(x => x.estadoFuente === "continuidad").length !== 1 ||
+        rows.filter(x => x.estadoFuente === "pendiente").length !== 2) {
       throw Error("Cuadratura o cobertura de SII no coincide con el control");
     }
     return rows.sort((a,b) => expectedPeriods.indexOf(a.name) - expectedPeriods.indexOf(b.name));
@@ -49,8 +55,9 @@
 
   function render(filter) {
     const data = periods.filter(row => filter === "todos" ||
-      (filter === "propio" && row.fuentePropia) ||
-      (filter === "no_acreditado" && !row.fuentePropia));
+      (filter === "propio" && row.estadoFuente === "propio") ||
+      (filter === "continuidad" && row.estadoFuente === "continuidad") ||
+      (filter === "no_acreditado" && row.estadoFuente === "pendiente"));
     const chart = byId("ce31-bars");
     const table = byId("ce31-table");
     chart.replaceChildren(); table.replaceChildren();
@@ -60,28 +67,33 @@
       item.setAttribute("role", "listitem");
       const label = create("span", "ce31-period", row.name);
       const track = create("div", "ce31-bar-track");
-      const bar = create("div", "ce31-bar-fill" + (row.fuentePropia ? "" : " ce31-bar-pending"));
+      const bar = create("div", "ce31-bar-fill" + (row.estadoFuente === "pendiente" ? " ce31-bar-pending" :
+        (row.estadoFuente === "continuidad" ? " ce31-bar-continuity" : "")));
       bar.style.width = (100 * row.saldo / maxSaldo).toFixed(3) + "%";
       bar.setAttribute("aria-hidden", "true");
       track.appendChild(bar);
       const amount = create("span", "ce31-amount", "$" + million(row.saldo) + " MM");
       item.append(label, track, amount);
       item.setAttribute("aria-label", row.name + ": $" + format(row.saldo) +
-        " de saldo listado; SII propio " + (row.fuentePropia ? "acreditado" : "no acreditado"));
+        " de saldo listado; fuente SII " + (row.estadoFuente === "propio" ? "del semestre identificada" :
+          row.estadoFuente === "continuidad" ? "2026-S1 utilizada por continuidad en 2026-S2" : "con procedencia pendiente"));
       chart.appendChild(item);
 
       const tr = create("tr");
       const cols = [row.name, format(row.folios), "$" + format(row.saldo),
-        row.fuentePropia ? "Semestre propio" : "Sin SII propio acreditado"];
+        row.estadoFuente === "propio" ? "Semestre propio" :
+        (row.estadoFuente === "continuidad" ? "Continuidad 2026-S1 usada en S2" : "Procedencia SII pendiente")];
       for (let i = 0; i < cols.length; i++) {
-        const td = create("td", i === 3 ? (row.fuentePropia ? "ce31-source-ok" : "ce31-source-pending") : "", cols[i]);
+        const td = create("td", i === 3 ?
+          (row.estadoFuente === "propio" ? "ce31-source-ok" :
+           row.estadoFuente === "continuidad" ? "ce31-source-continuity" : "ce31-source-pending") : "", cols[i]);
         tr.appendChild(td);
       }
       table.appendChild(tr);
     }
     byId("ce31-visible").textContent = data.length + " de 12 semestres";
     byId("ce31-filter-note").textContent = filter === "todos"
-      ? "Se muestran los doce saldos de cartera, incluso cuando la fuente SII propia no está acreditada."
+      ? "Se muestran los doce saldos. 2026-S2 utiliza la nómina SII 2026-S1 por continuidad informada; 2021-S2 y 2022-S2 requieren aclarar procedencia."
       : "Filtro de calidad documental; no modifica los importes ni certifica su exigibilidad.";
   }
 
