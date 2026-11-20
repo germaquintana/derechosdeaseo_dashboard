@@ -8,9 +8,11 @@
   <script src="assets/app.js" defer></script>
   <link rel="stylesheet" href="assets/cartera_exenciones.css">
   <link rel="stylesheet" href="assets/deuda_depurada.css">
+  <link rel="stylesheet" href="assets/morosidad_ce31_preliminar.css">
   <script src="assets/cartera_exenciones.js" defer></script>
   <script src="assets/morosidad_diagnosticos_ce10.js" defer></script>
   <script src="assets/deuda_depurada.js" defer></script>
+  <script src="assets/morosidad_ce31_preliminar.js" defer></script>
 </head>
 <body>
 <div class="shell">
@@ -43,7 +45,45 @@
       </section>
       <section id="view-evolucion" class="view" aria-labelledby="title-evolucion"><div class="section-title"><div><div class="eyebrow ink">02 / SERIE 2021–2026</div><h2 id="title-evolucion">Evolución histórica</h2></div><span class="status-pill neutral">Comparabilidad condicionada</span></div><div class="cards"><article class="panel"><div class="panel-header"><div><span class="mini-label">COMPOSICIÓN</span><h3>Evolución de los cinco grupos</h3><p>Los tramos son excluyentes. El residuo conocido se identifica por separado.</p></div></div><div id="historicalStacks" class="historical-stack-area"></div><div id="historicLegend" class="legend-grid compact"></div></article></div><div class="cards two-col"><article class="panel"><div class="panel-header"><div><span class="mini-label">UNIVERSO SII</span><h3>ROL totales por semestre</h3></div></div><div id="historicalLine" class="chart-area"></div></article><article class="panel"><div class="panel-header"><div><span class="mini-label">VARIACIÓN</span><h3>Comparador de períodos</h3></div></div><div class="compare-controls"><label>Período A<select id="compareA"></select></label><label>Período B<select id="compareB"></select></label></div><div id="compareOutput"></div></article></div></section>
       <section id="view-clasificacion" class="view" aria-labelledby="title-clasificacion"><div class="section-title"><div><div class="eyebrow ink">03 / PADRÓN Y BENEFICIOS</div><h2 id="title-clasificacion">Clasificación técnica del padrón</h2></div></div><div class="cards"><article class="panel"><div class="panel-header"><div><span class="mini-label">ESQUEMA DE FORMACIÓN</span><h3>De BD1 a las cinco categorías</h3><p>Subdivisión técnica del padrón del período activo; no son resoluciones de exención.</p></div></div><div class="flowtop"><div class="rootbox"><small>UNIVERSO BASE · BD1</small><b id="flowRoot">— ROL</b></div><div class="connector-down"></div></div><div id="flowGroups" class="flowgrid"></div><div class="flow-sub"><span>Subtotal BD4N</span><strong id="flowTgr">—</strong><small>BD4N_RSH + BD4N_RESTO; no se suma nuevamente al total</small></div></article></div><div class="cards"><article class="panel"><div class="panel-header"><div><span class="mini-label">TABLA EXPLICATIVA</span><h3>Categorías, cantidades y criterios de lectura</h3></div></div><div class="table-scroll"><table><thead><tr><th>Descripción ciudadana</th><th>Código</th><th>ROL</th><th>% BD1</th><th>Qué NO demuestra</th></tr></thead><tbody id="groupTable"></tbody></table></div></article></div></section>
-      <section id="view-cartera" class="view" aria-labelledby="title-cartera"><div class="section-title"><div><div class="eyebrow ink">04 / MOROSIDAD</div><h2 id="title-cartera">Morosidad</h2></div><span class="status-pill warning">Sin conciliación contable completa</span></div><div class="da-audit-panel" aria-labelledby="da-audit-roles">
+      <section id="view-cartera" class="view" aria-labelledby="title-cartera"><div class="section-title"><div><div class="eyebrow ink">04 / MOROSIDAD</div><h2 id="title-cartera">Morosidad</h2></div><span class="status-pill warning">Sin conciliación contable completa</span></div>
+  <section id="ce31-director-panel" aria-labelledby="ce31-heading" data-ce31-status="loading">
+    <div class="ce31-top">
+      <div>
+        <div class="ce31-eyebrow">CE31 · síntesis directiva · cartera histórica</div>
+        <h3 id="ce31-heading">Panorama financiero preliminar</h3>
+        <p>Serie 2021–2026 construida exclusivamente desde la cartera agregada ya publicada. El estado de fuente SII se muestra por semestre sin trasladar información individual.</p>
+      </div>
+      <span class="ce31-stage">Versión en revisión · no oficial</span>
+    </div>
+    <div class="ce31-metrics" aria-label="Indicadores generales de morosidad">
+      <div class="ce31-metric"><small>Saldo histórico listado</small><strong id="ce31-saldo">Validando…</strong><em>Suma de importes de cartera; no deuda exigible</em></div>
+      <div class="ce31-metric"><small>Folios-período</small><strong id="ce31-folios">Validando…</strong><em>No son deudores únicos</em></div>
+      <div class="ce31-metric"><small>Semestres con nómina SII de referencia</small><strong id="ce31-sii">Validando…</strong><em>9 propios · 3 por continuidad anual S1→S2</em></div>
+      <div class="ce31-metric"><small>Saldo depurado acreditado</small><strong id="ce31-corregido">S/I</strong><em>Sin conciliación por obligación</em></div>
+    </div>
+    <p id="ce31-message" class="ce31-mini" role="status" aria-live="polite">Comprobando fuente pública, cortes y cuadratura de saldos…</p>
+    <p class="ce31-disclaimer">La cartera contiene saldos registrados al 28/10/2026. No se han certificado pagos, exenciones vigentes, montos de cobro improcedente ni saldo neto por cuota. <strong>0/12 semestres cuentan con cierre jurídico-contable acreditado.</strong></p>
+    <div class="ce31-pending" aria-label="Componentes no acreditados">
+      <span>Capital: <b>S/I</b></span><span>Reajustes: <b>S/I</b></span>
+      <span>Intereses: <b>S/I</b></span><span>Multas: <b>S/I</b></span>
+      <span>Cobro correcto: <b>S/I</b></span><span>Monto a corregir: <b>S/I</b></span>
+      <span>Deudores únicos: <b>S/I</b></span>
+    </div>
+    <div class="ce31-controls">
+      <div><h4>Evolución de saldos registrados</h4><p>Barra horizontal por semestre · CLP millones · <b id="ce31-visible">Validando…</b></p></div>
+      <label for="ce31-filter">Calidad de la fuente SII
+        <select id="ce31-filter"><option value="todos">Todos los períodos</option><option value="propio">Nómina del propio semestre</option><option value="continuidad">Nómina anual S1 usada en S2</option></select>
+      </label>
+    </div>
+    <div id="ce31-bars" class="ce31-bars" role="list" aria-label="Gráfico de saldos históricos listados por semestre, no deuda exigible"></div>
+    <div class="ce31-legend"><span>Nómina SII del propio semestre</span><span>Nómina S1 aplicada también en S2 (2021, 2022, 2026)</span></div>
+    <p class="ce31-disclaimer" id="ce31-filter-note">La nómina SII de referencia no equivale a cruce técnico ni conciliación de cada cuota.</p>
+    <details class="ce31-details"><summary>Ver los doce valores y su respaldo</summary>
+      <div class="ce31-table-wrap"><table><thead><tr><th scope="col">Semestre</th><th scope="col">Folios-período</th><th scope="col">Saldo listado CLP</th><th scope="col">Estado SII</th></tr></thead><tbody id="ce31-table"></tbody></table></div>
+    </details>
+    <p class="ce31-disclaimer">Las coincidencias técnicas RSH y los grupos BD no autorizan descuentos. El sistema original de cruces y la sección detallada de Morosidad continúan disponibles debajo sin modificaciones en sus reglas de cálculo.</p>
+  </section>
+<div class="da-audit-panel" aria-labelledby="da-audit-roles">
   <div class="section-title da-audit-heading">
     <div><div class="eyebrow ink">04.B / VERIFICACIÓN DE EXENCIONES</div><h3 id="da-audit-roles">Auditoría de cuotas potencialmente exentas</h3></div>
     <span class="status-pill warning">Diagnóstico técnico · no es una orden de descarga</span>
