@@ -76,6 +76,7 @@ class DirectorCE31Browser(unittest.TestCase):
         filtro.select_option("continuidad")
         self.assertEqual(page.locator("#ce31-bars .ce31-bar-row").count(), 1)
         self.assertEqual(page.locator("#ce31-bars .ce31-period").first.inner_text(), "2026-S2")
+        page.locator("#ce31-director-panel summary").click()
         self.assertIn("Continuidad 2026-S1", page.locator("#ce31-table").inner_text())
         filtro.select_option("no_acreditado")
         self.assertEqual(page.locator("#ce31-bars .ce31-bar-row").count(), 2)
