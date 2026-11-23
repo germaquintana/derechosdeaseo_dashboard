@@ -1,0 +1,312 @@
+{
+  "esquema": "da17_morosidad_apilada_propuesta_v1",
+  "version": "2026-11-23",
+  "fecha_corte_cartera": "2026-10-28",
+  "estado": "PROTOTIPO_PUBLICO_NO_OFICIAL_BENEFICIOS_SIN_CIERRE",
+  "unidad": "folios-periodo y saldo historico CLP, no personas unicas ni deuda exigible",
+  "fuentes": [
+    {
+      "path": "data/morosidad_cobertura_12_periodos_v1.json",
+      "blob_sha": "073768ed97082e9acec2b6826c42bd13b7e28017"
+    },
+    {
+      "path": "data/cartera_exenciones_auditoria_v1.json",
+      "blob_sha": "a415b0ca75c471e04d33aa66d081dd5beaaa5a98"
+    },
+    {
+      "path": "data/ce36b_conciliacion_2026s2_agregada_v1.json",
+      "revision": "ce31/morosidad-preliminar-20261119",
+      "blob_sha": "af963bc8cad817e16e677ef940092855e95fce82"
+    }
+  ],
+  "resumen": {
+    "periodos": 12,
+    "folios_periodo": 190838,
+    "saldo_listado_clp": 2832929422,
+    "semestres_bd_con_clasificacion_municipal_y_legal": 9,
+    "semestres_adicionales_con_coincidencia_documental_municipal": 1,
+    "semestres_sin_clasificacion": 2,
+    "cierres_juridico_contables": 0,
+    "deuda_exigible_depurada_clp": null
+  },
+  "leyenda": {
+    "municipal": "Indicio de exención municipal: BD9N (candidato RSH) en 2021-S1 a 2025-S1; para 2026-S2, coincidencia con nómina de Res. 941. No necesariamente exención aplicada.",
+    "legal": "Posible exención legal: grupo BD5N con avalúo ≤225 UTM, sin confirmar destino habitacional, regla ni vigencia. No es exención aprobada.",
+    "no_segmentado": "Resto sin asignación a estos grupos: puede incluir otros beneficios o falta de cruce. No equivale a cobro correcto ni deuda exigible.",
+    "nulos": "null/S/I indica falta de información; jamás equivale a cero. Las cifras 0 en BD5N son cero en ese grupo técnico original, no ausencia total de beneficios legales."
+  },
+  "notas": [
+    "Las categorías BD9N y BD5N son grupos técnicos excluyentes de la matriz original cuando existen: no se suman alertas focales que puedan solaparse.",
+    "En 2021-S2 y 2022-S2 la clasificación social es referencial desde S1, aun cuando las nóminas SII son anuales.",
+    "2025-S2 y 2026-S1 tienen folios y saldo de cartera, pero ambas clasificaciones técnica municipal y legal están S/I; sus barras enteras se muestran sin segmentar.",
+    "En 2026-S2 solo se puede separar la coincidencia de 1.053 folios con nómina Res941; la exención legal de esa cohorte sigue S/I y no se acumulan 2 de Res2628 ni 27 de julio, por solapamiento potencial.",
+    "Todas las obligaciones registradas siguen pendientes de cierre jurídico-contable. No afirmar que un folio debe borrarse sin acto, vigencia, descarga SMC, pagos y cuenta corriente.",
+    "El saldo no se suma a folios; el control Folios/CLP alterna unidades sin alterar etiquetas ni atribuciones."
+  ],
+  "periodos": [
+    {
+      "periodo": "2021-S1",
+      "folios": 13145,
+      "saldo_clp": 150773150,
+      "municipal": {
+        "folios": 3269,
+        "saldo_clp": 37495430
+      },
+      "legal": {
+        "folios": 0,
+        "saldo_clp": 0
+      },
+      "no_segmentado": {
+        "folios": 9876,
+        "saldo_clp": 113277720
+      },
+      "origen": "BD_TECNICA",
+      "beneficio_aplicado": {
+        "folios": null,
+        "saldo_clp": null
+      }
+    },
+    {
+      "periodo": "2021-S2",
+      "folios": 13272,
+      "saldo_clp": 152229840,
+      "municipal": {
+        "folios": 3291,
+        "saldo_clp": 37747770
+      },
+      "legal": {
+        "folios": 0,
+        "saldo_clp": 0
+      },
+      "no_segmentado": {
+        "folios": 9981,
+        "saldo_clp": 114482070
+      },
+      "origen": "BD_REFERENCIAL_S1",
+      "beneficio_aplicado": {
+        "folios": null,
+        "saldo_clp": null
+      }
+    },
+    {
+      "periodo": "2022-S1",
+      "folios": 21135,
+      "saldo_clp": 258891500,
+      "municipal": {
+        "folios": 6232,
+        "saldo_clp": 76342000
+      },
+      "legal": {
+        "folios": 0,
+        "saldo_clp": 0
+      },
+      "no_segmentado": {
+        "folios": 14903,
+        "saldo_clp": 182549500
+      },
+      "origen": "BD_TECNICA",
+      "beneficio_aplicado": {
+        "folios": null,
+        "saldo_clp": null
+      }
+    },
+    {
+      "periodo": "2022-S2",
+      "folios": 18480,
+      "saldo_clp": 242185774,
+      "municipal": {
+        "folios": 4351,
+        "saldo_clp": 57024206
+      },
+      "legal": {
+        "folios": 0,
+        "saldo_clp": 0
+      },
+      "no_segmentado": {
+        "folios": 14129,
+        "saldo_clp": 185161568
+      },
+      "origen": "BD_REFERENCIAL_S1",
+      "beneficio_aplicado": {
+        "folios": null,
+        "saldo_clp": null
+      }
+    },
+    {
+      "periodo": "2023-S1",
+      "folios": 12938,
+      "saldo_clp": 179798426,
+      "municipal": {
+        "folios": 5473,
+        "saldo_clp": 76063754
+      },
+      "legal": {
+        "folios": 6,
+        "saldo_clp": 83388
+      },
+      "no_segmentado": {
+        "folios": 7459,
+        "saldo_clp": 103651284
+      },
+      "origen": "BD_TECNICA",
+      "beneficio_aplicado": {
+        "folios": null,
+        "saldo_clp": null
+      }
+    },
+    {
+      "periodo": "2023-S2",
+      "folios": 13055,
+      "saldo_clp": 181492640,
+      "municipal": {
+        "folios": 5508,
+        "saldo_clp": 76566284
+      },
+      "legal": {
+        "folios": 2,
+        "saldo_clp": 28496
+      },
+      "no_segmentado": {
+        "folios": 7545,
+        "saldo_clp": 104897860
+      },
+      "origen": "BD_TECNICA",
+      "beneficio_aplicado": {
+        "folios": null,
+        "saldo_clp": null
+      }
+    },
+    {
+      "periodo": "2024-S1",
+      "folios": 13743,
+      "saldo_clp": 219957037,
+      "municipal": {
+        "folios": 5684,
+        "saldo_clp": 90972420
+      },
+      "legal": {
+        "folios": 6,
+        "saldo_clp": 96030
+      },
+      "no_segmentado": {
+        "folios": 8053,
+        "saldo_clp": 128888587
+      },
+      "origen": "BD_TECNICA",
+      "beneficio_aplicado": {
+        "folios": null,
+        "saldo_clp": null
+      }
+    },
+    {
+      "periodo": "2024-S2",
+      "folios": 14072,
+      "saldo_clp": 229753544,
+      "municipal": {
+        "folios": 5896,
+        "saldo_clp": 96263992
+      },
+      "legal": {
+        "folios": 4,
+        "saldo_clp": 65308
+      },
+      "no_segmentado": {
+        "folios": 8172,
+        "saldo_clp": 133424244
+      },
+      "origen": "BD_TECNICA",
+      "beneficio_aplicado": {
+        "folios": null,
+        "saldo_clp": null
+      }
+    },
+    {
+      "periodo": "2025-S1",
+      "folios": 16891,
+      "saldo_clp": 281893899,
+      "municipal": {
+        "folios": 8249,
+        "saldo_clp": 137667561
+      },
+      "legal": {
+        "folios": 4,
+        "saldo_clp": 66756
+      },
+      "no_segmentado": {
+        "folios": 8638,
+        "saldo_clp": 144159582
+      },
+      "origen": "BD_TECNICA",
+      "beneficio_aplicado": {
+        "folios": null,
+        "saldo_clp": null
+      }
+    },
+    {
+      "periodo": "2025-S2",
+      "folios": 16261,
+      "saldo_clp": 277162912,
+      "municipal": {
+        "folios": null,
+        "saldo_clp": null
+      },
+      "legal": {
+        "folios": null,
+        "saldo_clp": null
+      },
+      "no_segmentado": {
+        "folios": 16261,
+        "saldo_clp": 277162912
+      },
+      "origen": "NO_CLASIFICADO",
+      "beneficio_aplicado": {
+        "folios": null,
+        "saldo_clp": null
+      }
+    },
+    {
+      "periodo": "2026-S1",
+      "folios": 26131,
+      "saldo_clp": 451083131,
+      "municipal": {
+        "folios": null,
+        "saldo_clp": null
+      },
+      "legal": {
+        "folios": null,
+        "saldo_clp": null
+      },
+      "no_segmentado": {
+        "folios": 26131,
+        "saldo_clp": 451083131
+      },
+      "origen": "NO_CLASIFICADO",
+      "beneficio_aplicado": {
+        "folios": null,
+        "saldo_clp": null
+      }
+    },
+    {
+      "periodo": "2026-S2",
+      "folios": 11715,
+      "saldo_clp": 207707569,
+      "municipal": {
+        "folios": 1053,
+        "saldo_clp": 18655586
+      },
+      "legal": {
+        "folios": null,
+        "saldo_clp": null
+      },
+      "no_segmentado": {
+        "folios": 10662,
+        "saldo_clp": 189051983
+      },
+      "origen": "NOMINA_RES941_2026_S2",
+      "beneficio_aplicado": {
+        "folios": null,
+        "saldo_clp": null
+      }
+    }
+  ]
+}
