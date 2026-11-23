@@ -6,7 +6,8 @@ import unittest
 from pathlib import Path
 
 BASE = Path(__file__).resolve().parents[1]
-HTML = (BASE / "index.html").read_text(encoding="utf-8")
+HTML = (BASE / "archivo/portada-original-previa-ce39-20261123.html").read_text(encoding="utf-8")
+ROOT_REDIRECT = (BASE / "index.html").read_text(encoding="utf-8")
 DATA = json.loads((BASE / "data/periodos.json").read_text(encoding="utf-8"))
 
 class DatosPublicos(unittest.TestCase):
@@ -57,6 +58,12 @@ class DatosPublicos(unittest.TestCase):
             self.assertNotIn(sensitive_path, serialized)
             self.assertNotIn(sensitive_path, HTML.lower())
 
+    def test_portada_raiz_navega_a_v2_y_legacy_archivado(self):
+        self.assertIn('window.location.replace("v2/"', ROOT_REDIRECT)
+        self.assertIn('href="v2/"', ROOT_REDIRECT)
+        self.assertIn('archivo/portada-original-previa-ce39-20261123.html', ROOT_REDIRECT)
+        self.assertIn('id="publicData"', HTML)
+
     def test_snapshot_integrado_concuerda_con_json_publico(self):
         match = re.search(r'<script type="application/json" id="publicData">([\s\S]*?)</script>', HTML)
         self.assertIsNotNone(match)
@@ -80,7 +87,7 @@ class NavegadorPublico(unittest.TestCase):
         self.page = self.browser.new_page(viewport={"width": 1280, "height": 800})
         self.errors = []
         self.page.on("pageerror", lambda err: self.errors.append(str(err)))
-        self.page.goto((BASE / "index.html").as_uri())
+        self.page.goto((BASE / "archivo/portada-original-previa-ce39-20261123.html").as_uri())
         self.page.locator("#tableBody tr").first.wait_for()
 
     def tearDown(self):
