@@ -1,8 +1,8 @@
 {
   "esquema": "da17_morosidad_apilada_propuesta_v1",
-  "version": "2026-11-23",
+  "version": "2026-11-23 CE38",
   "fecha_corte_cartera": "2026-10-28",
-  "estado": "PROTOTIPO_PUBLICO_NO_OFICIAL_BENEFICIOS_SIN_CIERRE",
+  "estado": "CRUCE_TECNICO_12_PERIODOS_NO_APLICACION_EXENCIONES",
   "unidad": "folios-periodo y saldo historico CLP, no personas unicas ni deuda exigible",
   "fuentes": [
     {
@@ -17,31 +17,39 @@
       "path": "data/ce36b_conciliacion_2026s2_agregada_v1.json",
       "revision": "ce31/morosidad-preliminar-20261119",
       "blob_sha": "af963bc8cad817e16e677ef940092855e95fce82"
+    },
+    {
+      "path": "germaquintana/derechosdeaseo_auditoria/datos_agregados/da17_ce38_replay_faltantes_2025s2_2026s1_2026s2_20261123.json",
+      "blob_sha": "9fcd152f713dfaf73dbad84168cfa30b43ac4260",
+      "control": "QA_privado_de_3_periodos_sin_datos_individuales"
     }
   ],
   "resumen": {
     "periodos": 12,
     "folios_periodo": 190838,
     "saldo_listado_clp": 2832929422,
-    "semestres_bd_con_clasificacion_municipal_y_legal": 9,
+    "semestres_bd_con_clasificacion_municipal_y_legal": 10,
     "semestres_adicionales_con_coincidencia_documental_municipal": 1,
-    "semestres_sin_clasificacion": 2,
+    "semestres_sin_clasificacion": 0,
     "cierres_juridico_contables": 0,
-    "deuda_exigible_depurada_clp": null
+    "deuda_exigible_depurada_clp": null,
+    "semestres_con_indicio_municipal_y_filtro_legal_tecnicos": 12,
+    "semestres_con_cierre_juridico_contable": 0
   },
   "leyenda": {
-    "municipal": "Indicio de exención municipal: BD9N (candidato RSH) en 2021-S1 a 2025-S1; para 2026-S2, coincidencia con nómina de Res. 941. No necesariamente exención aplicada.",
-    "legal": "Posible exención legal: grupo BD5N con avalúo ≤225 UTM, sin confirmar destino habitacional, regla ni vigencia. No es exención aprobada.",
-    "no_segmentado": "Resto sin asignación a estos grupos: puede incluir otros beneficios o falta de cruce. No equivale a cobro correcto ni deuda exigible.",
+    "municipal": "Indicio técnico que requiere cotejo jurídico: BD9N/RSH municipal 2021-S1–2025-S1 y 2026-S1; para 2025-S2, RUT propietario SII emparejado con persona RSH 2025 tramo <=60; para 2026-S2, nómina Res941. No implica corrección aprobada.",
+    "legal": "Filtro técnico de posible exención legal: BD5N (avalúo total ≤225 UTM) en semestres BD; 2025-S2 filtro directo de avalúo SII 2025-S2; 2026-S2 BD5N original. Cero significa que no se encontró candidata bajo ese filtro, no ausencia de otras causales.",
+    "no_segmentado": "Complemento exclusivo de los indicadores técnico-documentales; NO representa cuotas históricas correctas verificadas. Incluye casos de posible exención por otras causales y cruces de menor confianza.",
     "nulos": "null/S/I indica falta de información; jamás equivale a cero. Las cifras 0 en BD5N son cero en ese grupo técnico original, no ausencia total de beneficios legales."
   },
   "notas": [
     "Las categorías BD9N y BD5N son grupos técnicos excluyentes de la matriz original cuando existen: no se suman alertas focales que puedan solaparse.",
     "En 2021-S2 y 2022-S2 la clasificación social es referencial desde S1, aun cuando las nóminas SII son anuales.",
-    "2025-S2 y 2026-S1 tienen folios y saldo de cartera, pero ambas clasificaciones técnica municipal y legal están S/I; sus barras enteras se muestran sin segmentar.",
-    "En 2026-S2 solo se puede separar la coincidencia de 1.053 folios con nómina Res941; la exención legal de esa cohorte sigue S/I y no se acumulan 2 de Res2628 ni 27 de julio, por solapamiento potencial.",
     "Todas las obligaciones registradas siguen pendientes de cierre jurídico-contable. No afirmar que un folio debe borrarse sin acto, vigencia, descarga SMC, pagos y cuenta corriente.",
-    "El saldo no se suma a folios; el control Folios/CLP alterna unidades sin alterar etiquetas ni atribuciones."
+    "El saldo no se suma a folios; el control Folios/CLP alterna unidades sin alterar etiquetas ni atribuciones.",
+    "CE38: 2025-S2 3.226 folios con emparejamiento exacto RUT propietario SII / RUN RSH 2025 tramo ≤60; 1.700 coincidencias solo por domicilio no se elevan a segmento de corrección municipal, 1 sin SII permanece en resto. 16.260 con SII superan umbral técnico avalúo, por lo que el filtro legal resulta 0.",
+    "2026-S1: reclasificación técnica en base a partición BD original CE19 validada, BD9N 2.362 y BD5N 0. 2026-S2: la legal BD5N original CE20 tiene 0 folios; municipal conserva 1.053 coincidencias Res941 sin sumar alertas Res2628 ni julio.",
+    "Cobertura de CRUCE TÉCNICO 12/12 (fuentes de distinto nivel: BD histórico, RSH RUT y Resolución 941); cobertura de exenciones APLICADAS/JURÍDICO-CONTABLE 0/12. Nunca llamar 'correctas verificadas' al complemento gris."
   ],
   "periodos": [
     {
@@ -247,18 +255,18 @@
       "folios": 16261,
       "saldo_clp": 277162912,
       "municipal": {
-        "folios": null,
-        "saldo_clp": null
+        "folios": 3226,
+        "saldo_clp": 55029108
       },
       "legal": {
-        "folios": null,
-        "saldo_clp": null
+        "folios": 0,
+        "saldo_clp": 0
       },
       "no_segmentado": {
-        "folios": 16261,
-        "saldo_clp": 277162912
+        "folios": 13035,
+        "saldo_clp": 222133804
       },
-      "origen": "NO_CLASIFICADO",
+      "origen": "RSH_RUT_PROP_SII_2025S2_CE38",
       "beneficio_aplicado": {
         "folios": null,
         "saldo_clp": null
@@ -269,18 +277,18 @@
       "folios": 26131,
       "saldo_clp": 451083131,
       "municipal": {
-        "folios": null,
-        "saldo_clp": null
+        "folios": 2362,
+        "saldo_clp": 40775206
       },
       "legal": {
-        "folios": null,
-        "saldo_clp": null
+        "folios": 0,
+        "saldo_clp": 0
       },
       "no_segmentado": {
-        "folios": 26131,
-        "saldo_clp": 451083131
+        "folios": 23769,
+        "saldo_clp": 410307925
       },
-      "origen": "NO_CLASIFICADO",
+      "origen": "BD_ORIGINAL_2026S1_CE19",
       "beneficio_aplicado": {
         "folios": null,
         "saldo_clp": null
@@ -295,14 +303,14 @@
         "saldo_clp": 18655586
       },
       "legal": {
-        "folios": null,
-        "saldo_clp": null
+        "folios": 0,
+        "saldo_clp": 0
       },
       "no_segmentado": {
         "folios": 10662,
         "saldo_clp": 189051983
       },
-      "origen": "NOMINA_RES941_2026_S2",
+      "origen": "NOMINA_RES941_2026_S2_LEGAL_BD5N_0",
       "beneficio_aplicado": {
         "folios": null,
         "saldo_clp": null
