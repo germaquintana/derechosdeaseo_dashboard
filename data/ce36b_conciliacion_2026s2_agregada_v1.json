@@ -1,0 +1,91 @@
+{
+  "schema": "da17_ce36b_conciliacion_2026s2_agregada_v1",
+  "fecha_revision": "2026-11-23",
+  "corte_cartera": "2026-10-28",
+  "periodo": "2026-S2",
+  "vencimiento_cuota_evaluada": "2026-09-30",
+  "naturaleza": "DATOS_AGREGADOS_DE_CONTROL_NO_DEUDA_EXIGIBLE_CERTIFICADA",
+  "referencia": "Expediente técnico privado CE36 / CE36B; corte 28-10-2026. Revisión CE36C 23-11-2026 no encontró libro de movimientos por cuota ni anexo nominativo íntegro de Resolución 1258.",
+  "universo": {
+    "folios": 11715,
+    "saldo_listado_clp": 207707569,
+    "folios_cuadrados_libro_morosos": 11715,
+    "diferencia_saldos_libros_clp": 0
+  },
+  "cotejos": {
+    "res941": {
+      "descripcion": "Aparecen en nómina municipal asociada a Resolución 941",
+      "roles_nómina": 10949,
+      "folios_cartera": 1053,
+      "saldo_listado_clp": 18655586,
+      "folios_bd8n": 1051
+    },
+    "res2628": {
+      "descripcion": "Aparecen en archivo informado como cargado por Resolución 2628",
+      "roles_archivo": 2832,
+      "folios_cartera": 2,
+      "saldo_listado_clp": 35466
+    },
+    "lista_julio": {
+      "descripcion": "Aparecen en propuesta de eximir de julio (no acto aplicado)",
+      "roles_propuesta": 1765,
+      "folios_cartera": 27,
+      "saldo_listado_clp": 478791,
+      "folios_bd8n": 24
+    }
+  },
+  "distribucion_julio": [
+    {
+      "codigo": "941_Y_2628",
+      "etiqueta": "En nómina 941 y archivo de carga 2628",
+      "folios": 1,
+      "saldo_listado_clp": 17733
+    },
+    {
+      "codigo": "SOLO_941",
+      "etiqueta": "Solo en nómina 941 (de estas dos)",
+      "folios": 8,
+      "saldo_listado_clp": 141864
+    },
+    {
+      "codigo": "SOLO_2628",
+      "etiqueta": "Solo en carga 2628 (de estas dos)",
+      "folios": 0,
+      "saldo_listado_clp": 0
+    },
+    {
+      "codigo": "NINGUNA_DOS",
+      "etiqueta": "No en estas dos nóminas; revisar anexo 1258",
+      "folios": 18,
+      "saldo_listado_clp": 319194
+    }
+  ],
+  "control_documental": {
+    "resolucion_1258_beneficiarios_indicados": 16585,
+    "anexo_integro_res1258_validado": false,
+    "carga_2628_informada_por_correo": true,
+    "carga_2628_confirmada_por_movimientos": false,
+    "extracto_cuenta_corriente_smc_daf_tgr_por_cuota": false,
+    "cierres_juridico_contables_en_12_semestres": 0
+  },
+  "campos_libro_2026s2": {
+    "reajuste_columna_clp": 1241584,
+    "multa_columna_clp": 1253297,
+    "interes_clp": null,
+    "nota": "Campos de fuente original; no se suman al saldo listado ni constituyen liquidación jurídica."
+  },
+  "resultados_certificados": {
+    "saldo_exigible_depurado_clp": null,
+    "cobro_correcto_clp": null,
+    "cobro_a_corregir_clp": null,
+    "exencion_aplicada_clp": null,
+    "deudores_unicos": null
+  },
+  "advertencias": [
+    "Las cohortes 941, 2628 y julio se superponen. Nunca sumar 1053 + 2 + 27 como personas o deudas únicas.",
+    "La coincidencia documental con resolución o archivo de carga no demuestra que el beneficio haya quedado reflejado en la cuenta corriente por cuota.",
+    "Los 18 folios no encontrados en 941/2628 no son necesariamente no exentos: falta anexo íntegro de la Resolución 1258.",
+    "Los montos de los segmentos son saldos históricos listados, NO montos a descontar ni cobros improcedentes.",
+    "La 4.ª cuota de 2026 con vencimiento el 30-11-2026 queda fuera del corte de morosidad 28-10-2026."
+  ]
+}
