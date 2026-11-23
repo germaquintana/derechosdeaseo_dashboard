@@ -1,0 +1,337 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#112840">
+<meta name="description" content="Propuesta alternativa: Morosidad de Derechos de Aseo Recoleta 2021–2026, barras apiladas de folios y saldos, indicios de exenciones municipal y legal sin atribuir descargas no acreditadas.">
+<title>Morosidad apilada · Propuesta Recoleta</title>
+<style>
+:root {--ink:#142c41;--ink2:#3c5669;--muted:#698195;--pale:#f4f7f7;--card:#ffffff;--line:#dce5e8;--green:#148878;--greenlight:#dbf3eb;--gold:#d69b38;--goldlight:#fff0cb;--rest:#9baeb9;--restlight:#e6edef;--error:#9c4242}
+*,*::before,*::after{box-sizing:border-box}
+html{font-family:Inter,ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;color:var(--ink);background:var(--pale);scroll-behavior:smooth}
+body{margin:0;min-width:280px}
+button,select{font:inherit}
+a{color:#116d7e}
+a:hover{text-decoration:underline}
+button{cursor:pointer}
+:focus-visible{outline:3px solid #f3bb54;outline-offset:3px}
+.site-top{background:#10283c;color:#f7fbfb;padding:16px max(18px,calc((100vw - 1180px)/2));display:flex;justify-content:space-between;align-items:center;gap:18px;flex-wrap:wrap}
+.identity{display:flex;gap:12px;align-items:center}
+.crest{width:36px;height:36px;border:2px solid #61bca8;border-radius:9px;display:flex;align-items:center;justify-content:center;font-weight:900;font-size:16px;color:#b9e9de}
+.identity strong{font-size:13px;display:block;letter-spacing:.075em}
+.identity small{color:#adc6d1;display:block;font-size:11px;margin-top:2px}
+.toplinks{display:flex;gap:16px;flex-wrap:wrap;font-size:12px}
+.toplinks a{color:#c1e7e5;text-decoration:none}
+.toplinks a:hover{text-decoration:underline}
+main{max-width:1180px;margin:0 auto;padding:31px 20px 48px}
+.crumb{font-size:12px;font-weight:700;color:#668697;letter-spacing:.03em;margin-bottom:17px}
+.crumb a{text-decoration:none;color:#427586}
+.crumb .sep{padding:0 7px;color:#abbcc3}
+.header{display:grid;grid-template-columns:minmax(0,1fr) auto;align-items:start;gap:16px;margin-bottom:17px}
+.eyebrow{text-transform:uppercase;letter-spacing:.12em;font-size:11px;font-weight:850;color:#337b84;margin-bottom:7px}
+h1{font-size:clamp(25px,3.8vw,39px);line-height:1.18;letter-spacing:-.035em;margin:0}
+.lead{font-size:14px;color:#526d7b;max-width:790px;line-height:1.65;margin:11px 0 0}
+.status{border:1px solid #d9d7ba;border-radius:99px;font-size:11px;font-weight:800;color:#876521;background:#fff8e8;padding:8px 12px;white-space:nowrap}
+.compare{display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin:20px 0 24px}
+.compare a{border:1px solid #d4dfe2;background:white;border-radius:8px;padding:9px 13px;text-decoration:none;font-weight:750;font-size:12px;color:#1b5064}
+.compare a.current{background:#134a5d;color:white;border-color:#134a5d}
+.compare span{color:#637d89;font-size:12px}
+.metrics{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px;margin-bottom:17px}
+.metric{background:var(--card);border:1px solid var(--line);border-radius:11px;padding:16px 16px 14px;min-width:0;box-shadow:0 2px 7px #20364b05}
+.metric small{color:#5d7c88;display:block;font-size:11px;font-weight:750;line-height:1.35}
+.metric strong{color:#183d50;font-size:clamp(20px,2.5vw,28px);font-weight:800;display:block;margin:5px 0 4px;letter-spacing:-.025em;font-variant-numeric:tabular-nums}
+.metric em{font-size:11px;color:#728b94;display:block;font-style:normal;line-height:1.4}
+.sheet{background:#fff;border:1px solid var(--line);border-radius:14px;padding:23px 24px;box-shadow:0 6px 25px #22374b0a;min-width:0}
+.section-top{display:flex;gap:20px;align-items:flex-end;justify-content:space-between;flex-wrap:wrap;margin-bottom:15px}
+.section-top h2{font-size:21px;letter-spacing:-.025em;margin:5px 0 6px}
+.section-top p{font-size:12px;line-height:1.5;color:#617b89;margin:0}
+.controls{display:flex;align-items:center;gap:12px;flex-wrap:wrap}
+.segmented{display:flex;border:1px solid #c5d8dc;border-radius:9px;overflow:hidden;padding:3px;background:#f4f8f8}
+.segmented button{font-size:12px;font-weight:800;border:0;border-radius:6px;padding:8px 12px;color:#577281;background:transparent}
+.segmented button[aria-pressed="true"]{color:white;background:#174e61;box-shadow:0 1px 4px #143a502d}
+.filter-label{display:flex;gap:8px;align-items:center;font-size:12px;font-weight:800;color:#486675}
+.filter-label select{max-width:215px;min-width:0;background:#fff;border:1px solid #c7d7dc;border-radius:8px;padding:9px 10px;color:#345868;font-size:12px}
+.key{display:flex;flex-wrap:wrap;gap:10px 22px;padding:12px 0 14px;border-bottom:1px solid #e5edef;margin-bottom:10px}
+.key span{display:flex;align-items:center;gap:7px;font-size:12px;color:#4d6876}
+.swatch{height:11px;width:19px;border-radius:3px;display:inline-block;flex-shrink:0}
+.swatch.m{background:var(--green)}.swatch.l{background:var(--gold)}.swatch.r{background:var(--rest)}.swatch.u{background:repeating-linear-gradient(-45deg,#acbac0,#acbac0 4px,#e4eaec 4px,#e4eaec 8px)}
+.legendhint{background:#f0f7f7;padding:10px 12px;border-radius:7px;color:#426473;font-size:11px;line-height:1.55}
+#data-status{font-size:12px;color:#426778;margin:12px 0;min-height:18px}
+.chart{display:grid;gap:2px;margin-top:6px}
+.chart-row{border:1px solid transparent;border-radius:8px;text-align:left;display:grid;grid-template-columns:83px minmax(0,1fr) 124px;gap:14px;align-items:center;padding:11px 12px;width:100%;background:transparent;color:var(--ink)}
+.chart-row:hover{background:#f4f9f9}
+.chart-row.active{background:#eef7f6;border-color:#b9dcd5}
+.chart-row .period{font-weight:820;font-size:12px;font-variant-numeric:tabular-nums}
+.chart-row .data-val{font-size:12px;color:#28495b;font-weight:800;text-align:right;font-variant-numeric:tabular-nums;white-space:nowrap}
+.track{height:22px;background:#edf2f4;border-radius:5px;overflow:hidden;position:relative}
+.bar{height:100%;display:flex;min-width:0;overflow:hidden;border-radius:4px}
+.part{height:100%;min-width:0;display:block}
+.part.m{background:var(--green)}.part.l{background:var(--gold)}
+.part.r{background:var(--rest)}
+.part.unknown{background:repeating-linear-gradient(-45deg,#afbfc7,#afbfc7 6px,#e6eef0 6px,#e6eef0 12px)}
+.row-caption{grid-column:2/4;color:#67818d;font-size:10px;margin-top:-7px;white-space:normal}
+.row-caption b{font-weight:800;color:#466979}
+.empty{padding:20px;text-align:center;color:#688390;font-size:13px}
+.details{margin-top:18px;border:1px solid #cbdfe2;background:#f6faf9;border-radius:10px;padding:17px 18px}
+.details-top{display:flex;justify-content:space-between;gap:10px;align-items:center;flex-wrap:wrap}
+.details h3{font-size:16px;margin:0}
+.details .mini{font-size:11px;color:#607984;font-weight:750}
+.details-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:9px;margin-top:14px}
+.detail-value{background:white;border:1px solid #dfebed;border-radius:8px;padding:11px;min-width:0}
+.detail-value span{display:block;color:#5f7781;font-size:11px;line-height:1.35}
+.detail-value strong{display:block;color:#153d50;margin-top:4px;font-size:17px;overflow-wrap:anywhere;font-variant-numeric:tabular-nums}
+.detail-note{font-size:12px;color:#4d6775;line-height:1.6;margin:13px 0 0}
+.warning{font-size:11px;line-height:1.65;color:#4c6674;margin:14px 0 0}
+.table-section{margin-top:21px}
+.table-section summary{font-weight:800;color:#23586a;cursor:pointer;font-size:13px}
+.table-scroll{overflow-x:auto;margin-top:12px}
+table{width:100%;border-collapse:collapse;font-size:12px;min-width:560px}
+th{text-align:left;color:#3c6474;background:#f2f7f8}
+th,td{padding:9px 11px;border-bottom:1px solid #e1eaed}
+td:not(:first-child),th:not(:first-child){font-variant-numeric:tabular-nums;text-align:right}
+td:last-child,th:last-child{text-align:left}
+small.na{font-weight:800;color:#a36e32}
+.method{margin:17px 0 0;background:#f9fcfc;border:1px solid #dfebeb;border-radius:13px;padding:20px 24px}
+.method h2{font-size:16px;margin:0 0 9px}
+.method p{font-size:12px;color:#526d7a;line-height:1.75;margin:6px 0}
+.method a{font-size:12px}
+.footer{margin-top:27px;color:#73909a;font-size:11px;display:flex;justify-content:space-between;flex-wrap:wrap;gap:10px}
+@media(max-width:860px){.metrics{grid-template-columns:repeat(2,minmax(0,1fr))}.header{grid-template-columns:1fr}.status{justify-self:start}.details-grid{grid-template-columns:repeat(2,minmax(0,1fr))}.sheet{padding:18px}}
+@media(max-width:520px){main{padding:24px 12px}.site-top{padding:13px}.metrics{gap:8px}.metric{padding:11px}.sheet{padding:13px}.chart-row{grid-template-columns:63px minmax(0,1fr) 78px;gap:6px;padding:10px 5px}.chart-row .period,.chart-row .data-val{font-size:10px}.row-caption{font-size:9px}.track{height:18px}.key{gap:10px}.key span{font-size:10px}.filter-label{flex:1;min-width:0}.filter-label select{max-width:100%}.details{padding:13px}.details-grid{gap:6px}.detail-value{padding:9px}.detail-value strong{font-size:14px}.toplinks{gap:9px}}
+@media(max-width:340px){.chart-row{grid-template-columns:58px minmax(0,1fr) 70px}.details-grid{grid-template-columns:1fr 1fr}}
+</style>
+</head>
+<body>
+<header class="site-top">
+  <div class="identity"><div class="crest">R.</div><div><strong>RECOLETA · DERECHOS DE ASEO</strong><small>Observatorio exploratorio · Morosidad</small></div></div>
+  <nav class="toplinks" aria-label="Comparar versiones">
+    <a href="../../v2/?vista=morosidad">Versión actualmente publicada</a>
+    <a href="../../">Dashboard principal</a>
+  </nav>
+</header>
+<main>
+  <div class="crumb"><a href="../../v2/?vista=morosidad">Morosidad actual</a><span class="sep">/</span>Propuesta de barras apiladas</div>
+  <div class="header">
+    <div>
+      <div class="eyebrow">Propuesta de visualización · GA-T-2026-0017</div>
+      <h1>Morosidad, con indicios de exención</h1>
+      <p class="lead">Cada barra representa los folios de deuda registrados en un semestre. Se distinguen indicios de exención <b>municipal</b>, posibles causales <b>legales</b> y la parte que aún no puede asignarse a esas categorías. Un indicio <b>no equivale a una baja o descuento aprobado</b>.</p>
+    </div>
+    <span class="status">Versión alternativa · no oficial</span>
+  </div>
+  <div class="compare">
+    <a href="../../v2/?vista=morosidad">Ver dashboard actual</a>
+    <a class="current" href="./" aria-current="page">Ver propuesta apilada</a>
+    <span>Las dos vistas se mantienen separadas.</span>
+  </div>
+  <section class="metrics" aria-label="Resumen de cartera">
+    <div class="metric"><small>Folios-período con saldo listado</small><strong id="k-folios">—</strong><em>12 semestres; no contribuyentes únicos</em></div>
+    <div class="metric"><small>Saldo histórico agregado</small><strong id="k-saldo">—</strong><em>No es deuda exigible certificada</em></div>
+    <div class="metric"><small>Clasificación técnica municipal/legal</small><strong id="k-revision">—</strong><em>Los otros semestres requieren cruces</em></div>
+    <div class="metric"><small>Saldo depurado acreditado</small><strong id="k-depurado">S/I</strong><em>0 de 12 cierres jurídico-contables</em></div>
+  </section>
+  <section class="sheet" aria-labelledby="chart-title">
+    <div class="section-top">
+      <div><div class="eyebrow">01 / Exploración por semestre</div><h2 id="chart-title">¿Qué parte de cada barra requiere revisión?</h2><p>El ancho total representa la magnitud del período; los segmentos son exclusivos en los cruces disponibles.</p></div>
+      <div class="controls">
+        <div class="segmented" aria-label="Unidad del gráfico">
+          <button id="unit-folios" aria-pressed="true" type="button">Folios</button>
+          <button id="unit-monto" aria-pressed="false" type="button">Monto $</button>
+        </div>
+        <label class="filter-label" for="year-filter">Mostrar
+          <select id="year-filter">
+            <option value="todos">Todos · 2021–2026</option>
+            <option value="cruces">Con algún cruce</option>
+            <option value="pendientes">Cruce pendiente</option>
+            <option value="2026">Solo 2026</option>
+          </select>
+        </label>
+      </div>
+    </div>
+    <div class="key" aria-label="Leyenda de segmentos">
+      <span><i class="swatch m" aria-hidden="true"></i>Indicio municipal</span>
+      <span><i class="swatch l" aria-hidden="true"></i>Posible exención legal</span>
+      <span><i class="swatch r" aria-hidden="true"></i>Resto sin atribuir</span>
+      <span><i class="swatch u" aria-hidden="true"></i>Sin cruce completo</span>
+    </div>
+    <div class="legendhint"><b>Importante:</b> «Resto sin atribuir» no significa deuda correctamente cobrada. Los segmentos municipales y legales <b>no son folios que ya deban borrarse</b>; falta verificar acto, destino habitacional, vigencia y movimientos del sistema.</div>
+    <p id="data-status" role="status" aria-live="polite">Comprobando el origen público, las sumas y los doce semestres…</p>
+    <div class="chart" id="chart" role="list" aria-label="Barras apiladas de morosidad por semestre"></div>
+    <aside class="details" id="detail-panel" aria-labelledby="detail-title">
+      <div class="details-top"><h3 id="detail-title">Selecciona un semestre</h3><span class="mini" id="detail-source">Detalle de cobertura documental</span></div>
+      <div class="details-grid">
+        <div class="detail-value"><span>Folios de cartera</span><strong id="d-total">—</strong></div>
+        <div class="detail-value"><span>Indicio municipal</span><strong id="d-mun">—</strong></div>
+        <div class="detail-value"><span>Posible exención legal</span><strong id="d-legal">—</strong></div>
+        <div class="detail-value"><span>Resto sin atribuir</span><strong id="d-other">—</strong></div>
+      </div>
+      <p class="detail-note" id="detail-note">Los conteos son folios-período, nunca personas únicas.</p>
+    </aside>
+    <div class="table-section">
+      <details>
+        <summary>Ver tabla completa y valores exactos</summary>
+        <div class="table-scroll">
+          <table aria-label="Detalle de folios y montos por semestre">
+            <thead><tr><th scope="col">Semestre</th><th scope="col">Total</th><th scope="col">Municipal</th><th scope="col">Legal</th><th scope="col">Resto</th><th scope="col">Calidad</th></tr></thead>
+            <tbody id="table-body"></tbody>
+          </table>
+        </div>
+      </details>
+    </div>
+    <p class="warning">Las coincidencias con listas de Res. 2628 (2 folios) y propuesta de julio (27 folios) no se suman al grupo Res. 941 de 2026-S2 por riesgo de solapamiento. 2025-S2 y 2026-S1 conservan <b>S/I</b> para las dos causales, aunque se conozcan sus totales. Los segmentos legales de BD5N son filtros de avalúo, no beneficios concedidos.</p>
+  </section>
+  <section class="method" aria-labelledby="method-title">
+    <h2 id="method-title">Cómo interpretar el gráfico</h2>
+    <p><b>Municipal:</b> clasificación RSH BD9N en los nueve períodos con cruce técnico; en 2026-S2 se usa únicamente la coincidencia documental con 1.053 folios de la nómina Res. 941. Son fuentes de distinta naturaleza, identificadas por semestre en el detalle.</p>
+    <p><b>Legal:</b> BD5N registra filtro fiscal ≤225 UTM, pero todavía se debe verificar destino habitacional, causal legal y vigencia. Donde no existe cruce se muestra <b>S/I</b>, no cero. Para 2026-S2 hay indicio municipal documentado, pero el cruce legal permanece S/I.</p>
+    <p><b>Saldo:</b> los valores listados tienen corte <b>28 de octubre de 2026</b>. Ni los folios señalados ni sus montos son descuentos aprobados, deuda exigible neta o bajas ejecutadas en SMC/TGR. No hay cierre jurídico-contable de los doce semestres.</p>
+    <p><a href="./datos.json">Datos agregados y controles de cuadratura</a> · <a href="../../v2/?vista=morosidad">Comparar con la vista original</a></p>
+  </section>
+  <footer class="footer"><span>Recoleta · Derechos de Aseo · prototipo de comparación</span><span>Sin ROL, RUT, domicilios, nombres ni folios individuales · 23-11-2026</span></footer>
+</main>
+<script>
+(function(){
+ "use strict";
+ const $=id=>document.getElementById(id);
+ let rows=[],unit="folios",filter="todos",selected="2026-S2";
+ const fmt=new Intl.NumberFormat("es-CL",{maximumFractionDigits:0});
+ const dec=new Intl.NumberFormat("es-CL",{maximumFractionDigits:1});
+ const int=x=>Number.isSafeInteger(x)&&x>=0;
+ const f=x=>fmt.format(x);
+ const million=x=>"$"+dec.format(x/1e6)+" MM";
+ const val=(x,kind=unit)=>x==null?"S/I":kind==="folios"?f(x):"$"+f(x);
+ const measure=(row,type)=>type==="folios"?row.folios:row.saldo_clp;
+ const metric=(row,seg)=>unit==="folios"?row[seg].folios:row[seg].saldo_clp;
+ function check(data){
+  if(!data||data.esquema!=="da17_morosidad_apilada_propuesta_v1"||data.fecha_corte_cartera!=="2026-10-28"||
+   !Array.isArray(data.periodos)||data.periodos.length!==12||!data.resumen||
+   data.resumen.folios_periodo!==190838||data.resumen.saldo_listado_clp!==2832929422||
+   data.resumen.cierres_juridico_contables!==0||data.resumen.deuda_exigible_depurada_clp!==null)
+   throw Error("Cobertura o reglas inválidas");
+  const seen=new Set(), sums={folios:0,saldo:0};
+  data.periodos.forEach(row=>{
+   if(!/^\d{4}-S[12]$/.test(row.periodo)||seen.has(row.periodo)||
+    !int(row.folios)||!int(row.saldo_clp)||!row.municipal||!row.legal||!row.no_segmentado)
+    throw Error("Semestre o identificador inválido");
+   seen.add(row.periodo);sums.folios+=row.folios;sums.saldo+=row.saldo_clp;
+   for(const key of ["folios","saldo_clp"]){
+    const total=key==="folios"?row.folios:row.saldo_clp;
+    const mun=row.municipal[key],leg=row.legal[key],other=row.no_segmentado[key];
+    if(!int(other)||mun!==null&&!int(mun)||leg!==null&&!int(leg)||
+     other+(mun??0)+(leg??0)!==total)throw Error("Doble conteo o fuente incompleta: "+row.periodo);
+   }
+   if(row.beneficio_aplicado.folios!==null||row.beneficio_aplicado.saldo_clp!==null)
+    throw Error("No se acreditó descarga por cuota");
+  });
+  if(sums.folios!==190838||sums.saldo!==2832929422||seen.size!==12||
+   data.periodos.find(row=>row.periodo==="2026-S2").municipal.folios!==1053||
+   data.periodos.find(row=>row.periodo==="2026-S2").legal.folios!==null||
+   ["2025-S2","2026-S1"].some(periodo=>{
+     const row=data.periodos.find(r=>r.periodo===periodo);
+     return !row||row.municipal.folios!==null||row.legal.folios!==null;
+   }))throw Error("Control CE36B/S-I inconsistente");
+  return data.periodos;
+ }
+ function make(tag,cls,txt){
+  const el=document.createElement(tag);
+  if(cls)el.className=cls;
+  if(txt!==undefined)el.textContent=txt;
+  return el;
+ }
+ function describe(row){
+  if(row.origen==="NOMINA_RES941_2026_S2")return "Res. 941: 1.053 coincidencias documentales municipales; la exención legal es S/I. La carga Res. 2628 y la lista de julio se muestran por separado, sin sumarlas.";
+  if(row.origen==="NO_CLASIFICADO")return "Todavía no existe clasificación técnica BD9N/BD5N por folio suficiente para separar estas barras. No se presume ausencia de exenciones.";
+  if(row.origen==="BD_REFERENCIAL_S1")return "BD9N/BD5N: clasificación técnica de S1 usada referencialmente en S2; no acredita beneficio vigente en cada cuota.";
+  return "Clasificación técnica BD9N (RSH municipal) y BD5N (avalúo ≤225 UTM). Falta comprobar acto, destino habitacional y efectos contables.";
+ }
+ function labelStatus(row){
+  if(row.origen==="NOMINA_RES941_2026_S2")return "941 · legal S/I";
+  if(row.origen==="NO_CLASIFICADO")return "Municipal y legal S/I";
+  if(row.origen==="BD_REFERENCIAL_S1")return "Cruce referencial S1";
+  return "Cruce técnico";
+ }
+ function paintDetail(row){
+  selected=row.periodo;
+  $("detail-title").textContent=row.periodo+" · detalle de revisión";
+  $("detail-source").textContent=labelStatus(row);
+  $("d-total").textContent=val(measure(row,unit));
+  $("d-mun").textContent=val(metric(row,"municipal"));
+  $("d-legal").textContent=val(metric(row,"legal"));
+  $("d-other").textContent=val(metric(row,"no_segmentado"));
+  $("detail-note").textContent=describe(row)+" Todos los importes son históricos listados; descarga efectiva S/I.";
+  document.querySelectorAll(".chart-row").forEach(el=>el.classList.toggle("active",el.dataset.periodo===row.periodo));
+ }
+ function visible(){
+  return rows.filter(row=>filter==="todos"||
+   filter==="cruces"&&row.origen!=="NO_CLASIFICADO"||
+   filter==="pendientes"&&row.origen==="NO_CLASIFICADO"||
+   filter==="2026"&&row.periodo.startsWith("2026-"));
+ }
+ function redraw(){
+  const show=visible(),root=$("chart"),body=$("table-body"),max=Math.max(...rows.map(row=>measure(row,unit)));
+  root.replaceChildren();body.replaceChildren();
+  show.forEach(row=>{
+   const button=make("button","chart-row");
+   button.type="button";button.dataset.periodo=row.periodo;button.setAttribute("role","listitem");
+   button.setAttribute("aria-label",row.periodo+": total "+val(measure(row,unit))+
+    "; indicio municipal "+val(metric(row,"municipal"))+"; indicio legal "+val(metric(row,"legal"))+
+    "; resto "+val(metric(row,"no_segmentado")));
+   const track=make("div","track"),bar=make("div","bar");
+   bar.style.width=(100*measure(row,unit)/max).toFixed(3)+"%";
+   const parts=[["m","municipal"],["l","legal"],["r","no_segmentado"]];
+   parts.forEach(pair=>{
+    const amount=metric(row,pair[1])??0;
+    if(amount<=0)return;
+    const klass=pair[0]==="r"&&(row.origen==="NO_CLASIFICADO"||row.origen==="NOMINA_RES941_2026_S2")?"part unknown":"part "+pair[0];
+    const seg=make("span",klass);
+    seg.style.flexGrow=String(amount);
+    seg.style.flexBasis="0";
+    seg.title=pair[1]+": "+val(amount);
+    bar.appendChild(seg);
+   });
+   track.appendChild(bar);
+   const caption=make("small","row-caption",labelStatus(row));
+   button.append(make("span","period",row.periodo),track,make("span","data-val",unit==="folios"?f(row.folios):million(row.saldo_clp)),caption);
+   button.addEventListener("click",()=>paintDetail(row));
+   root.appendChild(button);
+   const tr=make("tr");
+   [row.periodo,val(measure(row,unit)),val(metric(row,"municipal")),val(metric(row,"legal")),val(metric(row,"no_segmentado")),labelStatus(row)].forEach((txt,i)=>{
+     const cell=make("td","",txt);
+     if(txt==="S/I")cell.className="na";
+     tr.appendChild(cell);
+   });
+   body.appendChild(tr);
+  });
+  if(!show.length)root.append(make("div","empty","No hay semestres para este filtro."));
+  const target=show.find(row=>row.periodo===selected)||show[0];
+  if(target)paintDetail(target);
+  $("data-status").textContent=show.length+" de 12 semestres · "+(unit==="folios"?"conteo de folios":"saldo histórico CLP")+
+   " · categorías sin reconciliación jurídica ni contable";
+ }
+ document.querySelectorAll(".segmented button").forEach(b=>{
+  b.addEventListener("click",()=>{
+    unit=b.id==="unit-monto"?"monto":"folios";
+    $("unit-folios").setAttribute("aria-pressed",String(unit==="folios"));
+    $("unit-monto").setAttribute("aria-pressed",String(unit==="monto"));
+    redraw();
+  });
+ });
+ $("year-filter").addEventListener("change",e=>{filter=e.target.value;redraw();});
+ fetch("./datos.json",{cache:"no-store"}).then(res=>{if(!res.ok)throw Error("No se pudo recuperar datos.json");return res.json();})
+ .then(data=>{
+  rows=check(data);
+  $("k-folios").textContent=f(data.resumen.folios_periodo);
+  $("k-saldo").textContent=million(data.resumen.saldo_listado_clp);
+  $("k-revision").textContent="9 / 12";
+  $("k-depurado").textContent="S/I";
+  redraw();
+ }).catch(err=>{
+  $("data-status").textContent="Datos no disponibles: falló validación de fuente y cuadratura.";
+  $("k-folios").textContent="S/I";$("k-saldo").textContent="S/I";$("k-revision").textContent="S/I";
+  $("chart").replaceChildren();
+  console.warn("QA gráfico apilado:",err.message);
+ });
+})();
+</script>
+</body></html>
