@@ -11,6 +11,8 @@
   <script src="assets/cartera_exenciones.js" defer></script>
   <script src="assets/morosidad_diagnosticos_ce10.js" defer></script>
   <script src="assets/deuda_depurada.js" defer></script>
+  <link rel="stylesheet" href="assets/ce39_integracion.css">
+  <script src="assets/ce39_integracion.js" defer></script>
 </head>
 <body>
 <div class="shell">
@@ -35,15 +37,85 @@
       <div class="page-head"><div><div class="eyebrow">RECOLETA · AUDITORÍA 2021–2026</div><h1>Observatorio de <em>Derechos de Aseo</em></h1><p>Visualización del padrón, canales de gestión, cartera listada y calidad de fuentes. Una lectura integrada, sin atribuir exenciones o pagos que no estén acreditados.</p></div><div class="head-stamp"><span class="stamp-dot"></span><div><b>Versión pública exploratoria</b><small>Indicadores técnicos agregados · no oficial</small></div></div></div>
       <div class="controls" aria-label="Filtros globales"><div class="control"><label for="period">SEMESTRE SELECCIONADO</label><select id="period"></select></div><div class="control"><label for="year">FILTRAR EVOLUCIÓN POR AÑO</label><select id="year"></select></div><div class="control control-status"><span>FECHA DE DATOS</span><b id="dataDate">—</b><small>Última versión del conjunto publicado</small></div><div class="control control-status"><span>ESTADO DEL ESTUDIO</span><b>0 de 12 cierres jurídico-contables</b><small>En revisión documental</small></div></div>
       <div id="loadError" role="alert" hidden></div>
-      <section id="view-resumen" class="view active" aria-labelledby="title-resumen"><div class="section-title"><div><div class="eyebrow ink">01 / VISTA GENERAL</div><h2 id="title-resumen">Pulso del período <span id="periodName">—</span></h2></div><span id="statusPill" class="status-pill">Cargando…</span></div>
+      <section id="view-resumen" class="view active" aria-labelledby="title-resumen"><div class="ce39-main" id="ce39-home">
+        <section class="ce39-block" aria-labelledby="ce39-title-long">
+          <div class="ce39-block-head">
+            <div><div class="ce39-no">01 / SERIE LONGITUDINAL · 2021–2026</div><h3 id="ce39-title-long">Serie longitudinal por semestre</h3><p>Barras horizontales interactivas de padrón y cartera. Selecciona el indicador o pulsa un período para actualizar los filtros generales.</p></div>
+            <label class="ce39-field" for="ce39-metric">Indicador
+              <select id="ce39-metric">
+                <option value="composicion">ROL por exención y canal de cobro</option>
+                <option value="tgr">TGR: con marca RSH / resto</option>
+                <option value="rol_total">ROL del padrón</option>
+                <option value="folios_listados">Folios de cartera</option>
+                <option value="saldo_listado_millones_clp">Saldo histórico CLP</option>
+              </select>
+            </label>
+          </div>
+          <div id="ce39-series-legend" class="ce39-legend" aria-label="Leyenda de la serie longitudinal"></div>
+          <div id="ce39-series" class="ce39-chart" role="group" aria-label="Serie longitudinal de doce semestres"></div>
+          <p id="ce39-series-status" class="ce39-status" role="status" aria-live="polite">Comprobando fuente y cuadraturas…</p>
+          <div class="ce39-note"><b>Criterio:</b> «Exención legal» (BD5N) y «Exención por política municipal» (BD9N) son nombres de las categorías de análisis técnico del padrón. No acreditan exenciones vigentes aplicadas ni saldos a rebajar.</div>
+        </section>
+        <section class="ce39-block" aria-labelledby="ce39-title-kpis">
+          <div class="ce39-block-head"><div><div class="ce39-no">02 / INDICADORES ACUMULADOS DE MOROSIDAD</div><h3 id="ce39-title-kpis">Resumen de los doce semestres</h3><p>Conteos de folios-período y saldos históricos listados al 28/10/2026. No son personas únicas ni una cuenta corriente neta.</p></div><span class="status-pill warning">Cruce técnico 12/12 · cierre contable 0/12</span></div>
+          <div class="ce39-cards" aria-label="Seis indicadores generales de morosidad">
+            <article class="ce39-card"><small>Cuotas morosas registradas · todos los períodos</small><strong id="ce39-k-folios">—</strong><em>Folios-período; no contribuyentes únicos</em></article>
+            <article class="ce39-card"><small>Monto moroso registrado · todos los períodos</small><strong id="ce39-k-saldo">—</strong><em>Suma de saldos históricos; no deuda exigible neta</em></article>
+            <article class="ce39-card"><small>Cuotas por corregir · indicios de exención detectada</small><strong id="ce39-k-review">—</strong><em>Candidatas técnicas BD5N/BD9N/RSH/Res941, no bajas aprobadas</em></article>
+            <article class="ce39-card"><small>Monto moroso para corregir · indicios técnicos</small><strong id="ce39-k-review-clp">—</strong><em>Saldo asociado a candidaturas; no descuento certificado</em></article>
+            <article class="ce39-card"><small>Cuotas históricas revisadas correctas · verificadas</small><strong id="ce39-k-correct">S/I</strong><em>Sin movimientos de cuota conciliados</em></article>
+            <article class="ce39-card"><small>Monto moroso revisado correcto · acreditado</small><strong id="ce39-k-correct-clp">S/I</strong><em>Requiere cuenta corriente y actos aplicados</em></article>
+          </div>
+          <div class="ce39-note">Los segmentos de indicios <b>no equivalen a cuotas que jurídicamente corresponda eliminar</b>. El resto tampoco constituye deuda «correcta verificada». Las categorías técnicas no acreditan pagos, bajas, actos vigentes ni destino habitacional.</div>
+          <button class="text-link" type="button" data-go="cartera" style="margin-top:12px">Explorar Morosidad por semestre ↗</button>
+        </section>
+        <section class="ce39-2027" aria-labelledby="ce39-title-2027">
+          <div><div class="ce39-no">03 / PROPUESTA DE TRABAJO 2027</div><h3 id="ce39-title-2027">Modernización de los derechos de aseo</h3>
+            <p>La propuesta organiza <b>dos vías de exención</b> con reglas diferenciadas, una <b>atención única presencial y digital</b>, una base municipal de gestión con trazabilidad, y una <b>implementación gradual durante 2027</b>. Es un documento de trabajo; requiere decisiones institucionales y validación jurídica, presupuestaria y tecnológica.</p>
+          </div>
+          <a id="ce39-go-2027" href="propuesta-2027/" aria-label="Abrir módulo Propuesta 2027">Ver Propuesta 2027</a>
+        </section>
+      </div>
+      <details class="ce39-archive"><summary>Consultar indicadores del período seleccionado y paneles históricos originales</summary><div class="ce39-archive-content">
+      <div class="section-title"><div><div class="eyebrow ink">01 / VISTA GENERAL</div><h2 id="title-resumen">Pulso del período <span id="periodName">—</span></h2></div><span id="statusPill" class="status-pill">Cargando…</span></div>
         <div class="kpis"><article class="kpi kpi-primary"><span>ROL del padrón</span><strong id="kRol">—</strong><small>Universo técnico del semestre</small><div class="kpi-accent"></div></article><article class="kpi"><span>Posible exención por avalúo · BD5N</span><strong id="k225">—</strong><small id="s225">Filtro técnico ≤225 UTM</small></article><article class="kpi"><span>Posible exención municipal RSH · BD9N</span><strong id="kRsh">—</strong><small id="sRsh">Coincidencia técnica</small></article><article class="kpi"><span>Canal municipal · BD8N</span><strong id="kMunicipal">—</strong><small>Asignado al canal, no pago efectivo</small></article><article class="kpi"><span>Canal TGR · subtotal BD4N</span><strong id="kTgr">—</strong><small>No se suma como sexto grupo</small></article><article class="kpi"><span>Folios con saldo listado</span><strong id="kFolios">—</strong><small id="kSaldo">Saldo: —</small></article></div>
         <div class="cards two-col"><article class="panel large"><div class="panel-header"><div><span class="mini-label">COMPOSICIÓN DEL PADRÓN</span><h3>Cinco segmentos exclusivos</h3><p>Distribución técnica de ROL; el total TGR es solo un subtotal.</p></div><span class="panel-icon">◫</span></div><div id="overviewStack" class="stack-large" role="img" aria-label="Barra de composición por cinco grupos"></div><div id="overviewLegend" class="legend-grid"></div><div class="panel-footer">Cada categoría representa ROL del mismo semestre. <b>Ningún grupo acredita pago o exención individual.</b></div></article>
         <article class="panel"><div class="panel-header"><div><span class="mini-label">RESUMEN DE CARTERA</span><h3>Folios y saldo listado</h3><p>Dos medidas diferentes, sin equipararlas a deuda exigible.</p></div></div><div id="overviewCartera" class="dual-stats"></div><div class="hint"><b>Precaución contable</b><p>Los saldos provienen de cortes por período. No son una cifra de deuda exigible certificada ni ingresos recaudados.</p></div></article></div>
         <div class="cards two-col"><article class="panel"><div class="panel-header"><div><span class="mini-label">SERIE LONGITUDINAL</span><h3>Padrón por semestre</h3><p>Evolución descriptiva; períodos referenciales identificados.</p></div><button class="text-link" data-go="evolucion">Explorar ↗</button></div><div id="overviewLine" class="chart-area" role="img" aria-label="Gráfico de evolución del padrón"></div></article><article class="panel"><div class="panel-header"><div><span class="mini-label">SEMÁFORO METODOLÓGICO</span><h3>Calidad de los 12 períodos</h3><p>Detecta padrones referenciales y correcciones pendientes.</p></div><button class="text-link" data-go="calidad">Ver matriz ↗</button></div><div id="overviewQuality" class="quality-overview"></div><div class="panel-footer">La existencia de un registro no equivale a cierre jurídico o contable.</div></article></div>
+      </div></details>
       </section>
       <section id="view-evolucion" class="view" aria-labelledby="title-evolucion"><div class="section-title"><div><div class="eyebrow ink">02 / SERIE 2021–2026</div><h2 id="title-evolucion">Evolución histórica</h2></div><span class="status-pill neutral">Comparabilidad condicionada</span></div><div class="cards"><article class="panel"><div class="panel-header"><div><span class="mini-label">COMPOSICIÓN</span><h3>Evolución de los cinco grupos</h3><p>Los tramos son excluyentes. El residuo conocido se identifica por separado.</p></div></div><div id="historicalStacks" class="historical-stack-area"></div><div id="historicLegend" class="legend-grid compact"></div></article></div><div class="cards two-col"><article class="panel"><div class="panel-header"><div><span class="mini-label">UNIVERSO SII</span><h3>ROL totales por semestre</h3></div></div><div id="historicalLine" class="chart-area"></div></article><article class="panel"><div class="panel-header"><div><span class="mini-label">VARIACIÓN</span><h3>Comparador de períodos</h3></div></div><div class="compare-controls"><label>Período A<select id="compareA"></select></label><label>Período B<select id="compareB"></select></label></div><div id="compareOutput"></div></article></div></section>
       <section id="view-clasificacion" class="view" aria-labelledby="title-clasificacion"><div class="section-title"><div><div class="eyebrow ink">03 / PADRÓN Y BENEFICIOS</div><h2 id="title-clasificacion">Clasificación técnica del padrón</h2></div></div><div class="cards"><article class="panel"><div class="panel-header"><div><span class="mini-label">ESQUEMA DE FORMACIÓN</span><h3>De BD1 a las cinco categorías</h3><p>Subdivisión técnica del padrón del período activo; no son resoluciones de exención.</p></div></div><div class="flowtop"><div class="rootbox"><small>UNIVERSO BASE · BD1</small><b id="flowRoot">— ROL</b></div><div class="connector-down"></div></div><div id="flowGroups" class="flowgrid"></div><div class="flow-sub"><span>Subtotal BD4N</span><strong id="flowTgr">—</strong><small>BD4N_RSH + BD4N_RESTO; no se suma nuevamente al total</small></div></article></div><div class="cards"><article class="panel"><div class="panel-header"><div><span class="mini-label">TABLA EXPLICATIVA</span><h3>Categorías, cantidades y criterios de lectura</h3></div></div><div class="table-scroll"><table><thead><tr><th>Descripción ciudadana</th><th>Código</th><th>ROL</th><th>% BD1</th><th>Qué NO demuestra</th></tr></thead><tbody id="groupTable"></tbody></table></div></article></div></section>
-      <section id="view-cartera" class="view" aria-labelledby="title-cartera"><div class="section-title"><div><div class="eyebrow ink">04 / MOROSIDAD</div><h2 id="title-cartera">Morosidad</h2></div><span class="status-pill warning">Sin conciliación contable completa</span></div><div class="da-audit-panel" aria-labelledby="da-audit-roles">
+      <section id="view-cartera" class="view" aria-labelledby="title-cartera"><section class="ce39-block" id="ce39-morosidad" aria-labelledby="ce39-moro-heading" style="margin-bottom:22px">
+  <div class="ce39-moro-head">
+    <div><div class="ce39-no">01 / MOROSIDAD · BARRAS APILADAS 2021–2026</div><h3 id="ce39-moro-heading">Cuotas históricas y revisión de exenciones</h3>
+      <p>Vista integrada de la propuesta validada, con doce semestres. Las tres categorías son exclusivas dentro de los cruces técnicos; todavía no acreditan que una deuda deba corregirse ni que otra sea exigible.</p></div>
+    <div class="ce39-moro-buttons" aria-label="Unidad de las barras apiladas">
+      <button id="ce39-moro-folios" type="button" aria-pressed="true">Folios</button>
+      <button id="ce39-moro-clp" type="button" aria-pressed="false">Monto $</button>
+    </div>
+  </div>
+  <div class="ce39-legend" id="ce39-moro-legend">
+    <span class="ce39-key"><i class="ce39-dot" aria-hidden="true" style="background:#148878"></i>Cuotas para corregir, por exención municipal</span>
+    <span class="ce39-key"><i class="ce39-dot" aria-hidden="true" style="background:#d69b38"></i>Cuotas para corregir, por exención legal</span>
+    <span class="ce39-key"><i class="ce39-dot" aria-hidden="true" style="background:#9baeb9"></i>Cuotas históricas revisadas sin exención</span>
+  </div>
+  <p class="ce39-status">«Revisadas sin exención» significa <b>sin coincidencia con los filtros técnicos evaluados</b>, no cuotas con cobro correcto confirmado. Las dos primeras categorías son candidaturas, no descargas efectivamente aplicadas.</p>
+  <div id="ce39-moro-rows" class="ce39-chart" role="group" aria-label="Doce barras apiladas de Morosidad"></div>
+  <p id="ce39-moro-status" class="ce39-status" role="status" aria-live="polite">Comprobando cuadraturas de los doce semestres…</p>
+  <div class="ce39-moro-detail" aria-live="polite">
+    <h4 id="ce39-moro-name">Selecciona un semestre</h4>
+    <div class="ce39-detail-values">
+      <div><small>Cuotas históricas registradas</small><strong id="ce39-moro-total">—</strong></div>
+      <div><small>Indicio de exención municipal</small><strong id="ce39-moro-mun">—</strong></div>
+      <div><small>Filtro de exención legal</small><strong id="ce39-moro-legal">—</strong></div>
+      <div><small>Sin indicio técnico identificado</small><strong id="ce39-moro-rest">—</strong></div>
+    </div>
+    <p class="ce39-subtle" id="ce39-moro-note" style="margin-top:12px">No confundir criterios técnicos con actos y bajas contables.</p>
+  </div>
+  <div class="ce39-note"><b>Alcance:</b> el corte histórico es 28/10/2026. Hay 12/12 segmentaciones técnicas y 0/12 cierres jurídico-contables; el importe realmente corregible y el saldo exigible depurado siguen S/I. <a href="../propuestas/morosidad-apilada-20261123/">Abrir también la versión exploratoria independiente</a>.</div>
+</section>
+<div class="section-title"><div><div class="eyebrow ink">04 / MOROSIDAD</div><h2 id="title-cartera">Morosidad</h2></div><span class="status-pill warning">Sin conciliación contable completa</span></div><div class="da-audit-panel" aria-labelledby="da-audit-roles">
   <div class="section-title da-audit-heading">
     <div><div class="eyebrow ink">04.B / VERIFICACIÓN DE EXENCIONES</div><h3 id="da-audit-roles">Auditoría de cuotas potencialmente exentas</h3></div>
     <span class="status-pill warning">Diagnóstico técnico · no es una orden de descarga</span>
