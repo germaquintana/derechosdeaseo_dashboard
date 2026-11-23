@@ -126,6 +126,71 @@ class DirectorCE31Browser(unittest.TestCase):
         self.assertTrue(all(x == "S/I" for x in page.locator(".ce31-pending b").all_inner_texts()))
         self.assertIn("0/12", page.locator(".ce31-disclaimer").first.inner_text())
 
+    def test_ce36b_evidencia_y_cuadratura_julio(self):
+        page = self.open_page()
+        self.addCleanup(page.close)
+        page.wait_for_function(
+            "() => document.querySelector('#ce36b-panel')?.dataset.ce36bStatus === 'ready'",
+            timeout=15000,
+        )
+        self.assertEqual(page.locator("#ce36b-total").inner_text(), "11.715")
+        self.assertEqual(page.locator("#ce36b-cuadre").inner_text(), "11.715 / 11.715")
+        self.assertEqual(page.locator("#ce36b-saldo").inner_text(), "$207.707.569")
+        self.assertEqual(page.locator("#ce36b-res941").inner_text(), "1.053")
+        self.assertEqual(page.locator("#ce36b-julio").inner_text(), "27")
+        self.assertEqual(page.locator("#ce36b-2628").inner_text(), "2")
+        self.assertEqual(page.locator("#ce36b-july-bars [role=listitem]").count(), 4)
+        self.assertEqual(page.locator("#ce36b-july-table tr").count(), 4)
+        self.assertEqual(
+            [x.inner_text() for x in page.locator("#ce36b-july-bars .ce36b-bar-value").all()],
+            ["1", "8", "0", "18"],
+        )
+        self.assertIn("cuenta corriente", page.locator("#ce36b-state").inner_text())
+        self.assertIn("Saldo depurado, cobro correcto y monto a corregir: S/I",
+                      page.locator(".ce36b-footer").inner_text())
+        foco = page.locator("#ce36b-focus")
+        foco.select_option("res941")
+        self.assertIn("1.053 folios", page.locator("#ce36b-focus-number").inner_text())
+        foco.select_option("res2628")
+        self.assertIn("2 folios", page.locator("#ce36b-focus-number").inner_text())
+        foco.select_option("julio")
+        self.assertIn("27 folios", page.locator("#ce36b-focus-number").inner_text())
+
+    def test_ce36b_adulteracion_falla_y_movil_sin_desborde(self):
+        source = ROOT / "data" / "ce36b_conciliacion_2026s2_agregada_v1.json"
+        document = json.loads(source.read_text("utf-8"))
+        document["distribucion_julio"][3]["folios"] += 1
+        page = self.browser.new_page(viewport={"width": 320, "height": 844})
+        self.addCleanup(page.close)
+        page.route(
+            "**/data/ce36b_conciliacion_2026s2_agregada_v1.json",
+            lambda route: route.fulfill(
+                status=200, content_type="application/json",
+                body=json.dumps(document, ensure_ascii=False),
+            ),
+        )
+        page.goto(self.url)
+        page.wait_for_function(
+            "() => document.querySelector('#ce36b-panel')?.dataset.ce36bStatus === 'error'",
+            timeout=15000,
+        )
+        self.assertEqual(page.locator("#ce36b-july-table tr").count(), 0)
+        self.assertEqual(page.locator("#ce36b-total").inner_text(), "S/I")
+        self.assertIn("faltó validar", page.locator("#ce36b-state").inner_text())
+        good = self.open_page(width=320, height=844)
+        self.addCleanup(good.close)
+        good.wait_for_function(
+            "() => document.querySelector('#ce36b-panel')?.dataset.ce36bStatus === 'ready'",
+            timeout=15000,
+        )
+        good.locator("#ce36b-panel").scroll_into_view_if_needed()
+        widths = good.evaluate(
+            "() => [document.documentElement.scrollWidth, document.documentElement.clientWidth, "
+            "document.querySelector('#ce36b-panel').getBoundingClientRect().right]"
+        )
+        self.assertLessEqual(widths[0], widths[1] + 2)
+        self.assertLessEqual(widths[2], widths[1] + 2)
+
     def test_fuente_adulterada_falla_seguro(self):
         document = json.loads(SOURCE.read_text("utf-8"))
         document["periodos"][0]["cartera"]["saldo_listado_clp"] += 1
