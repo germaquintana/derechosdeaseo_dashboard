@@ -128,7 +128,7 @@ small.na{font-weight:800;color:#a36e32}
   <section class="metrics" aria-label="Resumen de cartera">
     <div class="metric"><small>Folios-período con saldo listado</small><strong id="k-folios">—</strong><em>12 semestres; no contribuyentes únicos</em></div>
     <div class="metric"><small>Saldo histórico agregado</small><strong id="k-saldo">—</strong><em>No es deuda exigible certificada</em></div>
-    <div class="metric"><small>Clasificación técnica municipal/legal</small><strong id="k-revision">—</strong><em>Los otros semestres requieren cruces</em></div>
+    <div class="metric"><small>Clasificación técnica municipal/legal</small><strong id="k-revision">—</strong><em>12/12 con cotejo técnico; sin cierre jurídico</em></div>
     <div class="metric"><small>Saldo depurado acreditado</small><strong id="k-depurado">S/I</strong><em>0 de 12 cierres jurídico-contables</em></div>
   </section>
   <section class="sheet" aria-labelledby="chart-title">
@@ -155,7 +155,7 @@ small.na{font-weight:800;color:#a36e32}
       <span title="La clasificación como correctas aún no está respaldada por conciliación contable"><i class="swatch r" aria-hidden="true"></i>Cuotas históricas pendientes de verificación</span>
       <span><i class="swatch u" aria-hidden="true"></i>Sin cruce completo</span>
     </div>
-    <div class="legendhint"><b>Importante:</b> «Resto sin atribuir» no significa deuda correctamente cobrada. Los segmentos municipales y legales <b>no son folios que ya deban borrarse</b>; falta verificar acto, destino habitacional, vigencia y movimientos del sistema.</div>
+    <div class="legendhint"><b>Importante:</b> El tramo gris no corresponde a cuotas históricas correctas verificadas. Los segmentos municipales y legales <b>no son folios que ya deban borrarse</b>; falta verificar acto, destino habitacional, vigencia y movimientos del sistema.</div>
     <p id="data-status" role="status" aria-live="polite">Comprobando el origen público, las sumas y los doce semestres…</p>
     <div class="chart" id="chart" role="list" aria-label="Barras apiladas de morosidad por semestre"></div>
     <aside class="details" id="detail-panel" aria-labelledby="detail-title">
@@ -179,12 +179,12 @@ small.na{font-weight:800;color:#a36e32}
         </div>
       </details>
     </div>
-    <p class="warning">Las coincidencias con listas de Res. 2628 (2 folios) y propuesta de julio (27 folios) no se suman al grupo Res. 941 de 2026-S2 por riesgo de solapamiento. 2025-S2 y 2026-S1 conservan <b>S/I</b> para las dos causales, aunque se conozcan sus totales. Los segmentos legales de BD5N son filtros de avalúo, no beneficios concedidos.</p>
+    <p class="warning">Las coincidencias con listas de Res. 2628 (2 folios) y propuesta de julio (27 folios) no se suman al grupo Res. 941 de 2026-S2 por riesgo de solapamiento. Los doce semestres tienen un cruce técnico para ambos segmentos. En 2025-S2, el indicio municipal proviene de RUT propietario SII/RUN RSH 2025; en 2026-S1 se utiliza BD9N original. Un cero BD5N no excluye otras exenciones legales.</p>
   </section>
   <section class="method" aria-labelledby="method-title">
     <h2 id="method-title">Cómo interpretar el gráfico</h2>
-    <p><b>Municipal:</b> clasificación RSH BD9N en los nueve períodos con cruce técnico; en 2026-S2 se usa únicamente la coincidencia documental con 1.053 folios de la nómina Res. 941. Son fuentes de distinta naturaleza, identificadas por semestre en el detalle.</p>
-    <p><b>Legal:</b> BD5N registra filtro fiscal ≤225 UTM, pero todavía se debe verificar destino habitacional, causal legal y vigencia. Donde no existe cruce se muestra <b>S/I</b>, no cero. Para 2026-S2 hay indicio municipal documentado, pero el cruce legal permanece S/I.</p>
+    <p><b>Municipal:</b> clasificación RSH BD9N en períodos con partición original; en 2025-S2 se cruza RUT propietario SII con RUN RSH 2025 tramo hasta 60 %, y en 2026-S2 se usa la nómina Res. 941. Son fuentes diferentes; ninguna prueba exención aplicada.</p>
+    <p><b>Legal:</b> BD5N registra filtro fiscal ≤225 UTM. En 2025-S2 se contrastó SII directamente (16.260 folios encontrados, cero bajo el umbral y un folio sin SII). Los ceros técnicos no excluyen otras exenciones legales; falta validar destino habitacional, norma, vigencia y descarga por cuota.</p>
     <p><b>Saldo:</b> los valores listados tienen corte <b>28 de octubre de 2026</b>. Ni los folios señalados ni sus montos son descuentos aprobados, deuda exigible neta o bajas ejecutadas en SMC/TGR. No hay cierre jurídico-contable de los doce semestres.</p>
     <p><a href="./datos.json">Datos agregados y controles de cuadratura</a> · <a href="../../v2/?vista=morosidad">Comparar con la vista original</a></p>
   </section>
@@ -226,11 +226,13 @@ small.na{font-weight:800;color:#a36e32}
   });
   if(sums.folios!==190838||sums.saldo!==2832929422||seen.size!==12||
    data.periodos.find(row=>row.periodo==="2026-S2").municipal.folios!==1053||
-   data.periodos.find(row=>row.periodo==="2026-S2").legal.folios!==null||
-   ["2025-S2","2026-S1"].some(periodo=>{
+   data.periodos.find(row=>row.periodo==="2026-S2").legal.folios!==0||
+   data.resumen.semestres_con_indicio_municipal_y_filtro_legal_tecnicos!==12||
+   [["2025-S2",3226,0],["2026-S1",2362,0],["2026-S2",1053,0]].some(([periodo,m,l])=>{
      const row=data.periodos.find(r=>r.periodo===periodo);
-     return !row||row.municipal.folios!==null||row.legal.folios!==null;
-   }))throw Error("Control CE36B/S-I inconsistente");
+     return !row||row.municipal.folios!==m||row.legal.folios!==l;
+   })||data.periodos.some(row=>row.municipal.folios===null||row.legal.folios===null))
+   throw Error("Control CE38 cruce técnico 12/12 inconsistente");
   return data.periodos;
  }
  function make(tag,cls,txt){
@@ -240,14 +242,16 @@ small.na{font-weight:800;color:#a36e32}
   return el;
  }
  function describe(row){
-  if(row.origen==="NOMINA_RES941_2026_S2")return "Res. 941: 1.053 coincidencias documentales municipales; la exención legal es S/I. La carga Res. 2628 y la lista de julio se muestran por separado, sin sumarlas.";
-  if(row.origen==="NO_CLASIFICADO")return "Todavía no existe clasificación técnica BD9N/BD5N por folio suficiente para separar estas barras. No se presume ausencia de exenciones.";
+  if(row.origen==="NOMINA_RES941_2026_S2_LEGAL_BD5N_0")return "Res. 941: 1.053 coincidencias documentales municipales. BD5N original: cero bajo ese filtro; no excluye otras causales legales. Res. 2628 y lista julio no se suman.";
+  if(row.origen==="RSH_RUT_PROP_SII_2025S2_CE38")return "2025-S2: 3.226 coincidencias RUT propietario SII / RUN RSH 2025 tramo ≤60; filtro ≤225 UTM: cero en 16.260 folios con SII, uno sin SII. Las coincidencias solo por domicilio quedaron en el tramo gris.";
   if(row.origen==="BD_REFERENCIAL_S1")return "BD9N/BD5N: clasificación técnica de S1 usada referencialmente en S2; no acredita beneficio vigente en cada cuota.";
+  if(row.origen==="BD_ORIGINAL_2026S1_CE19")return "2026-S1: partición BD original por ROL: 2.362 folios BD9N, cero BD5N. No hay cierre de exenciones o pagos.";
   return "Clasificación técnica BD9N (RSH municipal) y BD5N (avalúo ≤225 UTM). Falta comprobar acto, destino habitacional y efectos contables.";
  }
  function labelStatus(row){
-  if(row.origen==="NOMINA_RES941_2026_S2")return "941 · legal S/I";
-  if(row.origen==="NO_CLASIFICADO")return "Municipal y legal S/I";
+  if(row.origen==="NOMINA_RES941_2026_S2_LEGAL_BD5N_0")return "Res941 · BD5N=0";
+  if(row.origen==="RSH_RUT_PROP_SII_2025S2_CE38")return "RUT–RSH 2025 · filtro=0";
+  if(row.origen==="BD_ORIGINAL_2026S1_CE19")return "BD original · 2026-S1";
   if(row.origen==="BD_REFERENCIAL_S1")return "Cruce referencial S1";
   return "Cruce técnico";
  }
@@ -323,7 +327,7 @@ small.na{font-weight:800;color:#a36e32}
   rows=check(data);
   $("k-folios").textContent=f(data.resumen.folios_periodo);
   $("k-saldo").textContent=million(data.resumen.saldo_listado_clp);
-  $("k-revision").textContent="9 / 12";
+  $("k-revision").textContent="12 / 12";
   $("k-depurado").textContent="S/I";
   redraw();
  }).catch(err=>{
