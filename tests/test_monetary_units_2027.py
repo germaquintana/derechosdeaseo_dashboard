@@ -43,6 +43,7 @@ class CurrencyBrowser(unittest.TestCase):
         errs=[]
         page.on("pageerror",lambda exc:errs.append(str(exc)))
         page.goto(self.url)
+        page.locator(".ce39-archive > summary").click()
         page.locator("#kSaldo").wait_for()
         self.assertIn("0,208 MM$",page.locator("#kSaldo").inner_text())
         page.locator('[data-view="cartera"]').click()
