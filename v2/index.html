@@ -9,10 +9,12 @@
   <link rel="stylesheet" href="assets/cartera_exenciones.css">
   <link rel="stylesheet" href="assets/deuda_depurada.css">
   <link rel="stylesheet" href="assets/morosidad_ce31_preliminar.css">
+  <link rel="stylesheet" href="assets/morosidad_ce36b_conciliacion.css">
   <script src="assets/cartera_exenciones.js" defer></script>
   <script src="assets/morosidad_diagnosticos_ce10.js" defer></script>
   <script src="assets/deuda_depurada.js" defer></script>
   <script src="assets/morosidad_ce31_preliminar.js" defer></script>
+  <script src="assets/morosidad_ce36b_conciliacion.js" defer></script>
 </head>
 <body>
 <div class="shell">
@@ -69,6 +71,51 @@
       <span>Cobro correcto: <b>S/I</b></span><span>Monto a corregir: <b>S/I</b></span>
       <span>Deudores únicos: <b>S/I</b></span>
     </div>
+    <section id="ce36b-panel" class="ce36b-panel" data-ce36b-status="loading" aria-labelledby="ce36b-heading">
+      <div class="ce36b-header">
+        <div>
+          <div class="ce36b-overline">CE36B / CE36C · conciliación documental de 2026-S2</div>
+          <h4 id="ce36b-heading">¿Cuánto de la cartera morosa requiere revisar una exención?</h4>
+          <p>Comparación de folios con nóminas de resoluciones 941 y 2628 y propuesta de julio. Se conserva el saldo original: una coincidencia no demuestra exención efectivamente aplicada ni cobro improcedente.</p>
+        </div>
+        <span class="ce36b-phase">Actos y cargas identificados · cuenta corriente pendiente</span>
+      </div>
+      <div class="ce36b-grid" aria-label="Indicadores de conciliación documental 2026-S2">
+        <div class="ce36b-kpi"><small>Folios vencidos 2026-S2</small><strong id="ce36b-total">Validando…</strong><em>3.ª cuota 30/09; corte 28/10/2026</em></div>
+        <div class="ce36b-kpi"><small>Concordancia cartera / Morosos</small><strong id="ce36b-cuadre">Validando…</strong><em>Mismo folio, ROL, vencimiento y saldo</em></div>
+        <div class="ce36b-kpi"><small>Saldo histórico 2026-S2</small><strong id="ce36b-saldo">Validando…</strong><em>No equivale a deuda exigible depurada</em></div>
+        <div class="ce36b-kpi"><small>Coincidencias con nómina Res. 941</small><strong id="ce36b-res941">Validando…</strong><em>Incluye 1.051 marcadas BD8N; no son descuentos</em></div>
+        <div class="ce36b-kpi"><small>Coincidencias con propuesta de julio</small><strong id="ce36b-julio">Validando…</strong><em>24 BD8N; propuestas, no bajas aplicadas</em></div>
+        <div class="ce36b-kpi"><small>Coincidencias con carga informada Res. 2628</small><strong id="ce36b-2628">Validando…</strong><em>Archivo de 2.832 exentos; falta asiento por cuota</em></div>
+      </div>
+      <p id="ce36b-state" class="ce36b-state" role="status" aria-live="polite">Comprobando agregados y reglas de exclusividad…</p>
+      <div class="ce36b-focus-line">
+        <label for="ce36b-focus">Explorar cohorte documental</label>
+        <select id="ce36b-focus">
+          <option value="julio">Lista de correcciones de julio</option>
+          <option value="res941">Nómina de Resolución 941</option>
+          <option value="res2628">Carga informada de Resolución 2628</option>
+        </select>
+        <strong id="ce36b-focus-number" aria-live="polite">Validando…</strong>
+      </div>
+      <p id="ce36b-focus-note" class="ce36b-focus-note">Las cohortes pueden superponerse; no sumarlas como personas o montos únicos.</p>
+      <div class="ce36b-split">
+        <div>
+          <h5>De los 27 folios de julio: ¿en qué nóminas aparecen?</h5>
+          <div class="ce36b-bars" id="ce36b-july-bars" role="list" aria-label="Distribución exclusiva de 27 folios de julio"></div>
+        </div>
+        <div>
+          <h5 id="ce36b-julio-total">Validando…</h5>
+          <div class="ce36b-table-scroll">
+            <table class="ce36b-table" aria-label="Detalle agregado de la cohorte de julio">
+              <thead><tr><th scope="col">Coincidencia documental</th><th scope="col">Folios</th><th scope="col">Saldo listado</th></tr></thead>
+              <tbody id="ce36b-july-table"></tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+      <p class="ce36b-footer"><strong>Qué falta para concluir:</strong> nómina íntegra de 16.585 beneficiarios de la Resolución 1258, extracto de movimientos SMC/DAF/TGR por folio y cuota, y validación de pagos, exenciones efectivamente aplicadas y ajustes. Los 18 folios no identificados en las dos nóminas analizadas no se clasifican como no exentos. <strong>Saldo depurado, cobro correcto y monto a corregir: S/I.</strong> <a href="../data/ce36b_conciliacion_2026s2_agregada_v1.json" target="_blank" rel="noopener noreferrer">Ver agregado y controles CE36B</a>.</p>
+    </section>
     <div class="ce31-controls">
       <div><h4>Evolución de saldos registrados</h4><p>Barra horizontal por semestre · CLP millones · <b id="ce31-visible">Validando…</b></p></div>
       <label for="ce31-filter">Calidad de la fuente SII
