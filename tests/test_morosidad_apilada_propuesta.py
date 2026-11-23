@@ -119,7 +119,7 @@ class MorosidadApiladaBrowser(unittest.TestCase):
         self.assertEqual(labels[:3], [
             "Cuotas para corregir, por exención municipal",
             "Cuotas para corregir, por exención legal",
-            "Cuotas históricas pendientes de verificación",
+            "Cuotas históricas revisadas sin exención",
         ])
         self.assertNotIn("Cuotas históricas correctas verificadas", " ".join(labels))
         self.assertIn("no corresponden", page.locator(".legendhint").inner_text().replace("no corresponde", "no corresponden"))
