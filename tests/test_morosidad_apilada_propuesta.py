@@ -118,7 +118,7 @@ class MorosidadApiladaBrowser(unittest.TestCase):
         page.locator("#unit-monto").click()
         self.assertEqual(page.locator("#unit-monto").get_attribute("aria-pressed"), "true")
         self.assertEqual(page.locator("#d-mun").inner_text(), "$18.655.586")
-        self.assertEqual(page.locator("#d-legal").inner_text(), "0")
+        self.assertEqual(page.locator("#d-legal").inner_text(), "$0")
         self.assertEqual(page.locator("#d-total").inner_text(), "$207.707.569")
         page.locator("#year-filter").select_option("pendientes")
         self.assertEqual(page.locator(".chart-row").count(), 0)
