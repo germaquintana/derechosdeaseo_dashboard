@@ -13,7 +13,8 @@ class IntegridadV2(unittest.TestCase):
             self.assertIn(f'data-view="{k}"', V2)
             self.assertIn(f'id="view-{k}"', V2)
         self.assertEqual(V2.count('data-view="'), 6)
-        self.assertEqual(V2.count('href="propuesta-2027/"'), 1)
+        self.assertEqual(V2.count('href="propuesta-2027/"'), 2)
+        self.assertIn('id="ce39-go-2027"', V2)
         self.assertIn('href="../"', PAGE)
 
     def test_sin_datos_personales_ni_acceso_simulado(self):
