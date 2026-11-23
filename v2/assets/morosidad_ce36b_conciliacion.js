@@ -115,7 +115,7 @@
     choose.addEventListener("change",updateFocus);
     updateFocus();
     byId("ce36b-state").textContent =
-      "Corte 28/10/2026 · 3.ª cuota vencida 30/09/2026 · 0/12 cierres contables. No se acreditó exportación de movimientos SMC/DAF/TGR.";
+      "Corte 28/10/2026 · 3.ª cuota vencida 30/09/2026 · 0/12 cierres contables. No se acreditó la cuenta corriente de movimientos SMC/DAF/TGR por cuota.";
     panel.dataset.ce36bStatus = "ready";
   }
 
