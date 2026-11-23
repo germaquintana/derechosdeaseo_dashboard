@@ -112,6 +112,18 @@ class MorosidadApiladaBrowser(unittest.TestCase):
         self.assertEqual(page.locator("#d-legal").inner_text(), "6")
         self.assertEqual(page.locator("#d-other").inner_text(), "7.459")
 
+    def test_leyenda_clara_sin_falsa_certificacion(self):
+        page = self.open_page()
+        self.addCleanup(page.close)
+        labels = [x.inner_text() for x in page.locator(".key span").all()]
+        self.assertEqual(labels[:3], [
+            "Cuotas para corregir, por exención municipal",
+            "Cuotas para corregir, por exención legal",
+            "Cuotas históricas pendientes de verificación",
+        ])
+        self.assertNotIn("Cuotas históricas correctas verificadas", " ".join(labels))
+        self.assertIn("no corresponden", page.locator(".legendhint").inner_text().replace("no corresponde", "no corresponden"))
+
     def test_monto_y_filtros(self):
         page = self.open_page()
         self.addCleanup(page.close)
