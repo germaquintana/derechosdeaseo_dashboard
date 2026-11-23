@@ -35,3 +35,17 @@
 @media(max-width:900px){.ce36b-split{grid-template-columns:1fr}}
 @media(max-width:650px){#ce36b-panel{padding:13px}.ce36b-grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:7px}.ce36b-kpi{padding:10px}.ce36b-kpi strong{font-size:19px}.ce36b-bar-row{grid-template-columns:minmax(100px,1fr) minmax(45px,.7fr) 28px;gap:5px}}
 @media(max-width:355px){.ce36b-grid{grid-template-columns:1fr}.ce36b-bar-row{grid-template-columns:minmax(95px,1fr) minmax(35px,.65fr) 23px}}
+
+/* CE36C QA móvil: los selectores nativos contienen opciones largas;
+   anular su anchura mínima intrínseca para no desplazar el viewport. */
+#ce36b-panel {min-width:0;max-width:100%;box-sizing:border-box;overflow-wrap:anywhere}
+.ce36b-header > *, .ce36b-split > *, .ce36b-focus-line > * {min-width:0}
+.ce36b-focus-line {min-width:0;max-width:100%}
+.ce36b-focus-line label {flex:0 1 180px}
+.ce36b-focus-line select {flex:0 1 260px;width:100%;max-width:260px;min-width:0}
+.ce36b-table-scroll {max-width:100%;min-width:0}
+.ce36b-phase {max-width:100%;white-space:normal;overflow-wrap:anywhere}
+.ce36b-table {table-layout:fixed;min-width:0}
+.ce36b-table th:first-child,.ce36b-table td:first-child {width:50%;overflow-wrap:anywhere}
+.ce36b-table th:nth-child(2),.ce36b-table td:nth-child(2) {width:17%}
+.ce36b-table th:nth-child(3),.ce36b-table td:nth-child(3) {width:33%;white-space:normal;overflow-wrap:anywhere}
